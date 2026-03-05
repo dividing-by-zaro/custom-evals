@@ -49,6 +49,8 @@ Two independent systems that communicate through JSON files in `results/`:
 - Provider config comes from `config.yaml` + env vars for API keys (see `config.example.yaml`).
 - Results JSON files are the only interface between runner and dashboard.
 - The judge model must be different from the model being evaluated.
+- Failed/empty responses are excluded from score percentages (only `status: "scored"` items count).
+- Old or partial result files can be moved to `results/archive/` (gitignored) to keep the dashboard clean.
 
 ### Config
 

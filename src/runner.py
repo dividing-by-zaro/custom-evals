@@ -113,11 +113,12 @@ async def _evaluate_item(
 
 
 def _build_summary(items: list[ItemResult]) -> RunSummary:
-    total_score = sum(i.total_score for i in items)
-    max_score = sum(i.max_score for i in items)
+    scored_items = [i for i in items if i.status == "scored"]
+    total_score = sum(i.total_score for i in scored_items)
+    max_score = sum(i.max_score for i in scored_items)
 
     by_domain: dict[str, dict] = {}
-    for item in items:
+    for item in scored_items:
         if item.domain not in by_domain:
             by_domain[item.domain] = {"score": 0, "max": 0}
         by_domain[item.domain]["score"] += item.total_score
@@ -260,9 +261,14 @@ async def run_eval(
 def print_summary(eval_run: EvalRun, result_path: str | None = None) -> None:
     s = eval_run.summary
     scored = sum(1 for i in eval_run.items if i.status == "scored")
+    failed = sum(1 for i in eval_run.items if i.status in ("error", "empty_response"))
     total = len(eval_run.items)
 
-    print(f"Eval run complete: {scored}/{total} items scored")
+    print(f"Eval run complete: {scored}/{total} items scored", end="")
+    if failed:
+        print(f" ({failed} failed/empty, excluded from score)")
+    else:
+        print()
     print(f"Provider: {eval_run.provider.name} / {eval_run.provider.model}")
     print(f"Overall: {s.total_score}/{s.max_score} ({s.percentage}%)")
 

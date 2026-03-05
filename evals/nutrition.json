@@ -1,5 +1,29 @@
 [
   {
+    "id": "nutrition-001",
+    "domain": "nutrition",
+    "prompt": "Estimate the total calories, saturated fat (in grams), and protein (in grams) for this full day of eating. Give your final answer as three numbers.\n\n- Venti Starbucks shaken espresso with protein milk\n- 1 Jimmy Dean Egg white breakfast sandwich\n- 3 morning star farms soy breakfast sausage patties\n- 1 English muffin with peanut butter\n- 1 Serving of cottage cheese with 5g of honey\n- 4 McCrispy strips\n- 1 hot mustard sauce\n- 1 Can of green beans with 1 serving of shredded cheddar cheese\n- 2 Quest protein peanut butter cups\n- 1 Apple\n- 2 Decaf coffees with soy milk",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The calorie estimate is between 1791 and 2189 (within 10% of the true value of 1990 calories). Look for the number the model gives as its final calorie total and check if it falls in this range."
+      },
+      {
+        "id": "c2",
+        "description": "The saturated fat estimate is between 26.6g and 32.4g (within 10% of the true value of 29.5g). Look for the number the model gives as its final saturated fat total and check if it falls in this range."
+      },
+      {
+        "id": "c3",
+        "description": "The protein estimate is between 124.7g and 152.3g (within 10% of the true value of 138.5g). Look for the number the model gives as its final protein total and check if it falls in this range."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "manual",
+      "notes": "True values: 1990 cal, 29.5g sat fat, 138.5g protein. Tolerance: +/- 10%."
+    }
+  },
+  {
     "id": "nutrition-002",
     "domain": "nutrition",
     "prompt": "A 32-year-old pregnant woman shows you her daily supplement and food log:\n- Prenatal vitamin: 10 mg iron, 400 mcg folic acid\n- Breakfast: fortified cereal with milk (6 mg iron, 100 mcg DFE folate)\n- Lunch: spinach salad with lentils (4 mg iron, 150 mcg DFE folate)\n- Dinner: chicken breast with rice and broccoli (2 mg iron, 80 mcg DFE folate)\n\nNote: 1 mcg folic acid from supplements = 1.7 mcg DFE.\n\nIs she meeting the RDAs for iron and folate during pregnancy? Show your calculations and state each RDA.",
@@ -433,6 +457,34 @@
       "difficulty": "medium",
       "source": "https://www.ncbi.nlm.nih.gov/books/NBK234922/",
       "notes": "Total: 560 + 1000 + 675 + 140 = 2375 kcal (not 2000). The trick is including alcohol at 7 kcal/g, which many people forget. Percentages: P 23.6%, C 42.1%, F 28.4%, A 5.9%."
+    }
+  },
+  {
+    "id": "nutrition-017",
+    "domain": "nutrition",
+    "prompt": "I have lately been doing a reverse diet to see if I can fix my suppressed metabolism from having lost a lot of weight a few years ago. I have been weighing myself every day and taking a 7 day average of my weight. In the first week I ate x calories, then x + 50, then x + 100. I just finished a full week of x + 100. I was wondering if you could look at this rolling average and help me understand if this is significant in terms of loss or gain, or to what extent you would say this is not a significant change in weight.\n\n123.1\n123.1\n123.0\n123.0\n122.9\n122.9\n122.9\n122.9\n122.9\n123.0\n123.3\n123.4\n123.5\n123.4\n123.2\n123.3",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response quantifies the net change from the first rolling average to the last as approximately 0.2 lbs (123.1 to 123.3) and characterizes this as negligible or not significant."
+      },
+      {
+        "id": "c2",
+        "description": "The response notes that the total range of fluctuation across all values (~0.6 lbs, from 122.9 to 123.5) is within normal bodyweight variation caused by factors like water retention, food volume, and sodium intake."
+      },
+      {
+        "id": "c3",
+        "description": "The response interprets the data positively for the reverse diet: adding 100 total calories over 3 weeks without meaningful weight gain suggests the metabolism is adapting and the reverse diet is working."
+      },
+      {
+        "id": "c4",
+        "description": "The response recommends continuing the reverse diet or further calorie increases, since weight has remained essentially stable despite eating more."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "manual",
+      "notes": "Net change: +0.2 lbs. Range: 0.6 lbs (122.9–123.5). The slight mid-period uptick is likely water/glycogen from increased intake, not fat. Key reasoning: interpreting rolling averages in context of normal fluctuation and reverse dieting goals."
     }
   }
 ]
