@@ -1,0 +1,18 @@
+providers:
+  openai:
+    provider_type: openai
+    model: gpt-4o
+    api_key_env: OPENAI_API_KEY
+  anthropic:
+    provider_type: anthropic
+    model: claude-sonnet-4-6
+    api_key_env: ANTHROPIC_API_KEY
+  local:
+    provider_type: local
+    model: my-local-model
+    base_url: http://localhost:8000/v1
+
+judge:
+  provider: openai
+  model: gpt-4o
+  temperature: 0.0

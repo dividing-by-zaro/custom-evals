@@ -1,0 +1,21 @@
+[
+  {
+    "id": "eval-001",
+    "domain": "reasoning",
+    "prompt": "Explain why the sky is blue in 2-3 sentences.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "Response correctly identifies Rayleigh scattering as the cause"
+      },
+      {
+        "id": "c2",
+        "description": "Response explains that shorter wavelengths (blue) scatter more than longer wavelengths"
+      },
+      {
+        "id": "c3",
+        "description": "Response is factually accurate with no incorrect scientific claims"
+      }
+    ]
+  }
+]

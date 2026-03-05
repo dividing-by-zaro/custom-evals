@@ -1,0 +1,26 @@
+[
+  {
+    "id": "nutrition-001",
+    "domain": "nutrition",
+    "prompt": "Estimate the total calories, saturated fat (in grams), and protein (in grams) for this full day of eating. Give your final answer as three numbers.\n\n- Venti Starbucks shaken espresso with protein milk\n- Egg white breakfast sandwich\n- 3 soy breakfast sausages\n- English muffin with peanut butter\n- Serving of cottage cheese with honey\n- 4 McCrispy strips\n- Hot mustard sauce\n- Can of green beans with cheese and wheat germ\n- Protein peanut butter cups\n- Apple\n- Decaf coffee with soy milk x2",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The calorie estimate is between 1800 and 2200 (within 10% of the true value of 2000 calories). Look for the number the model gives as its final calorie total and check if it falls in this range."
+      },
+      {
+        "id": "c2",
+        "description": "The saturated fat estimate is between 26.1g and 31.9g (within 10% of the true value of 29g). Look for the number the model gives as its final saturated fat total and check if it falls in this range."
+      },
+      {
+        "id": "c3",
+        "description": "The protein estimate is between 112.5g and 137.5g (within 10% of the true value of 125g). Look for the number the model gives as its final protein total and check if it falls in this range."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "manual",
+      "notes": "True values: 2000 cal, 29g sat fat, 125g protein. Tolerance: +/- 10%."
+    }
+  }
+]
