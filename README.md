@@ -53,14 +53,20 @@ uv run run_eval.py --provider openai
 # Run against Anthropic
 uv run run_eval.py --provider anthropic
 
-# Run against local LLM
-uv run run_eval.py --provider local
+# Run against local LLM (specify which model)
+uv run run_eval.py --provider local --model Qwen3.5-9B-Q3_K_M.gguf
 
-# Override model
+# Run a specific eval file
+uv run run_eval.py --provider local --model Qwen3.5-4B-Q4_K_M.gguf --evals evals/nutrition-reasoning.json
+
+# Force re-run items that were already scored for this model
+uv run run_eval.py --provider openai --no-skip-scored
+
+# Override model for cloud providers
 uv run run_eval.py --provider openai --model gpt-4o-mini
 ```
 
-Results are saved as JSON in `results/`.
+Results are saved as JSON in `results/`. By default, items already scored for a given model are skipped on subsequent runs — use `--no-skip-scored` to re-evaluate them.
 
 ### View Dashboard
 
@@ -96,3 +102,8 @@ config.example.yaml   # Config template
 ## How Scoring Works
 
 Each rubric criterion is evaluated by an LLM judge (configurable in `config.yaml`). The judge receives the original prompt, the model's response, and the criterion description, then returns a binary score (0 or 1) with reasoning. All judge calls run concurrently for performance.
+
+## Eval Sets
+
+- `evals/nutrition-estimation.json` — Meal-level calorie/macro estimation (1 item)
+- `evals/nutrition-reasoning.json` — Applied nutrition reasoning across clinical, dietary, and biochemistry scenarios (15 items)

@@ -1,0 +1,438 @@
+[
+  {
+    "id": "nutrition-002",
+    "domain": "nutrition",
+    "prompt": "A 32-year-old pregnant woman shows you her daily supplement and food log:\n- Prenatal vitamin: 10 mg iron, 400 mcg folic acid\n- Breakfast: fortified cereal with milk (6 mg iron, 100 mcg DFE folate)\n- Lunch: spinach salad with lentils (4 mg iron, 150 mcg DFE folate)\n- Dinner: chicken breast with rice and broccoli (2 mg iron, 80 mcg DFE folate)\n\nNote: 1 mcg folic acid from supplements = 1.7 mcg DFE.\n\nIs she meeting the RDAs for iron and folate during pregnancy? Show your calculations and state each RDA.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response states the RDA for iron during pregnancy is 27 mg/day."
+      },
+      {
+        "id": "c2",
+        "description": "The response states the RDA for folate during pregnancy is 600 mcg DFE/day."
+      },
+      {
+        "id": "c3",
+        "description": "The response correctly converts the supplement folic acid to DFE: 400 mcg × 1.7 = 680 mcg DFE."
+      },
+      {
+        "id": "c4",
+        "description": "The response correctly totals iron intake as 22 mg (10 + 6 + 4 + 2) and concludes she is NOT meeting the iron RDA of 27 mg."
+      },
+      {
+        "id": "c5",
+        "description": "The response correctly totals folate intake as approximately 1010 mcg DFE (680 + 100 + 150 + 80) and concludes she IS meeting the folate RDA of 600 mcg DFE."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "https://ods.od.nih.gov/factsheets/Iron-HealthProfessional/; https://ods.od.nih.gov/factsheets/Folate-HealthProfessional/",
+      "notes": "Iron total: 22 mg vs 27 mg RDA (deficient). Folate total: 1010 mcg DFE vs 600 mcg DFE (sufficient). Key reasoning step is the folic acid → DFE conversion."
+    }
+  },
+  {
+    "id": "nutrition-003",
+    "domain": "nutrition",
+    "prompt": "A patient in a developing country presents with bleeding gums, fatigue, and impaired wound healing. They also have bone pain and bowed legs. Lab work shows megaloblastic anemia with normal folate levels.\n\nIdentify the three most likely vitamin deficiencies based on these symptom clusters, explain which symptoms map to which deficiency, and suggest one dietary source for each.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies vitamin C deficiency (scurvy) and correctly maps it to bleeding gums, fatigue, and impaired wound healing."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies vitamin D deficiency (rickets/osteomalacia) and correctly maps it to bone pain and bowed legs."
+      },
+      {
+        "id": "c3",
+        "description": "The response identifies vitamin B12 deficiency and correctly maps it to megaloblastic anemia with normal folate."
+      },
+      {
+        "id": "c4",
+        "description": "The response provides at least one reasonable dietary source for each deficiency (e.g., citrus for vitamin C, fatty fish or fortified foods for vitamin D, meat or dairy for B12)."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "https://ods.od.nih.gov/factsheets/VitaminC-HealthProfessional/; https://ods.od.nih.gov/factsheets/VitaminD-HealthProfessional/; https://ods.od.nih.gov/factsheets/VitaminB12-HealthProfessional/",
+      "notes": "Three deficiency clusters presented simultaneously. The key reasoning step is distinguishing B12 from folate deficiency using the normal folate lab result."
+    }
+  },
+  {
+    "id": "nutrition-004",
+    "domain": "nutrition",
+    "prompt": "A runner eating 2800 calories per day wants to follow the Acceptable Macronutrient Distribution Ranges (AMDR). Their current diet log shows:\n- Protein: 120 g\n- Fat: 60 g\n- Carbohydrates: 420 g\n\nFor each macronutrient, calculate what percentage of calories it represents, state the AMDR range, and identify which macronutrients fall outside the recommended range. Assume protein = 4 kcal/g, carbs = 4 kcal/g, fat = 9 kcal/g.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response correctly calculates protein as 480 kcal (120 × 4), which is approximately 17% of 2800 kcal."
+      },
+      {
+        "id": "c2",
+        "description": "The response correctly calculates fat as 540 kcal (60 × 9), which is approximately 19% of 2800 kcal."
+      },
+      {
+        "id": "c3",
+        "description": "The response correctly calculates carbs as 1680 kcal (420 × 4), which is 60% of 2800 kcal."
+      },
+      {
+        "id": "c4",
+        "description": "The response states the AMDR ranges: protein 10–35%, fat 20–35%, carbohydrates 45–65%."
+      },
+      {
+        "id": "c5",
+        "description": "The response identifies fat as below the AMDR range (19% vs 20–35%) and that protein and carbs are within range."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK56068/",
+      "notes": "Protein: 17.1% (in range). Fat: 19.3% (below 20%). Carbs: 60% (in range). Only fat is out of range. Total calories from macros: 480 + 540 + 1680 = 2700 (the slight gap to 2800 is acceptable rounding/alcohol/etc)."
+    }
+  },
+  {
+    "id": "nutrition-005",
+    "domain": "nutrition",
+    "prompt": "A patient with hypertension tracks their food for a day:\n- Breakfast: 2 slices of bread (300 mg sodium) with cheese (400 mg sodium)\n- Lunch: canned soup (900 mg sodium) with crackers (200 mg sodium)\n- Dinner: grilled chicken (80 mg sodium) with soy sauce (1000 mg sodium) and steamed rice (5 mg sodium)\n- Snack: salted nuts (170 mg sodium)\n\nCalculate their total sodium intake, compare it to the WHO recommendation, convert their intake to salt equivalents (in grams), and identify which meal contributes the most sodium.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response correctly totals sodium at 3055 mg (300 + 400 + 900 + 200 + 80 + 1000 + 5 + 170)."
+      },
+      {
+        "id": "c2",
+        "description": "The response states the WHO recommendation is less than 2000 mg sodium per day and concludes the patient exceeds it."
+      },
+      {
+        "id": "c3",
+        "description": "The response converts sodium to salt equivalent of approximately 7.6 g (3055 mg × 2.5, or using the relationship that 1 g sodium ≈ 2.5 g salt) and notes the WHO salt limit is less than 5 g/day."
+      },
+      {
+        "id": "c4",
+        "description": "The response identifies lunch as the highest-sodium meal (1100 mg from canned soup + crackers)."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "https://www.who.int/news-room/fact-sheets/detail/sodium-reduction",
+      "notes": "Total sodium: 3055 mg. WHO limit: <2000 mg. Salt equivalent: ~7.6 g vs <5 g limit. Breakdown: Breakfast 700 mg, Lunch 1100 mg, Dinner 1085 mg, Snack 170 mg. Lunch is the highest meal."
+    }
+  },
+  {
+    "id": "nutrition-006",
+    "domain": "nutrition",
+    "prompt": "A food label for a fortified breakfast cereal (one serving) shows:\n- Vitamin C: 45 mg\n- Calcium: 260 mg\n- Iron: 7.2 mg\n\nIf someone eats two servings of this cereal and also takes a supplement containing 500 mg vitamin C, 500 mg calcium, and 10 mg iron, calculate their total intake from these two sources. Then express each nutrient as a percentage of the FDA Daily Value and identify any nutrient that exceeds 100% DV.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response correctly calculates totals: vitamin C = 590 mg (45×2 + 500), calcium = 1020 mg (260×2 + 500), iron = 24.4 mg (7.2×2 + 10)."
+      },
+      {
+        "id": "c2",
+        "description": "The response states the FDA Daily Values: vitamin C = 90 mg, calcium = 1300 mg, iron = 18 mg."
+      },
+      {
+        "id": "c3",
+        "description": "The response correctly calculates %DV: vitamin C ≈ 656% (accept 640–660%), calcium ≈ 78% (accept 76–80%), iron ≈ 136% (accept 133–140%)."
+      },
+      {
+        "id": "c4",
+        "description": "The response identifies vitamin C and iron as exceeding 100% DV, while calcium does not."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "https://www.fda.gov/food/nutrition-facts-label/daily-value-nutrition-and-supplement-facts-labels",
+      "notes": "Totals: vit C 590 mg (656% DV), calcium 1020 mg (78% DV), iron 24.4 mg (136% DV). Vit C and iron exceed 100% DV."
+    }
+  },
+  {
+    "id": "nutrition-007",
+    "domain": "nutrition",
+    "prompt": "A strict vegan eats only the following protein sources in a day:\n- Breakfast: oatmeal with almonds\n- Lunch: rice and black beans\n- Dinner: tofu stir-fry with quinoa\n\nList all nine essential amino acids for adults. Then evaluate whether this vegan's diet is likely to provide all of them, explaining which food combinations ensure completeness and identifying any potential gaps if a food group were removed.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response lists all nine essential amino acids: histidine, isoleucine, leucine, lysine, methionine, phenylalanine, threonine, tryptophan, valine."
+      },
+      {
+        "id": "c2",
+        "description": "The response explains that rice + beans is a complementary protein combination (rice is low in lysine but provides methionine; beans are low in methionine but provide lysine)."
+      },
+      {
+        "id": "c3",
+        "description": "The response identifies quinoa or tofu/soy as complete or near-complete plant protein sources."
+      },
+      {
+        "id": "c4",
+        "description": "The response concludes this diet likely provides all essential amino acids due to complementary combinations and complete sources like quinoa/soy."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK557845/",
+      "notes": "Nine EAAs must be listed. Key reasoning: complementary proteins (rice+beans, grains+legumes) and complete plant proteins (soy, quinoa). Diet as described is adequate."
+    }
+  },
+  {
+    "id": "nutrition-008",
+    "domain": "nutrition",
+    "prompt": "A 45-year-old woman presents with fatigue and pallor. Her lab results show:\n- Hemoglobin: 9.5 g/dL (normal: 12–16)\n- Serum ferritin: 8 ng/mL (normal: 12–150)\n- Serum iron: 30 mcg/dL (normal: 60–170)\n- TIBC: 450 mcg/dL (normal: 250–370)\n- MCV: 72 fL (normal: 80–100)\n- Serum B12: 500 pg/mL (normal: 200–900)\n- Folate: 15 ng/mL (normal: 2–20)\n\nInterpret these lab results. What type of anemia does she have? Explain how each abnormal marker supports your diagnosis and why you can rule out other causes.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response diagnoses iron deficiency anemia."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies low ferritin (8 ng/mL) as indicating depleted iron stores."
+      },
+      {
+        "id": "c3",
+        "description": "The response identifies elevated TIBC (450 mcg/dL) and low serum iron (30 mcg/dL) as consistent with iron deficiency."
+      },
+      {
+        "id": "c4",
+        "description": "The response notes low MCV (72 fL) indicates microcytic anemia, which is characteristic of iron deficiency."
+      },
+      {
+        "id": "c5",
+        "description": "The response uses normal B12 and folate levels to rule out megaloblastic/B12-deficiency anemia."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK448065/",
+      "notes": "Classic iron deficiency anemia pattern: low Hgb, low ferritin, low serum iron, high TIBC, low MCV (microcytic). Normal B12 and folate rule out megaloblastic causes. Key reasoning is integrating multiple markers."
+    }
+  },
+  {
+    "id": "nutrition-009",
+    "domain": "nutrition",
+    "prompt": "A diabetic patient is choosing between two snack options:\n\nOption A: White rice crackers (GI = 87) with 25 g of carbohydrate per serving\nOption B: Apple slices with peanut butter — apple (GI = 36, 15 g carbs) and peanut butter (GI = 14, 6 g carbs)\n\nCalculate the glycemic load for each option. Which snack would you recommend for better blood sugar management, and why? Use the formula: GL = (GI × carb grams) / 100.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response correctly calculates GL for Option A: (87 × 25) / 100 = 21.75 (accept 21–22)."
+      },
+      {
+        "id": "c2",
+        "description": "The response correctly calculates GL for Option B by computing each component: apple GL = (36 × 15) / 100 = 5.4 and peanut butter GL = (14 × 6) / 100 = 0.84, total ≈ 6.2 (accept 5.5–7)."
+      },
+      {
+        "id": "c3",
+        "description": "The response recommends Option B for blood sugar management based on its substantially lower glycemic load."
+      },
+      {
+        "id": "c4",
+        "description": "The response explains that lower glycemic load means a smaller blood sugar spike, which is relevant for diabetic management."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "https://www.hsph.harvard.edu/nutritionsource/carbohydrates/glycemic-load/",
+      "notes": "Option A GL ≈ 21.75 (high). Option B GL ≈ 6.2 (low). Key reasoning: must handle a composite food by calculating GL for each component separately and summing."
+    }
+  },
+  {
+    "id": "nutrition-010",
+    "domain": "nutrition",
+    "prompt": "A health-conscious person takes these daily supplements:\n- Vitamin D: 2000 IU (50 mcg) in the morning\n- Vitamin D: 2000 IU (50 mcg) in the evening\n- Zinc: 25 mg with lunch\n- Zinc: 25 mg with dinner\n\nThey also get an estimated 600 IU (15 mcg) of vitamin D and 10 mg of zinc from food.\n\nCalculate their total daily intake of each nutrient, compare to the Tolerable Upper Intake Levels (ULs) for adults, and assess whether they are at risk of toxicity.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response correctly calculates total vitamin D as 4600 IU or 115 mcg (2000 + 2000 + 600 IU, or 50 + 50 + 15 mcg)."
+      },
+      {
+        "id": "c2",
+        "description": "The response correctly calculates total zinc as 60 mg (25 + 25 + 10)."
+      },
+      {
+        "id": "c3",
+        "description": "The response states the UL for vitamin D is 4000 IU/day (100 mcg/day) and concludes the person exceeds it."
+      },
+      {
+        "id": "c4",
+        "description": "The response states the UL for zinc is 40 mg/day and concludes the person exceeds it."
+      },
+      {
+        "id": "c5",
+        "description": "The response identifies both nutrients as posing toxicity risk and recommends reducing supplement doses."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "https://ods.od.nih.gov/factsheets/VitaminD-HealthProfessional/; https://ods.od.nih.gov/factsheets/Zinc-HealthProfessional/",
+      "notes": "Vitamin D total: 4600 IU (115 mcg) vs UL of 4000 IU (100 mcg) — exceeds. Zinc total: 60 mg vs UL of 40 mg — exceeds. Both are over UL."
+    }
+  },
+  {
+    "id": "nutrition-011",
+    "domain": "nutrition",
+    "prompt": "An athlete weighing 80 kg follows three different protein intake recommendations and wants to compare them on a 3000-calorie diet:\n\n1. The RDA minimum: 0.8 g/kg/day\n2. A moderate sports nutrition guideline: 1.6 g/kg/day\n3. A high-protein bodybuilding approach: 2.4 g/kg/day\n\nFor each approach, calculate the daily protein in grams, the calories from protein, and what percentage of their 3000-calorie diet protein represents.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response correctly calculates RDA protein as 64 g (0.8 × 80), yielding 256 kcal (64 × 4), which is approximately 8.5% of 3000 kcal."
+      },
+      {
+        "id": "c2",
+        "description": "The response correctly calculates moderate protein as 128 g (1.6 × 80), yielding 512 kcal (128 × 4), which is approximately 17% of 3000 kcal."
+      },
+      {
+        "id": "c3",
+        "description": "The response correctly calculates high protein as 192 g (2.4 × 80), yielding 768 kcal (192 × 4), which is approximately 25.6% of 3000 kcal."
+      },
+      {
+        "id": "c4",
+        "description": "The response uses 4 kcal/g as the energy value for protein in all calculations."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK234922/; https://jissn.biomedcentral.com/articles/10.1186/s12970-017-0177-8",
+      "notes": "RDA: 64g / 256 kcal / 8.5%. Moderate: 128g / 512 kcal / 17.1%. High: 192g / 768 kcal / 25.6%. All use 4 kcal/g for protein."
+    }
+  },
+  {
+    "id": "nutrition-012",
+    "domain": "nutrition",
+    "prompt": "A patient's doctor recommends 2000 IU of vitamin D daily. The patient finds a supplement bottle labeled \"25 mcg vitamin D per capsule\" and another labeled \"1000 IU per capsule.\"\n\nHow many capsules of each bottle would the patient need to reach 2000 IU? Show the unit conversion and explain whether taking one capsule from each bottle would meet the goal.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response states the conversion: 1 mcg vitamin D = 40 IU."
+      },
+      {
+        "id": "c2",
+        "description": "The response correctly converts 25 mcg to 1000 IU (25 × 40)."
+      },
+      {
+        "id": "c3",
+        "description": "The response states that 2 capsules of the 25 mcg bottle OR 2 capsules of the 1000 IU bottle would each provide 2000 IU."
+      },
+      {
+        "id": "c4",
+        "description": "The response correctly concludes that one capsule from each bottle would provide exactly 2000 IU (1000 + 1000 IU) and would meet the goal."
+      }
+    ],
+    "metadata": {
+      "difficulty": "easy",
+      "source": "https://ods.od.nih.gov/factsheets/VitaminD-Consumer/",
+      "notes": "25 mcg = 1000 IU. Both bottles are effectively 1000 IU per capsule. One from each = 2000 IU. Key reasoning: unit conversion + practical application."
+    }
+  },
+  {
+    "id": "nutrition-013",
+    "domain": "nutrition",
+    "prompt": "A 68-year-old patient on long-term proton pump inhibitors (PPIs) presents with:\n- Numbness and tingling in hands and feet\n- Difficulty with balance and walking\n- Memory complaints\n- Lab: MCV 105 fL (normal: 80–100), normal folate, low serum B12\n\nExplain the connection between PPI use and this presentation. Describe the mechanism of B12 malabsorption, why neurological symptoms occur before anemia is often detected, and how this differs from folate deficiency anemia.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response explains that PPIs reduce stomach acid, which is needed to release B12 from food proteins (or to activate pepsin for B12 release)."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies the neurological symptoms (neuropathy, balance problems, cognitive issues) as manifestations of B12 deficiency affecting the nervous system."
+      },
+      {
+        "id": "c3",
+        "description": "The response notes that elevated MCV (105 fL) indicates macrocytic/megaloblastic anemia consistent with B12 deficiency."
+      },
+      {
+        "id": "c4",
+        "description": "The response explains how B12 deficiency differs from folate deficiency: both cause megaloblastic anemia, but only B12 deficiency causes neurological damage (demyelination)."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "https://ods.od.nih.gov/factsheets/VitaminB12-HealthProfessional/",
+      "notes": "PPIs → reduced acid → impaired B12 absorption. B12 deficiency causes both megaloblastic anemia AND neurological damage (unlike folate). Key reasoning: connecting drug mechanism to clinical presentation."
+    }
+  },
+  {
+    "id": "nutrition-014",
+    "domain": "nutrition",
+    "prompt": "A vegetarian patient with iron deficiency anemia currently eats this typical lunch:\n- Spinach salad (non-heme iron source)\n- Whole wheat bread (contains phytates)\n- Black tea to drink (contains polyphenols)\n- Dessert: dark chocolate\n\nRedesign this meal to maximize iron absorption while keeping it vegetarian. Explain which current items inhibit absorption, what you would add or substitute, and the mechanism behind each change.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies vitamin C as an enhancer of non-heme iron absorption and recommends adding a vitamin C source (e.g., citrus, bell peppers, strawberries, tomatoes)."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies phytates (in whole wheat bread) as inhibitors of iron absorption."
+      },
+      {
+        "id": "c3",
+        "description": "The response identifies polyphenols/tannins (in black tea and/or dark chocolate) as inhibitors of iron absorption and recommends reducing or replacing them at the meal."
+      },
+      {
+        "id": "c4",
+        "description": "The response recommends drinking tea/coffee between meals rather than with the iron-rich meal, or substituting with a vitamin C-rich beverage like orange juice."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "https://ods.od.nih.gov/factsheets/Iron-HealthProfessional/",
+      "notes": "Inhibitors present: phytates (bread), polyphenols (tea, chocolate). Key enhancer: vitamin C. Practical reasoning: redesign meal by adding enhancers and removing/timing inhibitors."
+    }
+  },
+  {
+    "id": "nutrition-015",
+    "domain": "nutrition",
+    "prompt": "A pregnant woman who is vegetarian asks whether she needs an omega-3 supplement. She currently takes flaxseed oil (rich in ALA) daily but no fish oil.\n\nName the three major omega-3 fatty acids in human nutrition, identify which is essential, and explain whether flaxseed oil alone is sufficient during pregnancy. Discuss the conversion efficiency of ALA to EPA and DHA.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response lists the three major omega-3 fatty acids: alpha-linolenic acid (ALA), eicosapentaenoic acid (EPA), and docosahexaenoic acid (DHA)."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies ALA as the essential omega-3 (must come from diet)."
+      },
+      {
+        "id": "c3",
+        "description": "The response explains that ALA conversion to EPA and especially DHA is very low/inefficient in humans (typically cited as <5–10% for EPA, <1–5% for DHA)."
+      },
+      {
+        "id": "c4",
+        "description": "The response recommends a DHA supplement (such as algae-based DHA) during pregnancy since flaxseed oil alone may not provide adequate DHA, which is critical for fetal brain development."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "https://ods.od.nih.gov/factsheets/Omega3FattyAcids-HealthProfessional/",
+      "notes": "ALA is essential but converts poorly to EPA/DHA. Pregnancy increases DHA demand for fetal neurodevelopment. Algae-based DHA is the standard vegetarian recommendation."
+    }
+  },
+  {
+    "id": "nutrition-016",
+    "domain": "nutrition",
+    "prompt": "A client tracking macros reports their daily intake as:\n- Protein: 140 g\n- Carbohydrates: 250 g\n- Fat: 75 g\n- Alcohol: 20 g\n\nThey claim to be eating 2000 calories. Using the Atwater factors (protein = 4 kcal/g, carbs = 4 kcal/g, fat = 9 kcal/g, alcohol = 7 kcal/g), calculate the actual calorie intake, determine if their claim is accurate, and calculate the percentage of calories from each macronutrient including alcohol.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response correctly calculates: protein = 560 kcal (140 × 4), carbs = 1000 kcal (250 × 4), fat = 675 kcal (75 × 9), alcohol = 140 kcal (20 × 7), totaling 2375 kcal."
+      },
+      {
+        "id": "c2",
+        "description": "The response concludes the client's claim of 2000 calories is inaccurate — actual intake is approximately 2375 kcal."
+      },
+      {
+        "id": "c3",
+        "description": "The response calculates percentages approximately: protein ≈ 23.6%, carbs ≈ 42.1%, fat ≈ 28.4%, alcohol ≈ 5.9% (accept values within 1% of these)."
+      },
+      {
+        "id": "c4",
+        "description": "The response notes that the discrepancy is likely because the client forgot to count alcohol calories (which account for about 140 kcal or ~6% of actual intake)."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "https://www.ncbi.nlm.nih.gov/books/NBK234922/",
+      "notes": "Total: 560 + 1000 + 675 + 140 = 2375 kcal (not 2000). The trick is including alcohol at 7 kcal/g, which many people forget. Percentages: P 23.6%, C 42.1%, F 28.4%, A 5.9%."
+    }
+  }
+]

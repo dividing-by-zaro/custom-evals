@@ -29,16 +29,17 @@ Two independent systems that communicate through JSON files in `results/`:
 
 1. `run_eval.py` CLI → `src/runner.py:run_eval()` (async orchestrator)
 2. Runner loads items via `src/schema.py` (Pydantic validation)
-3. For each item: calls `Provider.complete()` → gets response → calls `src/judge.py:judge_response()` (concurrent asyncio.gather over all criteria)
-4. Judge uses OpenAI SDK to ask a judge model to score each criterion as 0 or 1 with JSON output
-5. Results aggregated into `EvalRun` model, saved as JSON to `results/`
+3. Runner checks `results/` for previously scored items for the same model and skips them (disable with `--no-skip-scored`)
+4. For each item: calls `Provider.complete()` → gets response → calls `src/judge.py:judge_response()` (concurrent asyncio.gather over all criteria)
+5. Judge uses OpenAI SDK to ask a judge model to score each criterion as 0 or 1 with JSON output
+6. Results aggregated into `EvalRun` model, saved as JSON to `results/`
 
 ### Provider system
 
 `src/providers/__init__.py` defines `Provider` ABC with single method `async complete(prompt, params) -> str` and a `create_provider()` factory. Three implementations:
 - `openai_provider.py` — OpenAI SDK
 - `anthropic_provider.py` — Anthropic SDK
-- `local_provider.py` — OpenAI SDK with custom `base_url` (for local LLMs via SSH tunnel)
+- `local_provider.py` — OpenAI SDK with custom `base_url` (for local LLMs); use `--model` flag to select between models (e.g., `--model Qwen3.5-9B-Q3_K_M.gguf`)
 
 ### Key design rules
 

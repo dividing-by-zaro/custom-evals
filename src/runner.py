@@ -140,6 +140,27 @@ def _build_summary(items: list[ItemResult]) -> RunSummary:
     )
 
 
+def _get_previously_scored_item_ids(output_path: str, model: str) -> set[str]:
+    """Return item IDs that were already successfully scored for this model."""
+    output_dir = Path(output_path)
+    if not output_dir.exists():
+        return set()
+
+    scored_ids: set[str] = set()
+    for result_file in output_dir.glob("*.json"):
+        try:
+            with open(result_file) as f:
+                data = json.load(f)
+            if data.get("provider", {}).get("model") != model:
+                continue
+            for item in data.get("items", []):
+                if item.get("status") == "scored":
+                    scored_ids.add(item["item_id"])
+        except (json.JSONDecodeError, KeyError):
+            continue
+    return scored_ids
+
+
 async def run_eval(
     provider_name: str,
     model_override: str | None = None,
@@ -150,6 +171,7 @@ async def run_eval(
     judge_provider_name: str | None = None,
     judge_model_override: str | None = None,
     config_path: str = "config.yaml",
+    skip_scored: bool = True,
 ) -> EvalRun:
     config = load_config(config_path)
     provider_config = get_provider_config(config, provider_name)
@@ -173,6 +195,27 @@ async def run_eval(
     # Load and validate eval items
     items = load_eval_items(evals_path)
     logger.info("Loaded %d eval items", len(items))
+
+    # Filter out items already scored for this model
+    if skip_scored:
+        already_scored = _get_previously_scored_item_ids(output_path, provider_config.model)
+        if already_scored:
+            items = [i for i in items if i.id not in already_scored]
+            logger.info("Skipped %d already-scored items, %d remaining", len(already_scored), len(items))
+        if not items:
+            logger.info("All items already scored for model %s, nothing to do", provider_config.model)
+            return EvalRun(
+                run_id=str(uuid.uuid4()),
+                timestamp=datetime.now(timezone.utc).isoformat(),
+                provider=ProviderSnapshot(
+                    name=provider_config.name,
+                    model=provider_config.model,
+                    provider_type=provider_config.provider_type,
+                ),
+                params={"temperature": temperature, "max_tokens": max_tokens},
+                items=[],
+                summary=RunSummary(total_score=0, max_score=0, percentage=0.0, by_domain={}),
+            )
 
     params = {"temperature": temperature, "max_tokens": max_tokens}
 
