@@ -24,10 +24,8 @@ function DomainBar({ domain, score, max, percentage }) {
   )
 }
 
-export default function DomainBreakdown({ runs }) {
-  const sorted = [...runs].sort(
-    (a, b) => b.summary.percentage - a.summary.percentage
-  )
+export default function DomainBreakdown({ models }) {
+  const sorted = [...models].sort((a, b) => b.percentage - a.percentage)
 
   return (
     <div className="card">
@@ -37,21 +35,20 @@ export default function DomainBreakdown({ runs }) {
       </div>
 
       <div className="domain-grid">
-        {sorted.map((run) => {
-          const domains = run.summary.by_domain
-          const domainKeys = Object.keys(domains).sort()
+        {sorted.map((m) => {
+          const domainKeys = Object.keys(m.byDomain).sort()
 
           return (
-            <div key={run.run_id} className="domain-model-row">
+            <div key={m.model} className="domain-model-row">
               <div className="domain-model-header">
                 <span className="domain-model-name">
-                  {run.provider.model}
+                  {m.model}
                   <span style={{ color: 'var(--text-muted)', fontWeight: 400, marginLeft: 8 }}>
-                    ({run.provider.name})
+                    ({m.provider.name})
                   </span>
                 </span>
                 <span className="domain-model-overall">
-                  Overall: {run.summary.percentage.toFixed(1)}%
+                  Overall: {m.percentage.toFixed(1)}%
                 </span>
               </div>
 
@@ -62,7 +59,7 @@ export default function DomainBreakdown({ runs }) {
               ) : (
                 <div className="domain-bars">
                   {domainKeys.map((domain) => {
-                    const d = domains[domain]
+                    const d = m.byDomain[domain]
                     return (
                       <DomainBar
                         key={domain}

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import Leaderboard from './components/Leaderboard'
 import DomainBreakdown from './components/DomainBreakdown'
+import RunDetail from './components/RunDetail'
 
 // ─── Icons (inline SVG, no dependency) ──────────────────────────────
 
@@ -35,19 +36,70 @@ function IconAlert() {
   )
 }
 
+// ─── Model aggregation ──────────────────────────────────────────────
+
+function aggregateByModel(runs) {
+  const byModel = {}
+  for (const run of runs) {
+    const key = run.provider.model
+    if (!byModel[key]) {
+      byModel[key] = {
+        model: run.provider.model,
+        provider: run.provider,
+        runs: [],
+        totalScore: 0,
+        maxScore: 0,
+        byDomain: {},
+        latestTimestamp: run.timestamp,
+      }
+    }
+    const entry = byModel[key]
+    entry.runs.push(run)
+    entry.totalScore += run.summary.total_score
+    entry.maxScore += run.summary.max_score
+    if (run.timestamp > entry.latestTimestamp) entry.latestTimestamp = run.timestamp
+
+    for (const [domain, ds] of Object.entries(run.summary.by_domain)) {
+      if (!entry.byDomain[domain]) {
+        entry.byDomain[domain] = { score: 0, max: 0 }
+      }
+      entry.byDomain[domain].score += ds.score
+      entry.byDomain[domain].max += ds.max
+    }
+  }
+
+  return Object.values(byModel).map((entry) => {
+    const percentage = entry.maxScore > 0 ? (entry.totalScore / entry.maxScore) * 100 : 0
+    const domainSummaries = {}
+    for (const [domain, ds] of Object.entries(entry.byDomain)) {
+      domainSummaries[domain] = {
+        score: ds.score,
+        max: ds.max,
+        percentage: ds.max > 0 ? (ds.score / ds.max) * 100 : 0,
+      }
+    }
+    return {
+      ...entry,
+      percentage,
+      byDomain: domainSummaries,
+    }
+  })
+}
+
 // ─── Derived stats ───────────────────────────────────────────────────
 
 function computeStats(runs) {
   if (!runs.length) return null
 
-  const best = [...runs].sort((a, b) => b.summary.percentage - a.summary.percentage)[0]
+  const models = aggregateByModel(runs)
+  const best = [...models].sort((a, b) => b.percentage - a.percentage)[0]
   const totalItems = runs.reduce((acc, r) => acc + r.items.length, 0)
-  const avgPct = runs.reduce((acc, r) => acc + r.summary.percentage, 0) / runs.length
+  const avgPct = models.reduce((acc, m) => acc + m.percentage, 0) / models.length
 
   const allDomains = new Set()
   runs.forEach((r) => Object.keys(r.summary.by_domain).forEach((d) => allDomains.add(d)))
 
-  return { best, totalItems, avgPct, domainCount: allDomains.size }
+  return { best, totalItems, avgPct, domainCount: allDomains.size, modelCount: models.length }
 }
 
 // ─── Sub-components ──────────────────────────────────────────────────
@@ -59,8 +111,8 @@ function StatRow({ runs }) {
   return (
     <div className="stat-row">
       <div className="stat-card">
-        <span className="stat-label">Runs evaluated</span>
-        <span className="stat-value accent">{runs.length}</span>
+        <span className="stat-label">Models</span>
+        <span className="stat-value accent">{stats.modelCount}</span>
       </div>
       <div className="stat-card">
         <span className="stat-label">Total items</span>
@@ -77,7 +129,7 @@ function StatRow({ runs }) {
       <div className="stat-card">
         <span className="stat-label">Top model</span>
         <span className="stat-value green" style={{ fontSize: '1rem', marginTop: 4, fontFamily: 'var(--font-mono)' }}>
-          {stats.best.provider.model}
+          {stats.best.model}
         </span>
       </div>
     </div>
@@ -126,6 +178,7 @@ export default function App() {
   const [runs, setRuns] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [selectedModel, setSelectedModel] = useState(null)
 
   useEffect(() => {
     fetch('/api/results')
@@ -145,6 +198,7 @@ export default function App() {
   }, [])
 
   const hasResults = runs.length > 0
+  const models = hasResults ? aggregateByModel(runs) : []
 
   return (
     <div className="app">
@@ -167,11 +221,30 @@ export default function App() {
 
       {!loading && !error && !hasResults && <EmptyState />}
 
-      {!loading && !error && hasResults && (
+      {!loading && !error && hasResults && selectedModel && (
+        <RunDetail
+          run={{
+            run_id: selectedModel.model,
+            timestamp: selectedModel.latestTimestamp,
+            provider: selectedModel.provider,
+            params: {},
+            items: selectedModel.runs.flatMap((r) => r.items),
+            summary: {
+              total_score: selectedModel.totalScore,
+              max_score: selectedModel.maxScore,
+              percentage: selectedModel.percentage,
+              by_domain: selectedModel.byDomain,
+            },
+          }}
+          onBack={() => setSelectedModel(null)}
+        />
+      )}
+
+      {!loading && !error && hasResults && !selectedModel && (
         <main className="app-main">
           <StatRow runs={runs} />
-          <Leaderboard runs={runs} />
-          <DomainBreakdown runs={runs} />
+          <Leaderboard models={models} onSelectModel={setSelectedModel} />
+          <DomainBreakdown models={models} />
         </main>
       )}
     </div>

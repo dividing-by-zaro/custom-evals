@@ -8,10 +8,6 @@ function formatPct(pct) {
   return `${pct.toFixed(1)}%`
 }
 
-function shortId(id) {
-  return id.slice(0, 8)
-}
-
 function ProviderBadge({ provider }) {
   return (
     <span className="provider-badge">
@@ -29,16 +25,16 @@ function RankBadge({ rank }) {
   )
 }
 
-export default function Leaderboard({ runs }) {
-  const ranked = [...runs]
-    .sort((a, b) => b.summary.percentage - a.summary.percentage)
-    .map((run, i) => ({ ...run, rank: i + 1 }))
+export default function Leaderboard({ models, onSelectModel }) {
+  const ranked = [...models]
+    .sort((a, b) => b.percentage - a.percentage)
+    .map((m, i) => ({ ...m, rank: i + 1 }))
 
   return (
     <div className="card">
       <div className="card-header">
         <h2 className="card-title">Leaderboard</h2>
-        <span className="card-count">{ranked.length} run{ranked.length !== 1 ? 's' : ''}</span>
+        <span className="card-count">{ranked.length} model{ranked.length !== 1 ? 's' : ''}</span>
       </div>
 
       <div style={{ overflowX: 'auto' }}>
@@ -50,49 +46,57 @@ export default function Leaderboard({ runs }) {
               <th>Provider</th>
               <th>Score</th>
               <th>Percentage</th>
-              <th>Timestamp</th>
+              <th>Domains</th>
             </tr>
           </thead>
           <tbody>
-            {ranked.map((run) => {
-              const cls = pctClass(run.summary.percentage)
-              const isFirst = run.rank === 1
+            {ranked.map((m) => {
+              const cls = pctClass(m.percentage)
+              const isFirst = m.rank === 1
+              const domainCount = Object.keys(m.byDomain).length
 
               return (
-                <tr key={run.run_id} className={isFirst ? 'rank-first' : ''}>
+                <tr
+                  key={m.model}
+                  className={isFirst ? 'rank-first' : ''}
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => onSelectModel?.(m)}
+                >
                   <td>
-                    <RankBadge rank={run.rank} />
+                    <RankBadge rank={m.rank} />
                   </td>
 
                   <td>
                     <div className="model-cell">
                       <span className={`model-name${isFirst ? ' first' : ''}`}>
-                        {run.provider.model}
+                        {m.model}
                       </span>
-                      <span className="model-run-id mono">{shortId(run.run_id)}</span>
+                      <span className="model-run-id mono">
+                        {m.runs.length} run{m.runs.length !== 1 ? 's' : ''}
+                      </span>
                     </div>
                   </td>
 
                   <td>
-                    <ProviderBadge provider={run.provider.name} />
+                    <ProviderBadge provider={m.provider.name} />
                   </td>
 
                   <td>
                     <span className="score-fraction">
-                      {run.summary.total_score}
-                      <span style={{ color: 'var(--text-muted)' }}> / {run.summary.max_score}</span>
+                      {m.totalScore}
+                      <span style={{ color: 'var(--text-muted)' }}> / {m.maxScore}</span>
                     </span>
                   </td>
 
                   <td>
                     <div className="pct-cell">
                       <span className={`pct-value ${cls}`}>
-                        {formatPct(run.summary.percentage)}
+                        {formatPct(m.percentage)}
                       </span>
                       <div className="pct-bar-track">
                         <div
                           className={`pct-bar-fill ${cls}`}
-                          style={{ width: `${run.summary.percentage}%` }}
+                          style={{ width: `${m.percentage}%` }}
                         />
                       </div>
                     </div>
@@ -100,12 +104,7 @@ export default function Leaderboard({ runs }) {
 
                   <td>
                     <span className="ts-badge">
-                      {new Date(run.timestamp).toLocaleString(undefined, {
-                        month: 'short',
-                        day: 'numeric',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                      })}
+                      {domainCount} domain{domainCount !== 1 ? 's' : ''}
                     </span>
                   </td>
                 </tr>

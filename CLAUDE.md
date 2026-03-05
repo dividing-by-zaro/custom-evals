@@ -59,3 +59,10 @@ Two independent systems that communicate through JSON files in `results/`:
 ### Data models
 
 All in `src/models.py` as Pydantic models: `EvalItem`, `RubricCriterion`, `ProviderConfig`, `JudgeConfig`, `EvalRun`, `ItemResult`, `CriterionResult`, `RunSummary`, `DomainSummary`.
+
+## Active Technologies
+- JavaScript (ES2022+), React 19, CSS3 + React 19, Vite 7, no router library (use React state for view switching) (002-eval-run-explorer)
+- N/A — reads from existing `/api/results` endpoint (JSON files served by Vite middleware) (002-eval-run-explorer)
+
+## Recent Changes
+- 002-eval-run-explorer: Added JavaScript (ES2022+), React 19, CSS3 + React 19, Vite 7, no router library (use React state for view switching)
