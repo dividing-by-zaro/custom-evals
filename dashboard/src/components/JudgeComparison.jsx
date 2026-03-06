@@ -8,7 +8,7 @@ function getJudgeLabel(run) {
 export default function JudgeComparison({ runs }) {
   const [selectedDomain, setSelectedDomain] = useState('all')
 
-  const { judges, evaluatedModels, allDomains, matrix, judgeOverall } = useMemo(() => {
+  const { judges, evaluatedModels, allDomains, matrix, judgeOverall, modelVariability, overallVariability } = useMemo(() => {
     const judgeSet = new Set()
     const modelSet = new Set()
     const domainSet = new Set()
@@ -76,7 +76,28 @@ export default function JudgeComparison({ runs }) {
       }
     }
 
-    return { judges, evaluatedModels, allDomains, matrix, judgeOverall }
+    // Compute per-model variability (std dev of judge percentages)
+    const modelVariability = {}
+    for (const model of evaluatedModels) {
+      const pcts = judges
+        .map((j) => matrix[j]?.[model]?.percentage)
+        .filter((p) => p !== undefined)
+      if (pcts.length > 1) {
+        const mean = pcts.reduce((a, b) => a + b, 0) / pcts.length
+        const variance = pcts.reduce((a, p) => a + (p - mean) ** 2, 0) / pcts.length
+        const stdDev = Math.sqrt(variance)
+        const range = Math.max(...pcts) - Math.min(...pcts)
+        modelVariability[model] = { stdDev, range, mean, count: pcts.length }
+      }
+    }
+
+    // Overall variability across all models
+    const allStdDevs = Object.values(modelVariability).map((v) => v.stdDev)
+    const overallVariability = allStdDevs.length > 0
+      ? allStdDevs.reduce((a, b) => a + b, 0) / allStdDevs.length
+      : 0
+
+    return { judges, evaluatedModels, allDomains, matrix, judgeOverall, modelVariability, overallVariability }
   }, [runs])
 
   // Filter matrix by domain if selected
@@ -104,6 +125,33 @@ export default function JudgeComparison({ runs }) {
       }
     }
     return { score, max, percentage: max > 0 ? (score / max) * 100 : 0 }
+  }
+
+  // Domain-filtered variability per model
+  const getModelVariability = (model) => {
+    if (selectedDomain === 'all') return modelVariability[model] || null
+    const pcts = judges
+      .map((j) => {
+        const ds = matrix[j]?.[model]?.byDomain[selectedDomain]
+        return ds && ds.max > 0 ? (ds.score / ds.max) * 100 : undefined
+      })
+      .filter((p) => p !== undefined)
+    if (pcts.length <= 1) return null
+    const mean = pcts.reduce((a, b) => a + b, 0) / pcts.length
+    const variance = pcts.reduce((a, p) => a + (p - mean) ** 2, 0) / pcts.length
+    return { stdDev: Math.sqrt(variance), range: Math.max(...pcts) - Math.min(...pcts), mean, count: pcts.length }
+  }
+
+  const variabilityColor = (stdDev) => {
+    if (stdDev <= 3) return 'var(--color-green, #22c55e)'
+    if (stdDev <= 8) return 'var(--color-yellow, #eab308)'
+    return 'var(--color-red, #ef4444)'
+  }
+
+  const variabilityLabel = (stdDev) => {
+    if (stdDev <= 3) return 'High agreement'
+    if (stdDev <= 8) return 'Moderate variance'
+    return 'High variance'
   }
 
   return (
@@ -210,6 +258,44 @@ export default function JudgeComparison({ runs }) {
                     </div>
                     <span style={{ color, fontFamily: 'var(--font-mono)', fontWeight: 600, minWidth: '50px', textAlign: 'right' }}>
                       {avg.percentage.toFixed(1)}%
+                    </span>
+                  </div>
+                )
+              })}
+          </div>
+        </div>
+      )}
+      {/* Score variability across judges */}
+      {judges.length > 1 && (
+        <div className="card">
+          <div className="card-header">
+            <h2 className="card-title">Score Variability</h2>
+            <span className="card-count">how much judges disagree per model (std dev of %)</span>
+          </div>
+          <div style={{ padding: 'var(--space-5) var(--space-6)', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+            {evaluatedModels
+              .map((model) => ({ model, v: getModelVariability(model) }))
+              .filter(({ v }) => v !== null)
+              .sort((a, b) => b.v.stdDev - a.v.stdDev)
+              .map(({ model, v }) => {
+                const color = variabilityColor(v.stdDev)
+                return (
+                  <div key={model} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
+                    <span style={{ minWidth: '160px', fontWeight: 500, fontSize: '0.875rem' }}>{model}</span>
+                    <div className="pct-bar-track" style={{ flex: 1, maxWidth: '300px' }}>
+                      <div
+                        className="pct-bar-fill"
+                        style={{ width: `${Math.min(v.stdDev * 3, 100)}%`, background: color }}
+                      />
+                    </div>
+                    <span style={{ color, fontFamily: 'var(--font-mono)', fontWeight: 600, minWidth: '80px', textAlign: 'right' }}>
+                      {v.stdDev.toFixed(1)}% SD
+                    </span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', minWidth: '100px' }}>
+                      {variabilityLabel(v.stdDev)}
+                    </span>
+                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                      range: {v.range.toFixed(1)}pp
                     </span>
                   </div>
                 )

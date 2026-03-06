@@ -21,9 +21,8 @@ function RankBadge({ rank }) {
   )
 }
 
-export default function Leaderboard({ models, onSelectModel, showRejudged = false }) {
-  const filtered = showRejudged ? models : models.filter((m) => !m.isRejudged)
-  const ranked = [...filtered]
+export default function Leaderboard({ models, onSelectModel }) {
+  const ranked = [...models]
     .sort((a, b) => b.percentage - a.percentage)
     .map((m, i) => ({ ...m, rank: i + 1 }))
 

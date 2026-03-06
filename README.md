@@ -78,7 +78,15 @@ uv run python rejudge.py --input "results/*.json" --judge-model gpt-4o-mini
 uv run python rejudge.py --input results/2026-03-05_openai_gpt-5.1.json --judge-provider openai --judge-model gpt-4o-mini
 ```
 
-Re-judged results are saved with a `_rejudge_` suffix and link back to the original run. The dashboard shows a "Judge Comparison" tab when multiple judges exist.
+Re-judged results are saved with a `_rejudge_` suffix and link back to the original run. The dashboard shows a "Judge Comparison" tab when multiple judges exist, and a judge selector dropdown to filter the leaderboard by judge.
+
+### Patch Failed Judge Responses
+
+If a reasoning judge model (e.g. gpt-5-mini) returns empty responses, patch them in-place:
+
+```bash
+uv run python patch_unparseable.py
+```
 
 Results are saved as JSON in `results/`. By default, items already scored for a given model are skipped on subsequent runs — use `--no-skip-scored` to re-evaluate them.
 
@@ -90,7 +98,7 @@ npm install   # first time only
 npm run dev
 ```
 
-Opens a dashboard at `http://localhost:5173` with a model leaderboard and per-domain score breakdowns.
+Opens a dashboard at `http://localhost:5173` with a model leaderboard, per-domain score breakdowns, and a judge selector dropdown to compare scores across different judge models.
 
 ## Project Structure
 
@@ -111,6 +119,7 @@ results/              # Output (gitignored)
 dashboard/            # React dashboard
 run_eval.py           # CLI entry point
 rejudge.py            # Re-judge CLI (reuse cached responses with new judge)
+patch_unparseable.py  # Patch failed judge responses in existing result files
 config.example.yaml   # Config template
 ```
 

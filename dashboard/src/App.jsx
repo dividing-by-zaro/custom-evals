@@ -37,14 +37,34 @@ function IconAlert() {
   )
 }
 
+// ─── Judge helpers ──────────────────────────────────────────────────
+
+function getJudgeKey(run) {
+  return run.judge ? `${run.judge.provider}/${run.judge.model}` : 'unknown'
+}
+
+function getUniqueJudges(runs) {
+  const judgeMap = {}
+  for (const run of runs) {
+    const key = getJudgeKey(run)
+    if (!judgeMap[key]) {
+      judgeMap[key] = { key, judge: run.judge, timestamp: run.timestamp, models: new Set() }
+    }
+    if (run.timestamp > judgeMap[key].timestamp) judgeMap[key].timestamp = run.timestamp
+    judgeMap[key].models.add(run.provider.model)
+  }
+  // Sort by timestamp descending (most recent first)
+  return Object.values(judgeMap)
+    .map((j) => ({ ...j, modelCount: j.models.size }))
+    .sort((a, b) => b.timestamp.localeCompare(a.timestamp))
+}
+
 // ─── Model aggregation ──────────────────────────────────────────────
 
 function aggregateByModel(runs) {
   const byModel = {}
   for (const run of runs) {
-    const isRejudged = !!run.source_run_id
-    const judgeKey = run.judge ? `${run.judge.provider}/${run.judge.model}` : 'unknown'
-    const key = isRejudged ? `${run.provider.model}__judge__${judgeKey}` : run.provider.model
+    const key = run.provider.model
     if (!byModel[key]) {
       byModel[key] = {
         model: run.provider.model,
@@ -54,7 +74,6 @@ function aggregateByModel(runs) {
         maxScore: 0,
         byDomain: {},
         latestTimestamp: run.timestamp,
-        isRejudged,
         judge: run.judge || null,
       }
     }
@@ -185,6 +204,7 @@ export default function App() {
   const [error, setError] = useState(null)
   const [selectedModel, setSelectedModel] = useState(null)
   const [view, setView] = useState('leaderboard') // 'leaderboard' | 'judge-comparison'
+  const [selectedJudge, setSelectedJudge] = useState(null)
 
   useEffect(() => {
     fetch('/api/results')
@@ -204,8 +224,17 @@ export default function App() {
   }, [])
 
   const hasResults = runs.length > 0
-  const models = hasResults ? aggregateByModel(runs) : []
-  const hasJudgeData = runs.some((r) => r.judge)
+  const judges = hasResults ? getUniqueJudges(runs) : []
+  const hasJudgeData = judges.length > 1
+
+  // Default to the most recent judge
+  const activeJudge = selectedJudge || (judges.length > 0 ? judges[0].key : null)
+
+  // Filter runs by selected judge
+  const filteredRuns = activeJudge
+    ? runs.filter((r) => getJudgeKey(r) === activeJudge)
+    : runs
+  const models = hasResults ? aggregateByModel(filteredRuns) : []
 
   return (
     <div className="app">
@@ -220,6 +249,22 @@ export default function App() {
           </div>
         </div>
         <div className="app-header-right">
+          {hasResults && judges.length > 1 && !selectedModel && view === 'leaderboard' && (
+            <div className="judge-selector">
+              <label className="judge-selector-label">Judge</label>
+              <select
+                className="judge-selector-select"
+                value={activeJudge || ''}
+                onChange={(e) => setSelectedJudge(e.target.value)}
+              >
+                {judges.map((j) => (
+                  <option key={j.key} value={j.key}>
+                    {j.judge?.model || j.key} ({j.modelCount} model{j.modelCount !== 1 ? 's' : ''})
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
           {hasResults && hasJudgeData && !selectedModel && (
             <div className="view-toggle">
               <button
@@ -268,7 +313,7 @@ export default function App() {
 
       {!loading && !error && hasResults && !selectedModel && view === 'leaderboard' && (
         <main className="app-main">
-          <StatRow runs={runs} />
+          <StatRow runs={filteredRuns} />
           <Leaderboard models={models} onSelectModel={setSelectedModel} />
           <DomainBreakdown models={models} />
         </main>

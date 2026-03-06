@@ -34,6 +34,36 @@ def _build_judge_prompt(
     )
 
 
+def _extract_json(raw: str) -> dict | None:
+    """Try to parse JSON from raw text, including extracting from markdown fences."""
+    raw = raw.strip()
+    if not raw:
+        return None
+    try:
+        return json.loads(raw)
+    except (json.JSONDecodeError, ValueError):
+        pass
+    # Try extracting from ```json ... ``` or ``` ... ```
+    import re
+    m = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", raw, re.DOTALL)
+    if m:
+        try:
+            return json.loads(m.group(1))
+        except (json.JSONDecodeError, ValueError):
+            pass
+    # Try finding first { ... } in the text
+    m = re.search(r"\{.*\}", raw, re.DOTALL)
+    if m:
+        try:
+            return json.loads(m.group(0))
+        except (json.JSONDecodeError, ValueError):
+            pass
+    return None
+
+
+MAX_JUDGE_RETRIES = 2
+
+
 async def _judge_single_criterion(
     client: AsyncOpenAI,
     model: str,
@@ -43,29 +73,30 @@ async def _judge_single_criterion(
 ) -> CriterionResult:
     judge_prompt = _build_judge_prompt(original_prompt, response, criterion)
 
-    completion = await client.chat.completions.create(
-        model=model,
-        messages=[
-            {"role": "system", "content": JUDGE_SYSTEM_PROMPT},
-            {"role": "user", "content": judge_prompt},
-        ],
-        temperature=0.0,
-        max_tokens=256,
-    )
+    last_raw = ""
+    for _attempt in range(MAX_JUDGE_RETRIES):
+        completion = await client.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "system", "content": JUDGE_SYSTEM_PROMPT},
+                {"role": "user", "content": judge_prompt},
+            ],
+            max_completion_tokens=2048,
+        )
 
-    raw = completion.choices[0].message.content or ""
-    try:
-        parsed = json.loads(raw)
-        score = 1 if parsed.get("score") == 1 else 0
-        reasoning = parsed.get("reasoning", "")
-    except (json.JSONDecodeError, AttributeError):
-        score = 0
-        reasoning = f"Judge returned unparseable response: {raw[:200]}"
+        last_raw = completion.choices[0].message.content or ""
+        parsed = _extract_json(last_raw)
+        if parsed is not None and "score" in parsed:
+            return CriterionResult(
+                criterion_id=criterion.id,
+                score=1 if parsed.get("score") == 1 else 0,
+                reasoning=parsed.get("reasoning", ""),
+            )
 
     return CriterionResult(
         criterion_id=criterion.id,
-        score=score,
-        reasoning=reasoning,
+        score=0,
+        reasoning=f"Judge returned unparseable response: {last_raw[:200]}",
     )
 
 
