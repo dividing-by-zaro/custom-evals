@@ -1,0 +1,40 @@
+[
+  {
+    "id": "prod-001",
+    "domain": "productivity",
+    "prompt": "What are the limits with a free Apple Developer account?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "Mentions that only 3 test devices can be registered per platform (independent of the 3-app limit)"
+      },
+      {
+        "id": "c2",
+        "description": "Mentions that app provisioning profiles expire after 7 days, requiring re-signing"
+      },
+      {
+        "id": "c3",
+        "description": "Mentions a limit of 3 sideloaded apps at a time (independent of the 3-device limit)"
+      }
+    ]
+  },
+  {
+    "id": "prod-002",
+    "domain": "productivity",
+    "prompt": "Need to set up an ssh tunnel into my server for port 8081. Username isabel, server name pickle-jar.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "Provides a command using ssh -L for local port forwarding"
+      },
+      {
+        "id": "c2",
+        "description": "Correctly maps port 8081 on both the local and remote sides (8081:localhost:8081)"
+      },
+      {
+        "id": "c3",
+        "description": "Uses the correct username and server name (isabel@pickle-jar)"
+      }
+    ]
+  }
+]

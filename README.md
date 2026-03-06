@@ -136,4 +136,5 @@ Failed or empty responses are excluded from score percentages — only successfu
 
 - `evals/nutrition.json` — 17 nutrition items: calorie/macro estimation, clinical reasoning, dietary analysis, and weight trend interpretation
 - `evals/advice.json` — Advice domain eval items
+- `evals/productivity.json` — Productivity items: Apple Developer account limits, SSH tunneling
 - `evals/sample.json` — Example eval item for reference
