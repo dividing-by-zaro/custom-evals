@@ -270,36 +270,70 @@ export default function JudgeComparison({ runs }) {
         <div className="card">
           <div className="card-header">
             <h2 className="card-title">Score Variability</h2>
-            <span className="card-count">how much judges disagree per model (std dev of %)</span>
+            <span className="card-count">judge disagreement per model</span>
           </div>
-          <div style={{ padding: 'var(--space-5) var(--space-6)', display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-            {evaluatedModels
-              .map((model) => ({ model, v: getModelVariability(model) }))
-              .filter(({ v }) => v !== null)
-              .sort((a, b) => b.v.stdDev - a.v.stdDev)
-              .map(({ model, v }) => {
-                const color = variabilityColor(v.stdDev)
-                return (
-                  <div key={model} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
-                    <span style={{ minWidth: '160px', fontWeight: 500, fontSize: '0.875rem' }}>{model}</span>
-                    <div className="pct-bar-track" style={{ flex: 1, maxWidth: '300px' }}>
-                      <div
-                        className="pct-bar-fill"
-                        style={{ width: `${Math.min(v.stdDev * 3, 100)}%`, background: color }}
-                      />
-                    </div>
-                    <span style={{ color, fontFamily: 'var(--font-mono)', fontWeight: 600, minWidth: '80px', textAlign: 'right' }}>
-                      {v.stdDev.toFixed(1)}% SD
-                    </span>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', minWidth: '100px' }}>
-                      {variabilityLabel(v.stdDev)}
-                    </span>
-                    <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
-                      range: {v.range.toFixed(1)}pp
-                    </span>
-                  </div>
-                )
-              })}
+          <div style={{ overflowX: 'auto' }}>
+            <table className="leaderboard-table">
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  {judges.map((j) => (
+                    <th key={j} style={{ textAlign: 'center' }}>{j.split('/').pop()}</th>
+                  ))}
+                  <th style={{ textAlign: 'center' }}>Spread</th>
+                  <th style={{ textAlign: 'center' }}>Agreement</th>
+                </tr>
+              </thead>
+              <tbody>
+                {evaluatedModels
+                  .map((model) => ({ model, v: getModelVariability(model) }))
+                  .filter(({ v }) => v !== null)
+                  .sort((a, b) => b.v.stdDev - a.v.stdDev)
+                  .map(({ model, v }) => {
+                    const color = variabilityColor(v.stdDev)
+                    return (
+                      <tr key={model}>
+                        <td>
+                          <span style={{ fontWeight: 500 }}>{model}</span>
+                        </td>
+                        {judges.map((j) => {
+                          const data = getCell(j, model)
+                          if (!data) return <td key={j} style={{ textAlign: 'center', color: 'var(--text-muted)' }}>—</td>
+                          const pctColor = scoreColor(data.percentage)
+                          return (
+                            <td key={j} style={{ textAlign: 'center' }}>
+                              <span style={{ color: pctColor, fontFamily: 'var(--font-mono)', fontWeight: 600 }}>
+                                {data.percentage.toFixed(1)}%
+                              </span>
+                              <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginLeft: 6 }}>
+                                {data.score}/{data.max}
+                              </span>
+                            </td>
+                          )
+                        })}
+                        <td style={{ textAlign: 'center' }}>
+                          <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 600, color }}>
+                            {v.range.toFixed(1)}pp
+                          </span>
+                        </td>
+                        <td style={{ textAlign: 'center' }}>
+                          <span style={{
+                            display: 'inline-block',
+                            padding: '2px 8px',
+                            borderRadius: '9999px',
+                            fontSize: '0.75rem',
+                            fontWeight: 500,
+                            color,
+                            background: `color-mix(in srgb, ${color} 15%, transparent)`,
+                          }}>
+                            {variabilityLabel(v.stdDev)}
+                          </span>
+                        </td>
+                      </tr>
+                    )
+                  })}
+              </tbody>
+            </table>
           </div>
         </div>
       )}
