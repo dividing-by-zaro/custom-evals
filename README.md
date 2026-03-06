@@ -74,6 +74,9 @@ Re-run just the judging on cached responses to compare judge behavior:
 # Re-judge all results with a different judge model
 uv run python rejudge.py --input "results/*.json" --judge-model gpt-4o-mini
 
+# Re-judge with an Anthropic judge
+uv run python rejudge.py --input "results/*.json" --judge-provider anthropic --judge-model claude-haiku-4-5
+
 # Re-judge a specific result file
 uv run python rejudge.py --input results/2026-03-05_openai_gpt-5.1.json --judge-provider openai --judge-model gpt-4o-mini
 ```
@@ -125,7 +128,7 @@ config.example.yaml   # Config template
 
 ## How Scoring Works
 
-Each rubric criterion is evaluated by an LLM judge (configurable in `config.yaml`). The judge receives the original prompt, the model's response, and the criterion description, then returns a binary score (0 or 1) with reasoning. All judge calls run concurrently for performance.
+Each rubric criterion is evaluated by an LLM judge (configurable in `config.yaml`). The judge supports both OpenAI and Anthropic models as judges. It receives the original prompt, the model's response, and the criterion description, then returns a binary score (0 or 1) with reasoning. All judge calls run concurrently for performance.
 
 Failed or empty responses are excluded from score percentages — only successfully scored items count. Old result files can be archived to `results/archive/` to keep the dashboard clean.
 

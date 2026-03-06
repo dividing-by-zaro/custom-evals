@@ -3,6 +3,7 @@ from __future__ import annotations
 import asyncio
 import json
 
+from anthropic import AsyncAnthropic
 from openai import AsyncOpenAI
 
 from src.models import CriterionResult, RubricCriterion
@@ -64,7 +65,7 @@ def _extract_json(raw: str) -> dict | None:
 MAX_JUDGE_RETRIES = 2
 
 
-async def _judge_single_criterion(
+async def _judge_single_criterion_openai(
     client: AsyncOpenAI,
     model: str,
     original_prompt: str,
@@ -100,6 +101,40 @@ async def _judge_single_criterion(
     )
 
 
+async def _judge_single_criterion_anthropic(
+    client: AsyncAnthropic,
+    model: str,
+    original_prompt: str,
+    response: str,
+    criterion: RubricCriterion,
+) -> CriterionResult:
+    judge_prompt = _build_judge_prompt(original_prompt, response, criterion)
+
+    last_raw = ""
+    for _attempt in range(MAX_JUDGE_RETRIES):
+        message = await client.messages.create(
+            model=model,
+            max_tokens=2048,
+            system=JUDGE_SYSTEM_PROMPT,
+            messages=[{"role": "user", "content": judge_prompt}],
+        )
+
+        last_raw = message.content[0].text if message.content else ""
+        parsed = _extract_json(last_raw)
+        if parsed is not None and "score" in parsed:
+            return CriterionResult(
+                criterion_id=criterion.id,
+                score=1 if parsed.get("score") == 1 else 0,
+                reasoning=parsed.get("reasoning", ""),
+            )
+
+    return CriterionResult(
+        criterion_id=criterion.id,
+        score=0,
+        reasoning=f"Judge returned unparseable response: {last_raw[:200]}",
+    )
+
+
 async def judge_response(
     api_key: str,
     model: str,
@@ -107,14 +142,21 @@ async def judge_response(
     response: str,
     criteria: list[RubricCriterion],
     base_url: str | None = None,
+    provider: str = "openai",
 ) -> list[CriterionResult]:
-    kwargs: dict = {"api_key": api_key}
-    if base_url:
-        kwargs["base_url"] = base_url
-    client = AsyncOpenAI(**kwargs)
-
-    tasks = [
-        _judge_single_criterion(client, model, original_prompt, response, c)
-        for c in criteria
-    ]
+    if provider == "anthropic":
+        client = AsyncAnthropic(api_key=api_key)
+        tasks = [
+            _judge_single_criterion_anthropic(client, model, original_prompt, response, c)
+            for c in criteria
+        ]
+    else:
+        kwargs: dict = {"api_key": api_key}
+        if base_url:
+            kwargs["base_url"] = base_url
+        client = AsyncOpenAI(**kwargs)
+        tasks = [
+            _judge_single_criterion_openai(client, model, original_prompt, response, c)
+            for c in criteria
+        ]
     return await asyncio.gather(*tasks)

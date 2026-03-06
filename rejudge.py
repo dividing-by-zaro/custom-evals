@@ -89,6 +89,7 @@ async def rejudge_run(
             response=response,
             criteria=eval_item.criteria,
             base_url=judge_base_url,
+            provider=judge_provider_name,
         )
 
         total = sum(r.score for r in criteria_results)

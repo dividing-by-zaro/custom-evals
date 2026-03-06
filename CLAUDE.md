@@ -9,7 +9,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 uv sync                                    # install dependencies
 uv run python run_eval.py --provider openai  # run eval against a provider
 uv run python run_eval.py --help             # see all CLI options
-uv run python rejudge.py --input "results/*.json" --judge-model gpt-5-mini  # re-judge with different model
+uv run python rejudge.py --input "results/*.json" --judge-model gpt-5-mini  # re-judge with different model (OpenAI)
+uv run python rejudge.py --input "results/*.json" --judge-provider anthropic --judge-model claude-haiku-4-5  # re-judge with Anthropic
 uv run python patch_unparseable.py                                         # patch failed judge responses in-place
 
 # Dashboard (run from dashboard/)
@@ -33,7 +34,7 @@ Two independent systems that communicate through JSON files in `results/`:
 2. Runner loads items via `src/schema.py` (Pydantic validation)
 3. Runner checks `results/` for previously scored items for the same model and skips them (disable with `--no-skip-scored`)
 4. For each item: calls `Provider.complete()` → gets response → calls `src/judge.py:judge_response()` (concurrent asyncio.gather over all criteria)
-5. Judge uses OpenAI SDK to ask a judge model to score each criterion as 0 or 1 with JSON output; retries up to 2 times on empty/unparseable responses; `_extract_json()` handles markdown-fenced or wrapped JSON
+5. Judge supports both OpenAI and Anthropic SDKs (selected via `provider` param); scores each criterion as 0 or 1 with JSON output; retries up to 2 times on empty/unparseable responses; `_extract_json()` handles markdown-fenced or wrapped JSON
 6. Results aggregated into `EvalRun` model (with `JudgeSnapshot` metadata), saved as JSON to `results/`
 
 ### Re-judge flow

@@ -54,6 +54,7 @@ async def _evaluate_item(
     judge_api_key: str,
     judge_model: str,
     judge_base_url: str | None = None,
+    judge_provider: str = "openai",
 ) -> ItemResult:
     try:
         response = await _call_with_retry(provider, item.prompt, params)
@@ -99,6 +100,7 @@ async def _evaluate_item(
         response=response,
         criteria=item.criteria,
         base_url=judge_base_url,
+        provider=judge_provider,
     )
 
     total = sum(r.score for r in criteria_results)
@@ -225,7 +227,7 @@ async def run_eval(
     item_results: list[ItemResult] = []
     for item in items:
         result = await _evaluate_item(
-            item, provider, params, judge_api_key, judge_model, judge_base_url
+            item, provider, params, judge_api_key, judge_model, judge_base_url, judge_pname
         )
         item_results.append(result)
 
