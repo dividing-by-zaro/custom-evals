@@ -15,6 +15,7 @@ from src.models import (
     EvalItem,
     EvalRun,
     ItemResult,
+    JudgeSnapshot,
     ProviderSnapshot,
     RunSummary,
 )
@@ -242,6 +243,7 @@ async def run_eval(
         params=params,
         items=item_results,
         summary=summary,
+        judge=JudgeSnapshot(provider=judge_pname, model=judge_model),
     )
 
     # Save results

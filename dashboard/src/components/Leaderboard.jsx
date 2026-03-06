@@ -1,8 +1,4 @@
-function pctClass(pct) {
-  if (pct >= 75) return 'high'
-  if (pct >= 45) return 'mid'
-  return 'low'
-}
+import { scoreColor } from '../utils/scoreColor'
 
 function formatPct(pct) {
   return `${pct.toFixed(1)}%`
@@ -25,8 +21,9 @@ function RankBadge({ rank }) {
   )
 }
 
-export default function Leaderboard({ models, onSelectModel }) {
-  const ranked = [...models]
+export default function Leaderboard({ models, onSelectModel, showRejudged = false }) {
+  const filtered = showRejudged ? models : models.filter((m) => !m.isRejudged)
+  const ranked = [...filtered]
     .sort((a, b) => b.percentage - a.percentage)
     .map((m, i) => ({ ...m, rank: i + 1 }))
 
@@ -51,7 +48,7 @@ export default function Leaderboard({ models, onSelectModel }) {
           </thead>
           <tbody>
             {ranked.map((m) => {
-              const cls = pctClass(m.percentage)
+              const color = scoreColor(m.percentage)
               const isFirst = m.rank === 1
               const domainCount = Object.keys(m.byDomain).length
 
@@ -90,13 +87,13 @@ export default function Leaderboard({ models, onSelectModel }) {
 
                   <td>
                     <div className="pct-cell">
-                      <span className={`pct-value ${cls}`}>
+                      <span className="pct-value" style={{ color }}>
                         {formatPct(m.percentage)}
                       </span>
                       <div className="pct-bar-track">
                         <div
-                          className={`pct-bar-fill ${cls}`}
-                          style={{ width: `${m.percentage}%` }}
+                          className="pct-bar-fill"
+                          style={{ width: `${m.percentage}%`, background: color }}
                         />
                       </div>
                     </div>

@@ -27,7 +27,10 @@ def _build_judge_prompt(
     return (
         f"## Original Prompt\n{original_prompt}\n\n"
         f"## LLM Response\n{response}\n\n"
-        f"## Criterion to Evaluate\n{criterion.description}"
+        f"## Criterion to Evaluate\n"
+        f"Score 1 if the following statement is TRUE of the response. "
+        f"Score 0 if it is FALSE.\n\n"
+        f"{criterion.description}"
     )
 
 

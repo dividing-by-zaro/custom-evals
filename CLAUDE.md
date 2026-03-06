@@ -9,6 +9,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 uv sync                                    # install dependencies
 uv run python run_eval.py --provider openai  # run eval against a provider
 uv run python run_eval.py --help             # see all CLI options
+uv run python rejudge.py --input "results/*.json" --judge-model gpt-4o-mini  # re-judge with different model
 
 # Dashboard (run from dashboard/)
 cd dashboard && npm install                # first time
@@ -32,7 +33,11 @@ Two independent systems that communicate through JSON files in `results/`:
 3. Runner checks `results/` for previously scored items for the same model and skips them (disable with `--no-skip-scored`)
 4. For each item: calls `Provider.complete()` → gets response → calls `src/judge.py:judge_response()` (concurrent asyncio.gather over all criteria)
 5. Judge uses OpenAI SDK to ask a judge model to score each criterion as 0 or 1 with JSON output
-6. Results aggregated into `EvalRun` model, saved as JSON to `results/`
+6. Results aggregated into `EvalRun` model (with `JudgeSnapshot` metadata), saved as JSON to `results/`
+
+### Re-judge flow
+
+`rejudge.py` CLI loads existing result files, looks up eval items from `evals/` for criterion descriptions, re-runs `judge_response()` with a new judge model using cached responses, and saves new result files with `judge` snapshot and `source_run_id` linking to the original run.
 
 ### Provider system
 
@@ -58,7 +63,7 @@ Two independent systems that communicate through JSON files in `results/`:
 
 ### Data models
 
-All in `src/models.py` as Pydantic models: `EvalItem`, `RubricCriterion`, `ProviderConfig`, `JudgeConfig`, `EvalRun`, `ItemResult`, `CriterionResult`, `RunSummary`, `DomainSummary`.
+All in `src/models.py` as Pydantic models: `EvalItem`, `RubricCriterion`, `ProviderConfig`, `JudgeConfig`, `EvalRun`, `ItemResult`, `CriterionResult`, `RunSummary`, `DomainSummary`, `JudgeSnapshot`. `EvalRun` has optional `judge: JudgeSnapshot` and `source_run_id: str` fields for re-judge tracking.
 
 ## Active Technologies
 - JavaScript (ES2022+), React 19, CSS3 + React 19, Vite 7, no router library (use React state for view switching) (002-eval-run-explorer)

@@ -68,6 +68,11 @@ class ProviderSnapshot(BaseModel):
     provider_type: str
 
 
+class JudgeSnapshot(BaseModel):
+    provider: str
+    model: str
+
+
 class EvalRun(BaseModel):
     run_id: str
     timestamp: str
@@ -75,3 +80,5 @@ class EvalRun(BaseModel):
     params: dict
     items: list[ItemResult]
     summary: RunSummary
+    judge: JudgeSnapshot | None = None
+    source_run_id: str | None = None

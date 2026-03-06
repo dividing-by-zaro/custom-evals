@@ -3,6 +3,7 @@ import './App.css'
 import Leaderboard from './components/Leaderboard'
 import DomainBreakdown from './components/DomainBreakdown'
 import RunDetail from './components/RunDetail'
+import JudgeComparison from './components/JudgeComparison'
 
 // ─── Icons (inline SVG, no dependency) ──────────────────────────────
 
@@ -41,7 +42,9 @@ function IconAlert() {
 function aggregateByModel(runs) {
   const byModel = {}
   for (const run of runs) {
-    const key = run.provider.model
+    const isRejudged = !!run.source_run_id
+    const judgeKey = run.judge ? `${run.judge.provider}/${run.judge.model}` : 'unknown'
+    const key = isRejudged ? `${run.provider.model}__judge__${judgeKey}` : run.provider.model
     if (!byModel[key]) {
       byModel[key] = {
         model: run.provider.model,
@@ -51,6 +54,8 @@ function aggregateByModel(runs) {
         maxScore: 0,
         byDomain: {},
         latestTimestamp: run.timestamp,
+        isRejudged,
+        judge: run.judge || null,
       }
     }
     const entry = byModel[key]
@@ -179,6 +184,7 @@ export default function App() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [selectedModel, setSelectedModel] = useState(null)
+  const [view, setView] = useState('leaderboard') // 'leaderboard' | 'judge-comparison'
 
   useEffect(() => {
     fetch('/api/results')
@@ -199,6 +205,7 @@ export default function App() {
 
   const hasResults = runs.length > 0
   const models = hasResults ? aggregateByModel(runs) : []
+  const hasJudgeData = runs.some((r) => r.judge)
 
   return (
     <div className="app">
@@ -212,7 +219,25 @@ export default function App() {
             <div className="app-subtitle">Evaluation results viewer</div>
           </div>
         </div>
-        <span className="app-meta">/api/results</span>
+        <div className="app-header-right">
+          {hasResults && hasJudgeData && !selectedModel && (
+            <div className="view-toggle">
+              <button
+                className={`view-toggle-btn${view === 'leaderboard' ? ' active' : ''}`}
+                onClick={() => setView('leaderboard')}
+              >
+                Leaderboard
+              </button>
+              <button
+                className={`view-toggle-btn${view === 'judge-comparison' ? ' active' : ''}`}
+                onClick={() => setView('judge-comparison')}
+              >
+                Judge Comparison
+              </button>
+            </div>
+          )}
+          <span className="app-meta">/api/results</span>
+        </div>
       </header>
 
       {loading && <LoadingState />}
@@ -235,16 +260,23 @@ export default function App() {
               percentage: selectedModel.percentage,
               by_domain: selectedModel.byDomain,
             },
+            judge: selectedModel.judge,
           }}
           onBack={() => setSelectedModel(null)}
         />
       )}
 
-      {!loading && !error && hasResults && !selectedModel && (
+      {!loading && !error && hasResults && !selectedModel && view === 'leaderboard' && (
         <main className="app-main">
           <StatRow runs={runs} />
           <Leaderboard models={models} onSelectModel={setSelectedModel} />
           <DomainBreakdown models={models} />
+        </main>
+      )}
+
+      {!loading && !error && hasResults && !selectedModel && view === 'judge-comparison' && (
+        <main className="app-main">
+          <JudgeComparison runs={runs} />
         </main>
       )}
     </div>

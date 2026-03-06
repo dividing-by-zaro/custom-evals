@@ -1,11 +1,7 @@
-function pctClass(pct) {
-  if (pct >= 75) return 'high'
-  if (pct >= 45) return 'mid'
-  return 'low'
-}
+import { scoreColor } from '../utils/scoreColor'
 
 function DomainBar({ domain, score, max, percentage }) {
-  const cls = pctClass(percentage)
+  const color = scoreColor(percentage)
   return (
     <div className="domain-bar-item">
       <div className="domain-bar-label-row">
@@ -16,8 +12,8 @@ function DomainBar({ domain, score, max, percentage }) {
       </div>
       <div className="domain-bar-track">
         <div
-          className={`domain-bar-fill ${cls}`}
-          style={{ width: `${percentage}%` }}
+          className="domain-bar-fill"
+          style={{ width: `${percentage}%`, background: color }}
         />
       </div>
     </div>

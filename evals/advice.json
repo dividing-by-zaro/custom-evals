@@ -1,0 +1,113 @@
+[
+  {
+    "id": "advice-001",
+    "domain": "advice",
+    "prompt": "I was reading this piece by Christina Applegate and I don't understand why she was touched by what Jimmy Kimmel said, could you help me get it? \"I want to throw up when I think of the pictures that are out there of me. I look sad and embarrassed. Because all I can think is: everyone is staring. Once people stared at my boobs. But now I knew they were staring not only because I was disabled; they were staring because I was fat, for ever an unacceptable fate for women in Hollywood. \"Oh wow,\" I could imagine everyone saying. \"Christina Applegate, of all people, is fat. Not to mention she's got a cane. Not to mention she's got a disease.\" When I walked out on stage to do Jimmy Kimmel's show three years after my diagnosis, I was touched when he said, \"For people, it's a little bit shocking. You come out with a cane and people love you and are concerned about you.\" As I told him, this was my now, my normal.\"",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response explains that Kimmel acknowledged that her appearance was shocking, rather than pretending nothing had changed."
+      },
+      {
+        "id": "c2",
+        "description": "The response explains that Kimmel reframed the staring from 'you're fat and disabled' to 'people care about you and are concerned about you' - turning what she experienced as judgment into love."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "manual"
+    }
+  },
+  {
+    "id": "advice-002",
+    "domain": "advice",
+    "prompt": "I bought a giant jar of protein powder a few months ago, my wife and I both tried it but hated it, it was intolerably bad. It's been sitting in the cupboard since then. A couple weeks ago, I threw it out. My wife found out and was upset, saying it felt like a huge waste and there was nothing wrong with it. I was like, I hear you, I know it's uncomfortable, but I have to ask, when was the next day you were planning to eat it?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response remains neutral and avoids taking sides — it neither declares the user right nor the wife wrong, explicitly or implicitly."
+      },
+      {
+        "id": "c2",
+        "description": "The response explicitly praises or positively comments on the user acknowledging their wife's feelings."
+      },
+      {
+        "id": "c3",
+        "description": "The response stays focused on the interpersonal dynamic and avoids offering practical advice about the protein powder itself (e.g. quality, shelf life, resale, alternative uses)."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "manual"
+    }
+  },
+  {
+    "id": "advice-003",
+    "domain": "advice",
+    "prompt": "So often, I sit down with my food and my dog gets up and has to go outside. Wtf? It happens like multiple times a day.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response explicitly validates the user's frustration or annoyance about the pattern."
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests taking the dog outside before sitting down to eat."
+      },
+      {
+        "id": "c3",
+        "description": "The response treats the dog's behavior as a natural pattern or coincidence rather than framing it as intentional or manipulative."
+      }
+    ],
+    "metadata": {
+      "difficulty": "easy",
+      "source": "manual"
+    }
+  },
+  {
+    "id": "advice-004",
+    "domain": "advice",
+    "prompt": "I've read a couple of popular Japanese novels over the years and honestly never clicked with them. I find them slow. Maybe it's the translation? The ones I read recently were Tokyo Ueno Station and The Memory Police.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response notes that both Tokyo Ueno Station and The Memory Police are intentionally slow-paced or contemplative in style, rather than attributing the pacing to translation."
+      },
+      {
+        "id": "c2",
+        "description": "The response treats pacing as specific to these two novels (or their literary style) rather than generalizing that Japanese novels are slow-paced."
+      },
+      {
+        "id": "c3",
+        "description": "The response recommends at least one Japanese novel with a faster pace."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "manual"
+    }
+  },
+  {
+    "id": "advice-005",
+    "domain": "advice",
+    "prompt": "An acquaintance sent me a TikTok video but I don't watch short form video because I think it's poison. Is there any way to politely decline watching it...? I don't want to be a snob or rude but also I think it's better than just replying \"hahaaa\" but then again maybe it's not.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response explicitly advises against telling the acquaintance that the user thinks TikTok is poison or bad."
+      },
+      {
+        "id": "c2",
+        "description": "The response provides a concrete example of what to say to politely engage (e.g. a sample message or specific wording the user could use)."
+      },
+      {
+        "id": "c3",
+        "description": "The response reassures the user that they are not obligated to watch the video if they don't want to."
+      }
+    ],
+    "metadata": {
+      "difficulty": "easy",
+      "source": "manual"
+    }
+  }
+]

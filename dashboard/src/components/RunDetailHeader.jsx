@@ -1,8 +1,4 @@
-function pctClass(pct) {
-  if (pct >= 75) return 'high'
-  if (pct >= 45) return 'mid'
-  return 'low'
-}
+import { scoreColor } from '../utils/scoreColor'
 
 function IconArrowLeft() {
   return (
@@ -15,7 +11,7 @@ function IconArrowLeft() {
 
 export default function RunDetailHeader({ run, onBack }) {
   const { summary, provider, timestamp } = run
-  const cls = pctClass(summary.percentage)
+  const color = scoreColor(summary.percentage)
 
   return (
     <div className="detail-header">
@@ -42,10 +38,16 @@ export default function RunDetailHeader({ run, onBack }) {
             <span className="provider-dot" />
             {provider.name}
           </span>
+          {run.judge && (
+            <span className="judge-badge">
+              <span className="judge-icon">J</span>
+              {run.judge.model}
+            </span>
+          )}
         </div>
 
         <div className="detail-header-score">
-          <span className={`detail-pct ${cls}`}>
+          <span className="detail-pct" style={{ color }}>
             {summary.percentage.toFixed(1)}%
           </span>
           <span className="detail-fraction">

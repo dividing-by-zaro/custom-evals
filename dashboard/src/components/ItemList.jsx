@@ -1,18 +1,7 @@
 import { useState, Fragment } from 'react'
 import CriteriaBreakdown from './CriteriaBreakdown'
 
-function pctClass(pct) {
-  if (pct >= 75) return 'high'
-  if (pct >= 45) return 'mid'
-  return 'low'
-}
-
-function pctColor(pct) {
-  const cls = pctClass(pct)
-  if (cls === 'high') return 'var(--green)'
-  if (cls === 'mid') return 'var(--amber)'
-  return 'var(--red)'
-}
+import { scoreColor } from '../utils/scoreColor'
 
 function SortArrow({ field, sortField, sortDirection }) {
   if (sortField !== field) return null
@@ -133,7 +122,7 @@ export default function ItemList({ items }) {
               <strong>{summaryScore}/{summaryMax}</strong>
             </span>
             <span className="item-list-summary-stat">
-              <strong style={{ color: pctColor(summaryPct) }}>
+              <strong style={{ color: scoreColor(summaryPct) }}>
                 {summaryPct.toFixed(1)}%
               </strong>
             </span>
@@ -177,7 +166,7 @@ export default function ItemList({ items }) {
             {sorted.map((item) => {
               const isExpanded = expandedItems.has(item.item_id)
               const pct = item.max_score > 0 ? (item.total_score / item.max_score) * 100 : 0
-              const cls = pctClass(pct)
+              const color = scoreColor(pct)
               const statusCls = item.status !== 'scored'
                 ? item.status === 'error' ? ' status-error' : ' status-empty'
                 : ''
@@ -203,7 +192,7 @@ export default function ItemList({ items }) {
                       </span>
                     </td>
                     <td>
-                      <span className={`pct-value ${cls}`} style={{ fontSize: '0.8125rem' }}>
+                      <span className="pct-value" style={{ fontSize: '0.8125rem', color }}>
                         {pct.toFixed(0)}%
                       </span>
                     </td>

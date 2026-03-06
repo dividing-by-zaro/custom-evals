@@ -66,6 +66,20 @@ uv run run_eval.py --provider openai --no-skip-scored
 uv run run_eval.py --provider openai --model gpt-4o-mini
 ```
 
+### Re-Judge with a Different Model
+
+Re-run just the judging on cached responses to compare judge behavior:
+
+```bash
+# Re-judge all results with a different judge model
+uv run python rejudge.py --input "results/*.json" --judge-model gpt-4o-mini
+
+# Re-judge a specific result file
+uv run python rejudge.py --input results/2026-03-05_openai_gpt-5.1.json --judge-provider openai --judge-model gpt-4o-mini
+```
+
+Re-judged results are saved with a `_rejudge_` suffix and link back to the original run. The dashboard shows a "Judge Comparison" tab when multiple judges exist.
+
 Results are saved as JSON in `results/`. By default, items already scored for a given model are skipped on subsequent runs — use `--no-skip-scored` to re-evaluate them.
 
 ### View Dashboard
@@ -96,6 +110,7 @@ evals/                # Eval item JSON files
 results/              # Output (gitignored)
 dashboard/            # React dashboard
 run_eval.py           # CLI entry point
+rejudge.py            # Re-judge CLI (reuse cached responses with new judge)
 config.example.yaml   # Config template
 ```
 
@@ -108,4 +123,5 @@ Failed or empty responses are excluded from score percentages — only successfu
 ## Eval Sets
 
 - `evals/nutrition.json` — 17 nutrition items: calorie/macro estimation, clinical reasoning, dietary analysis, and weight trend interpretation
+- `evals/advice.json` — Advice domain eval items
 - `evals/sample.json` — Example eval item for reference
