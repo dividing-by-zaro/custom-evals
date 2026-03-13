@@ -126,7 +126,7 @@ patch_unparseable.py  # Patch failed judge responses in existing result files
 config.example.yaml   # Config template
 ```
 
-## How Scoring Works
+## How Scoring Work  
 
 Each rubric criterion is evaluated by an LLM judge (configurable in `config.yaml`). The judge supports both OpenAI and Anthropic models as judges. It receives the original prompt, the model's response, and the criterion description, then returns a binary score (0 or 1) with reasoning. All judge calls run concurrently for performance.
 
@@ -134,7 +134,11 @@ Failed or empty responses are excluded from score percentages — only successfu
 
 ## Eval Sets
 
-- `evals/nutrition.json` — 17 nutrition items: calorie/macro estimation, clinical reasoning, dietary analysis, and weight trend interpretation
-- `evals/advice.json` — Advice domain eval items
-- `evals/productivity.json` — Productivity items: Apple Developer account limits, SSH tunneling
+144 eval items across 3 domains, sourced from real user questions on public forums and published datasets:
+
+- `evals/advice.json` — 45 items: relationship dilemmas, family dynamics, parenting, friendships, workplace interpersonal issues. Sources: Dear Prudence, Reddit AITA, Ask a Manager, EmoBench, Captain Awkward.
+- `evals/nutrition.json` — 50 items: calorie/macro estimation, micronutrient analysis, dietary planning, food science myths, clinical nutrition, sports nutrition. Sources: NutriBench, NIH ODS, CDR exam materials, USDA FoodData Central.
+- `evals/productivity.json` — 48 items: shell commands & CLI, home server setup, Docker troubleshooting, networking (SSH, DNS, reverse proxy), productivity methods (GTD, Pomodoro), developer tools. Sources: Stack Overflow, r/homelab, r/selfhosted, GTD Forums.
 - `evals/sample.json` — Example eval item for reference
+
+Each item has 2-5 binary rubric criteria with objective, positively-stated assertions for consistent LLM-as-judge scoring.

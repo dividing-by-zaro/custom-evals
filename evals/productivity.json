@@ -36,5 +36,1155 @@
         "description": "Uses the correct username and server name (isabel@pickle-jar)"
       }
     ]
+  },
+  {
+    "id": "prod-003",
+    "domain": "productivity",
+    "prompt": "I'm running an Ubuntu 22.04 web server and got an alert that the root partition is at 97% capacity. I ran `df -h` and confirmed `/dev/sda1` is nearly full. I suspect old log files and forgotten database dumps are the culprit, but I need to find exactly what's eating space before I delete anything. The server hosts a production Rails app so I can't just nuke `/var/log`. How do I systematically find the largest files and directories, figure out what's safe to remove, and free up space without breaking the running application?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response suggests using `du` with a sort (e.g., `du -sh /* | sort -rh` or `du -ah / | sort -rh | head`) to identify the largest directories or files"
+      },
+      {
+        "id": "c2",
+        "description": "The response mentions checking or cleaning old log files specifically using log rotation (e.g., `logrotate`) or truncating logs rather than deleting them outright"
+      },
+      {
+        "id": "c3",
+        "description": "The response warns about checking for deleted-but-open files (files deleted from disk but still held open by a process, visible via `lsof +L1` or similar)"
+      },
+      {
+        "id": "c4",
+        "description": "The response mentions checking common space hogs like `/var/log`, `/tmp`, or old package caches (e.g., `apt clean` or `/var/cache/apt`)"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "Unix & Linux Stack Exchange / common sysadmin question"
+    }
+  },
+  {
+    "id": "prod-004",
+    "domain": "productivity",
+    "prompt": "I have a directory `/var/app/logs/` with about 200 `.log.gz` files and some uncompressed `.log` files. I know the string `\"FATAL: connection pool exhausted\"` appears in recent logs because I saw it scroll by in `journalctl`. But when I run `grep -r \"FATAL: connection pool exhausted\" /var/app/logs/`, I get zero results. I've confirmed the string is correct by copy-pasting it. What's going wrong and how do I search across both the compressed and uncompressed log files?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies that `grep` cannot search inside `.gz` compressed files"
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests using `zgrep` or `zcat` piped to `grep` to search compressed `.gz` files"
+      },
+      {
+        "id": "c3",
+        "description": "The response provides a command or approach that handles both compressed and uncompressed files in a single search"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "Stack Overflow top bash questions / grep usage"
+    }
+  },
+  {
+    "id": "prod-005",
+    "domain": "productivity",
+    "prompt": "I'm SSHed into a production server and kicked off a database migration that's been running for 45 minutes. My laptop battery is at 3% and I don't have my charger. The migration is running as a foreground process — I did NOT start it with `nohup` or inside `tmux`/`screen`. If I close my laptop lid, the SSH connection will drop and the migration will die mid-transaction. What can I do RIGHT NOW to save this process without restarting it?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response mentions pressing Ctrl+Z to suspend/stop the foreground process"
+      },
+      {
+        "id": "c2",
+        "description": "The response mentions using `bg` to resume the suspended process in the background"
+      },
+      {
+        "id": "c3",
+        "description": "The response mentions using `disown` to detach the background process from the shell session so it survives logout"
+      },
+      {
+        "id": "c4",
+        "description": "The response focuses on saving the existing running process rather than restarting it"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "Baeldung on Linux (Linux Job Control: &, disown, and nohup)"
+    }
+  },
+  {
+    "id": "prod-006",
+    "domain": "productivity",
+    "prompt": "I have this crontab entry (added via `crontab -e` as the user `deploy`):\n\n```\n30 2 * * * /home/deploy/scripts/backup.sh >> /var/log/backup.log 2>&1\n```\n\nWhen I run `/home/deploy/scripts/backup.sh` manually as the `deploy` user, it works perfectly and writes to the log. But the cron job has never fired — `/var/log/backup.log` shows no entries at 2:30 AM, and `grep CRON /var/log/syslog` shows no mention of backup.sh. The script has `#!/bin/bash` at the top and `chmod +x` is set. The server is Ubuntu 22.04 and `systemctl status cron` shows the service is active. What should I check next?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response mentions checking that the crontab file has a newline at the end (a missing trailing newline causes cron to silently ignore the last entry)"
+      },
+      {
+        "id": "c2",
+        "description": "The response mentions verifying paths used in the script are absolute, since cron jobs run with a minimal PATH environment"
+      },
+      {
+        "id": "c3",
+        "description": "The response suggests checking if the crontab was actually saved correctly by running `crontab -l` to verify the entry exists"
+      },
+      {
+        "id": "c4",
+        "description": "The response mentions that cron uses a different environment than an interactive shell (e.g., different PATH, no .bashrc sourcing)"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "Cronitor cron troubleshooting guide / Linux Hint / Red Hat support"
+    }
+  },
+  {
+    "id": "prod-007",
+    "domain": "productivity",
+    "prompt": "I set `export OPENAI_API_KEY=sk-abc123...` in my `~/.bashrc` on an Ubuntu 22.04 server. When I open a terminal and run my Python script, it works fine — the script reads the key via `os.environ[\"OPENAI_API_KEY\"]`. But I have two problems: (1) a systemd service that runs the same script fails with `KeyError: 'OPENAI_API_KEY'`, and (2) a cron job running the script also fails with the same error. Why doesn't `~/.bashrc` work for these, and what's the correct way to make the variable available to all three contexts (interactive shell, systemd service, and cron)?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response explains that `~/.bashrc` is only sourced by interactive bash shells, not by systemd services or cron jobs"
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests using the `Environment=` or `EnvironmentFile=` directive in the systemd service unit file to set the variable for the service"
+      },
+      {
+        "id": "c3",
+        "description": "The response provides a solution for cron, such as defining the variable at the top of the crontab or using an environment file sourced by the cron script"
+      },
+      {
+        "id": "c4",
+        "description": "The response distinguishes between at least two of: login shells, interactive non-login shells, and non-interactive contexts (systemd/cron)"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "Stack Overflow top voted bash question"
+    }
+  },
+  {
+    "id": "prod-008",
+    "domain": "productivity",
+    "prompt": "I have a deployment script that runs fine when I execute it manually on my machine, but in our GitHub Actions CI pipeline it silently continues past failures — a `curl` to our health endpoint returns a 500 but the pipeline shows green. My script starts with:\n\n```bash\n#!/bin/bash\ndeploy_app\ncurl -f http://localhost:3000/health\necho \"Deploy successful\"\n```\n\nA coworker said I should add `set -e` but when I did, the script started failing on a `grep` command that legitimately returns no matches sometimes (exit code 1). How do I make the script fail on real errors (like the curl 500) but not on the expected grep non-match?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response explains that without `set -e`, bash continues executing after a command returns a non-zero exit code"
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests handling the grep exit code specifically using `|| true`, `|| :`, or an `if` statement to prevent `set -e` from treating a no-match as a fatal error"
+      },
+      {
+        "id": "c3",
+        "description": "The response mentions `set -o pipefail` or `set -euo pipefail` as a best practice for catching errors in piped commands"
+      },
+      {
+        "id": "c4",
+        "description": "The response explains that `curl -f` returns a non-zero exit code on HTTP errors (4xx/5xx), which is why the curl command would correctly trigger `set -e`"
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Stack Overflow top voted bash question"
+    }
+  },
+  {
+    "id": "prod-009",
+    "domain": "productivity",
+    "prompt": "I'm trying to find a config file somewhere on a shared development server. I know it's called `supervisord.conf` but I don't know which directory it's in. When I run `find / -name \"supervisord.conf\"`, my terminal is flooded with hundreds of `find: '/proc/1234/fd': Permission denied` lines and I can't see the actual results buried in the noise. I don't have root access so I can't just `sudo` it. How do I suppress only the permission errors while still seeing any actual matches, and is there a faster alternative to searching from `/`?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response provides `2>/dev/null` appended to the find command to suppress stderr permission errors"
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests `locate` or `mlocate` as a faster alternative to `find` for searching by filename"
+      },
+      {
+        "id": "c3",
+        "description": "The response works within the constraint that the user lacks root access, proposing solutions that rely on user-level permissions"
+      }
+    ],
+    "metadata": {
+      "difficulty": "easy",
+      "source": "Stack Overflow top voted bash/shell question"
+    }
+  },
+  {
+    "id": "prod-010",
+    "domain": "productivity",
+    "prompt": "I have a CSV file `/tmp/cleanup_list.csv` where each line is a file path that needs to be deleted from our S3-compatible storage. The paths look like:\n\n```\n/uploads/2024/photo (1).jpg\n/uploads/2024/María's résumé.pdf\n/uploads/2024/file with \"quotes\".txt\n```\n\nI tried `cat cleanup_list.csv | xargs rm` but it's splitting on spaces and trying to delete `/uploads/2024/photo` and `(1).jpg` as separate files. I also tried `xargs -I {} rm \"{}\"` but files with quotes are still failing. How do I safely process this list of paths that contain spaces, quotes, accented characters, and parentheses?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response explains that the default behavior of xargs is to split on whitespace, which breaks filenames containing spaces"
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests using a null delimiter approach such as `xargs -d '\\n'` or a `while IFS= read -r line` loop to handle each line as a complete path"
+      },
+      {
+        "id": "c3",
+        "description": "The response provides a method that correctly escapes or handles both spaces and embedded quote characters in filenames (for example, by using `printf '%s\\0'` with `xargs -0`, `while IFS= read -r`, or `rm -- \"$line\"` patterns) so that all listed paths can be safely deleted as written in the CSV"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "Unix & Linux Stack Exchange common question"
+    }
+  },
+  {
+    "id": "prod-011",
+    "domain": "productivity",
+    "prompt": "I was trying to fix permissions on `/var/www/html` and accidentally ran `chmod -R 777 /` (forgot the full path). It ran for about 10 seconds before I hit Ctrl+C. The server is a production Ubuntu 22.04 box running Nginx, PostgreSQL, and a Rails app. SSH still works for now. What's broken, what's at risk, and what's my recovery plan? Is this fixable without a full reinstall?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies that SSH will likely break soon or on next reconnect because sshd requires strict permissions on key files and config directories (e.g., ~/.ssh must not be world-writable)"
+      },
+      {
+        "id": "c2",
+        "description": "The response mentions that world-writable system directories create serious security vulnerabilities (e.g., any user can modify system binaries, configs, or cron jobs)"
+      },
+      {
+        "id": "c3",
+        "description": "The response mentions that PostgreSQL will refuse to start with world-readable data directories (requires 0700 on its data directory)"
+      },
+      {
+        "id": "c4",
+        "description": "The response recommends restoring from a backup or reinstalling rather than attempting to manually fix every permission, or suggests using a package manager to reset permissions (e.g., `apt --reinstall install` or `rpm --setperms`)"
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Server Fault / Unix SE classic disaster recovery question"
+    }
+  },
+  {
+    "id": "prod-012",
+    "domain": "productivity",
+    "prompt": "I'm trying to start a Next.js dev server on my Mac but I get:\n\n```\nError: listen EADDRINUSE: address already in use :::3000\n```\n\nI ran `lsof -i :3000` and got nothing. I also tried `netstat -an | grep 3000` and no results. But the port is clearly in use because the error keeps happening. The server was running earlier today but I thought I stopped it. How is a port in use if no process shows up, and how do I reclaim it?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response suggests running `lsof -i :3000` with `sudo` since processes owned by other users may not be visible without elevated privileges"
+      },
+      {
+        "id": "c2",
+        "description": "The response mentions the possibility of the port being in a TIME_WAIT state or held by a zombie/orphaned process"
+      },
+      {
+        "id": "c3",
+        "description": "The response provides a command to identify and kill the process holding the port (e.g., `kill -9 <PID>` after finding it with `lsof` or `fuser`)"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "Stack Overflow / Ask Ubuntu frequently asked"
+    }
+  },
+  {
+    "id": "prod-013",
+    "domain": "productivity",
+    "prompt": "I have a home network with 15 devices: 3 kids' school-issued Chromebooks (I can't install browser extensions or change their DNS settings per-device — they're MDM-managed), 2 gaming PCs, 4 phones, a Roku TV, and assorted IoT devices (smart bulbs, robot vacuum, Ring doorbell). I want network-wide ad blocking. My router is an Asus RT-AX86U running stock firmware. I have a Raspberry Pi 4 (2GB) sitting unused. I've narrowed it down to Pi-hole vs AdGuard Home but I have specific concerns: the kids' Chromebooks use Google DNS hardcoded by the school's MDM policy, and I've read that some IoT devices hardcode DNS to 8.8.8.8 too. Which solution handles these better, and how would I force all DNS traffic through my chosen blocker even for devices that try to bypass it?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response explains that a firewall rule or NAT redirect on the router can intercept DNS traffic to external servers (like 8.8.8.8) and redirect it to the local DNS blocker"
+      },
+      {
+        "id": "c2",
+        "description": "The response mentions setting up a DNAT/iptables rule or equivalent to redirect outbound port 53 traffic to the Pi-hole or AdGuard Home IP"
+      },
+      {
+        "id": "c3",
+        "description": "The response compares at least one concrete difference between Pi-hole and AdGuard Home (e.g., AdGuard Home has built-in DNS-over-HTTPS/TLS support, different UI, or Pi-hole requires a separate DHCP setup)"
+      },
+      {
+        "id": "c4",
+        "description": "The response mentions configuring the router's DHCP to advertise the Pi-hole/AdGuard IP as the DNS server for compliant devices"
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "r/selfhosted, r/homelab, Lawrence Systems Forums"
+    }
+  },
+  {
+    "id": "prod-014",
+    "domain": "productivity",
+    "prompt": "I'm running Nextcloud on a Docker container on my home server (Ubuntu 22.04, static local IP 192.168.1.50). My ISP is Starlink, which uses CGNAT — so I literally cannot forward ports on my router even if I wanted to. I need to access Nextcloud from my phone when I'm away from home. I also want to share a few files with my mom, who is not technical and just needs a simple link that works in her browser. I've heard of Cloudflare Tunnels, Tailscale, and ngrok. Given my CGNAT constraint and the need for my mom to access it without installing anything, what's my best option and how do I set it up?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response recommends Cloudflare Tunnels as the best fit for the mom-sharing requirement, explaining that it provides a public URL accessible from any browser without requiring software installation."
+      },
+      {
+        "id": "c2",
+        "description": "The response explains that Tailscale requires installing the Tailscale client on every device, making it unsuitable for the mom's no-install requirement"
+      },
+      {
+        "id": "c3",
+        "description": "The response clearly describes how DNS or a custom hostname would work with Cloudflare Tunnel (e.g., using a Cloudflare-managed domain or subdomain) so that the Nextcloud instance is reachable at a stable, human-friendly URL over HTTPS."
+      },
+      {
+        "id": "c4",
+        "description": "The response mentions running `cloudflared` (the Cloudflare Tunnel daemon) on the home server or as a Docker container"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "r/selfhosted, Level1Techs Forums"
+    }
+  },
+  {
+    "id": "prod-015",
+    "domain": "productivity",
+    "prompt": "I found a used Dell OptiPlex 3060 Micro on eBay for $95: Intel i5-8500T, 8GB DDR4, 256GB NVMe SSD. I want to use it as a home server running Proxmox with these containers/VMs: Pi-hole, Jellyfin (transcoding 1080p for 2 simultaneous streams), Home Assistant, and a Minecraft server for my kids (4-6 players). My electricity costs $0.15/kWh and I don't want to add more than ~$10/month to my power bill. Is this machine adequate for my workload? What are the bottlenecks I'll hit first, and what's the most impactful upgrade to do first — more RAM, a larger SSD, or adding an HDD for media storage?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies RAM (8GB) as insufficient for running Proxmox plus all the listed services simultaneously, and recommends upgrading to at least 16GB or 32GB"
+      },
+      {
+        "id": "c2",
+        "description": "The response mentions that Jellyfin hardware transcoding with Intel Quick Sync (supported by the i5-8500T) can handle 1080p streams without high CPU usage"
+      },
+      {
+        "id": "c3",
+        "description": "The response identifies storage as a bottleneck — 256GB is not enough for a media library and recommends adding an external or additional drive for Jellyfin media"
+      },
+      {
+        "id": "c4",
+        "description": "The response estimates that the OptiPlex 3060 Micro's power consumption is roughly 20-35W under typical load, which would be within the $10/month power budget"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "r/homelab beginner threads, joekarlsson.com homelab guide"
+    }
+  },
+  {
+    "id": "prod-016",
+    "domain": "productivity",
+    "prompt": "I'm running three services on my home server via Docker: Gitea on port 3000, Uptime Kuma on port 3001, and Vaultwarden on port 8080. My Caddyfile looks like:\n\n```\ngitea.mydomain.com {\n    reverse_proxy localhost:3000\n}\n\nuptime.mydomain.com {\n    reverse_proxy localhost:3001\n}\n\nvault.mydomain.com {\n    reverse_proxy localhost:8080\n}\n```\n\nGitea and Uptime Kuma work fine through Caddy. But `vault.mydomain.com` returns a 502 Bad Gateway. If I go directly to `http://server-ip:8080` from my LAN, Vaultwarden loads fine. Caddy's logs show `dial tcp 127.0.0.1:8080: connect: connection refused`. But the port IS open — I just confirmed it works directly. Caddy itself is also running in Docker. What's causing the 502 for only this service?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies that when Caddy runs inside a Docker container, `localhost` refers to the container's own loopback, not the host machine's network"
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests replacing `localhost` with the host machine's IP, `host.docker.internal`, or the Docker bridge network IP in the Caddy reverse_proxy directive"
+      },
+      {
+        "id": "c3",
+        "description": "The response explains why Gitea and Uptime Kuma might work if they are on the same Docker network as Caddy while Vaultwarden is not, or identifies the network isolation as the root cause"
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "r/selfhosted, Caddy community forums, XDA Developers"
+    }
+  },
+  {
+    "id": "prod-017",
+    "domain": "productivity",
+    "prompt": "I'm setting up a home server (Proxmox host, all services in Docker containers via docker-compose). I have 12 services I want to expose via subdomains (gitea.home.example.com, jellyfin.home.example.com, etc.). My requirements: (1) I use Cloudflare for DNS and want automatic wildcard SSL certs via DNS-01 challenge, (2) I want new services to be auto-discovered from Docker labels without editing config files, (3) I need HTTP Basic Auth in front of 3 specific services that don't have their own auth. I'm choosing between Nginx Proxy Manager, Traefik, and Caddy. Which one best fits these three specific requirements, and what are the tradeoffs I'd accept with each?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies Traefik as the best fit for Docker label-based auto-discovery since it natively supports reading Docker labels to configure routing without config file changes"
+      },
+      {
+        "id": "c2",
+        "description": "The response correctly states that Nginx Proxy Manager requires manual GUI configuration per service rather than supporting Docker label-based auto-discovery"
+      },
+      {
+        "id": "c3",
+        "description": "The response addresses DNS-01 challenge support for wildcard certs, mentioning that Traefik and Caddy both support it natively while Nginx Proxy Manager has limited DNS-01 provider support"
+      },
+      {
+        "id": "c4",
+        "description": "The response mentions HTTP Basic Auth middleware or plugin support for at least two of the three options"
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "r/selfhosted, programonaut.com comparison, Stackademic blog"
+    }
+  },
+  {
+    "id": "prod-018",
+    "domain": "productivity",
+    "prompt": "I set up Let's Encrypt certificates with Certbot 6 months ago for my selfhosted Nextcloud instance. Everything worked fine until my wife noticed Chrome showing \"Your connection is not private\" (NET::ERR_CERT_DATE_INVALID) yesterday. I checked and the cert expired 2 days ago. I have a cron job for renewal:\n\n```\n0 3 * * * certbot renew --quiet\n```\n\nRunning `certbot renew` manually gives:\n\n```\nAttempting to renew cert (cloud.mydomain.com) from /etc/letsencrypt/renewal/cloud.mydomain.com.conf\nFailed to renew certificate cloud.mydomain.com with error: The client lacks sufficient authorization :: Invalid response from http://cloud.mydomain.com/.well-known/acme-challenge/...\n```\n\nI remember I switched from port-forwarding port 80 to using Cloudflare proxy (orange cloud) about 2 months ago. What went wrong with the renewal process, and what's the correct fix given that I want to keep using Cloudflare's proxy?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies that Cloudflare's proxy (orange cloud) intercepts HTTP traffic on port 80, preventing the ACME HTTP-01 challenge from reaching the origin server"
+      },
+      {
+        "id": "c2",
+        "description": "The response clearly recommends temporarily disabling Cloudflare proxying (turning the DNS record to “DNS only”/grey cloud) or otherwise ensuring direct HTTP access to port 80 on the origin during Certbot renewal, and explains that this is needed so the HTTP-01 challenge can succeed"
+      },
+      {
+        "id": "c3",
+        "description": "The response mentions that Cloudflare offers its own free SSL certificates (Universal SSL or Origin CA) as an alternative to managing Let's Encrypt manually"
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Let's Encrypt community, DigitalOcean guides"
+    }
+  },
+  {
+    "id": "prod-019",
+    "domain": "productivity",
+    "prompt": "I have a Raspberry Pi 4 (4GB) with a 64GB SD card and a 2TB USB external hard drive. I want it to run: (1) Plex Media Server for my household (2 users max, mostly 1080p direct play on Roku, occasional 720p transcode on a phone), (2) Pi-hole for DNS ad-blocking, and (3) Samba file sharing for the USB drive. The Pi is connected via Ethernet. Is this workload realistic on a Pi 4, which service should I prioritize if resources get tight, and should I use Docker or install everything natively?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response states that the Pi 4 can handle 1080p direct play but will struggle with transcoding due to limited CPU power and lack of hardware transcoding support for Plex"
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies Pi-hole as the lightest service that should be prioritized for reliability since a DNS failure affects all devices on the network"
+      },
+      {
+        "id": "c3",
+        "description": "The response mentions that SD cards have limited write endurance and recommends either booting from or storing data on the USB drive instead"
+      },
+      {
+        "id": "c4",
+        "description": "The response recommends using Jellyfin as an alternative to Plex for better ARM/Pi support, or acknowledges Plex's limitations on ARM specifically"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "Raspberry Pi Forums, r/selfhosted"
+    }
+  },
+  {
+    "id": "prod-020",
+    "domain": "productivity",
+    "prompt": "I travel for work 3 weeks/month and need reliable access to my home server (Proxmox, 5 VMs/containers). I also need to access my home network's security cameras (Reolink NVR, web UI on 192.168.1.200:8000). My constraints: (1) my work laptop is company-managed Windows 11 with no admin rights — I can install apps from the Microsoft Store only, (2) I sometimes work from hotel WiFi that blocks non-standard ports, (3) my home ISP gives me a dynamic IP that changes every few days, (4) I want my wife to also be able to connect from her iPhone without me walking her through anything technical. I was going to set up WireGuard on my Proxmox host but now I'm wondering if Tailscale would be smarter given these constraints. What's the recommendation and why?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response recommends Tailscale over raw WireGuard for this scenario"
+      },
+      {
+        "id": "c2",
+        "description": "The response explains that Tailscale is available on the Microsoft Store, solving the no-admin-rights constraint on the work laptop"
+      },
+      {
+        "id": "c3",
+        "description": "The response mentions that Tailscale handles NAT traversal and works through restrictive hotel firewalls by using DERP relay servers when direct connections fail"
+      },
+      {
+        "id": "c4",
+        "description": "The response explains how to handle the dynamic home IP constraint, for example by noting that Tailscale provides stable device names / MagicDNS (or similar) so the user doesn’t need to track or care about their changing public IP address"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "r/selfhosted, fullmetalbrackets.com Tailscale guide"
+    }
+  },
+  {
+    "id": "prod-021",
+    "domain": "productivity",
+    "prompt": "I have a home server with these workloads: (1) Immich (self-hosted Google Photos replacement) with 800GB of family photos dating back to 2005 — this is irreplaceable, (2) Jellyfin media library with 4TB of movies/TV — easily re-downloaded, (3) Vaultwarden (Bitwarden server) with all my family's passwords — critical but tiny (~50MB), (4) Home Assistant with 2 years of automation configs — annoying to rebuild but not catastrophic. I have a $20/month budget for off-site backup, a spare 2TB external USB drive, and a free Backblaze B2 account (10GB free). Design a backup strategy that matches effort/cost to data criticality. I don't want to spend $50/month backing up re-downloadable movies, but I absolutely cannot lose the photos or passwords.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response prioritizes the Vaultwarden data and Immich photos for off-site/cloud backup and explicitly excludes or deprioritizes the 4TB Jellyfin media library from cloud backup"
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests using the USB drive for local backups as a second copy of the critical data"
+      },
+      {
+        "id": "c3",
+        "description": "The response recommends a tool or method for automated cloud backup of the photos (e.g., rclone, restic, or borgbackup to Backblaze B2 or similar)"
+      },
+      {
+        "id": "c4",
+        "description": "The response notes that the free 10GB Backblaze B2 tier is sufficient for Vaultwarden backups but not for the 800GB photo library, requiring a paid plan"
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "r/homelab, r/selfhosted common concern"
+    }
+  },
+  {
+    "id": "prod-022",
+    "domain": "productivity",
+    "prompt": "I understand the 3-2-1 backup rule conceptually (3 copies, 2 media types, 1 offsite). I have a home server running TrueNAS with a 4-disk RAIDZ1 pool (8TB usable). Here's my problem with actually implementing 3-2-1: (1) my internet upload speed is 10 Mbps, and I have 3TB of data, so a full cloud backup would take literally a month, (2) I live in an apartment and don't have a separate physical location for an offsite drive, and (3) I don't have any family nearby who'd let me stash a hard drive at their place. My data grows ~50GB/month. Given these real-world constraints, how do I actually implement 3-2-1 instead of just talking about it in theory?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response recommends performing an initial seed/full backup to a cloud provider by mailing a physical drive or doing a bulk import rather than uploading over 10 Mbps"
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests incremental or deduplicating backups (e.g., restic, borg, or ZFS snapshots with send/receive) to keep ongoing transfer within the 10 Mbps bandwidth"
+      },
+      {
+        "id": "c3",
+        "description": "The response mentions a bank safe deposit box, office, or cloud storage as practical offsite alternatives when family/friends are not available"
+      },
+      {
+        "id": "c4",
+        "description": "The response clarifies that RAIDZ1 is NOT a backup — it protects against single disk failure but not against accidental deletion, ransomware, or fire"
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "r/homelab, r/datahoarder widely discussed principle"
+    }
+  },
+  {
+    "id": "prod-023",
+    "domain": "productivity",
+    "prompt": "I'm trying to run a Postgres container with this docker-compose.yml:\n\n```yaml\nservices:\n  db:\n    image: postgres:16\n    environment:\n      - POSTGRES_USER=myapp\n    volumes:\n      - pgdata:/var/lib/postgresql/data\n    ports:\n      - \"5432:5432\"\n\nvolumes:\n  pgdata:\n```\n\nWhen I run `docker compose up`, the container starts and immediately exits. `docker compose logs db` shows:\n\n```\nError: Database is uninitialized and superuser password is not specified.\n       You must specify POSTGRES_PASSWORD to a non-empty value for the superuser.\n```\n\nI want to fix this, but I also need to understand: will adding the password now work, or will the existing `pgdata` volume that was created on the failed attempt cause problems? Do I need to delete the volume first?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies the fix as adding `POSTGRES_PASSWORD` to the environment variables in the docker-compose.yml"
+      },
+      {
+        "id": "c2",
+        "description": "The response addresses the volume question: the existing pgdata volume from the failed initialization should be removed (e.g., `docker volume rm`) before re-running, or explains that since init failed, the volume may be empty/partial"
+      },
+      {
+        "id": "c3",
+        "description": "The response mentions `POSTGRES_HOST_AUTH_METHOD=trust` as an alternative but warns against using it in production or for security reasons"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "Docker Community Forums, Stack Overflow"
+    }
+  },
+  {
+    "id": "prod-024",
+    "domain": "productivity",
+    "prompt": "I'm running a Gitea instance with this docker-compose.yml:\n\n```yaml\nservices:\n  gitea:\n    image: gitea/gitea:latest\n    ports:\n      - \"3000:3000\"\n    volumes:\n      - /home/deploy/gitea-data:/data\n```\n\nWhen I `docker compose restart`, all my repositories and settings are preserved. But yesterday I ran `docker compose down` and then `docker compose up -d`, and all my repos were gone — fresh Gitea install screen. I checked and `/home/deploy/gitea-data` still has files in it, but Gitea isn't seeing them. I also noticed the container is running as UID 1000 but the files in `gitea-data` are owned by UID 0 (root). Additionally, my coworker told me I should use named volumes instead of bind mounts. What's happening here, and what's the actual difference between bind mounts and named volumes for this kind of scenario?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies the UID mismatch (container running as UID 1000 but files owned by root/UID 0) as the cause of Gitea not seeing the data"
+      },
+      {
+        "id": "c2",
+        "description": "The response explains the difference between bind mounts (map a specific host path) and named volumes (managed by Docker, stored in Docker's data directory)"
+      },
+      {
+        "id": "c3",
+        "description": "The response suggests fixing the ownership with `chown` to match the UID the container runs as, or configuring the container to run as the correct UID"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "Docker Docs (Persist the DB tutorial), Portainer blog"
+    }
+  },
+  {
+    "id": "prod-025",
+    "domain": "productivity",
+    "prompt": "I have a docker-compose.yml with a Node.js API and a Postgres database:\n\n```yaml\nservices:\n  api:\n    build: .\n    ports:\n      - \"3000:3000\"\n    environment:\n      - DATABASE_URL=postgres://user:pass@database:5432/myapp\n    networks:\n      - frontend\n\n  database:\n    image: postgres:16\n    environment:\n      - POSTGRES_PASSWORD=pass\n      - POSTGRES_USER=user\n      - POSTGRES_DB=myapp\n    networks:\n      - backend\n\nnetworks:\n  frontend:\n  backend:\n```\n\nThe API container logs show: `Error: getaddrinfo ENOTFOUND database`. If I change the DATABASE_URL to use the database container's IP address (172.18.0.3), it works temporarily but breaks whenever I recreate the containers. Why can't `api` resolve `database` by hostname, and what's the minimal fix?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies that the api and database containers are on different Docker networks (frontend vs backend), so they cannot resolve each other's hostnames"
+      },
+      {
+        "id": "c2",
+        "description": "The response provides the fix: put both services on the same network, or add the database to the frontend network (or vice versa)"
+      },
+      {
+        "id": "c3",
+        "description": "The response explains that Docker DNS-based service discovery only works between containers on the same user-defined network"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "Docker Docs networking, Stack Overflow, Baeldung"
+    }
+  },
+  {
+    "id": "prod-026",
+    "domain": "productivity",
+    "prompt": "I have a docker-compose.yml that works on my Mac and my coworker's Ubuntu machine:\n\n```yaml\nservices:\n  app:\n    image: node:20\n    volumes:\n      - ./src:/app/src\n    command: node /app/src/index.js\n```\n\nBut on our production server (RHEL 9), the container fails with:\n\n```\nError: EACCES: permission denied, open '/app/src/index.js'\n```\n\nThe host directory `./src` has permissions `drwxr-xr-x` owned by my user, and `index.js` is `-rw-r--r--`. The same image and compose file work fine on the other two machines. `getenforce` on the RHEL server returns `Enforcing`. What's the RHEL-specific issue and how do I fix it without disabling the security feature entirely?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies SELinux as the cause of the permission denied error, since `getenforce` returning `Enforcing` indicates SELinux is active on RHEL"
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests adding the `:z` or `:Z` flag to the volume mount (e.g., `./src:/app/src:z`) to set the correct SELinux context"
+      },
+      {
+        "id": "c3",
+        "description": "The response recommends targeted SELinux fixes (such as setting the correct context or creating a custom policy module) rather than disabling SELinux entirely"
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Docker Community Forums, LabEx, Red Hat blog"
+    }
+  },
+  {
+    "id": "prod-027",
+    "domain": "productivity",
+    "prompt": "I built a Docker image for a simple Go API server. The compiled binary is 15MB, but the final Docker image is 942MB. Here's my Dockerfile:\n\n```dockerfile\nFROM golang:1.22\nWORKDIR /app\nCOPY go.mod go.sum ./\nRUN go mod download\nCOPY . .\nRUN go build -o server .\nEXPOSE 8080\nCMD [\"./server\"]\n```\n\nI know multi-stage builds exist but I'm not sure how to set one up correctly for Go. I also want the final image to be as small as possible — I've heard of `scratch` and `alpine` base images but I'm worried about missing SSL certificates or timezone data that my app needs (it makes HTTPS calls to external APIs and formats timestamps in America/New_York). What's the right approach?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response provides a multi-stage Dockerfile with a build stage using `golang:1.22` and a final stage using a minimal base image"
+      },
+      {
+        "id": "c2",
+        "description": "The response addresses the SSL certificate concern by copying CA certificates into the scratch image (e.g., from the build stage or using `FROM alpine` with `ca-certificates` package)"
+      },
+      {
+        "id": "c3",
+        "description": "The response addresses the timezone concern by copying timezone data (e.g., `/usr/share/zoneinfo`) into the final image or using alpine which includes it"
+      },
+      {
+        "id": "c4",
+        "description": "The response mentions using `CGO_ENABLED=0` when building the Go binary for a scratch-based image to produce a statically linked binary"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "Docker Docs best practices, iximiuz Labs tutorial, LogRocket blog"
+    }
+  },
+  {
+    "id": "prod-028",
+    "domain": "productivity",
+    "prompt": "My Node.js app's Docker image is 1.2GB and every time I change a single line of source code, `docker build` takes 8 minutes because it re-runs `npm install` (downloading 400MB of node_modules). Here's my Dockerfile:\n\n```dockerfile\nFROM node:20\nWORKDIR /app\nCOPY . .\nRUN npm install\nEXPOSE 3000\nCMD [\"node\", \"index.js\"]\n```\n\nI need to fix both problems: the image size and the build time. My app doesn't need native compilation tools (no node-gyp dependencies). What changes to the Dockerfile would address both issues, and roughly what size should I expect the final image to be?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response recommends copying `package.json` and `package-lock.json` before `COPY . .` so that `npm install` is cached by Docker's layer caching and only re-runs when dependencies change"
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests using `node:20-alpine` or `node:20-slim` instead of the full `node:20` image to reduce the base image size"
+      },
+      {
+        "id": "c3",
+        "description": "The response mentions using `npm ci` instead of `npm install` for deterministic, faster installs in a CI/Docker context"
+      },
+      {
+        "id": "c4",
+        "description": "The response estimates the final image size will be roughly 100-300MB with alpine/slim, compared to the original 1.2GB"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "LogRocket blog, Docker best practices docs"
+    }
+  },
+  {
+    "id": "prod-029",
+    "domain": "productivity",
+    "prompt": "I'm running a Jupyter notebook on a remote GPU server (hostname `gpu-box.university.edu`, user `researcher`). Jupyter is listening on port 8888 but only on localhost (127.0.0.1) — the server's firewall blocks all inbound ports except 22 (SSH). When I try to open `http://gpu-box.university.edu:8888` in my browser, the connection times out. I have SSH access working fine. How do I access the Jupyter web UI from my local laptop's browser, and how do I make it so the tunnel stays alive even if my WiFi blips for a few seconds? My session has long-running training jobs and I can't afford the tunnel dying silently.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response provides an SSH local port forwarding command like `ssh -L 8888:localhost:8888 researcher@gpu-box.university.edu`"
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests using SSH keepalive options (`ServerAliveInterval`, `ServerAliveCountMax`) or `autossh` to maintain the tunnel through WiFi disconnections"
+      },
+      {
+        "id": "c3",
+        "description": "The response mentions accessing Jupyter via `http://localhost:8888` in the local browser after the tunnel is established"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "Unix & Linux Stack Exchange, DigitalOcean tutorials"
+    }
+  },
+  {
+    "id": "prod-030",
+    "domain": "productivity",
+    "prompt": "I migrated my VPS from DigitalOcean to Hetzner. I copied my public key into `~/.ssh/authorized_keys` on the new server. Password authentication works fine, but when I try key-based auth I get:\n\n```\ndebug1: Offering public key: /home/user/.ssh/id_ed25519 ED25519 SHA256:abc123...\ndebug1: Server accepts key: /home/user/.ssh/id_ed25519 ED25519 SHA256:abc123...\ndebug1: Authentication that can continue: publickey,password\ndebug1: Next authentication method: password\n```\n\nSo the server sees my key and appears to accept it, but then falls through to password auth anyway. The permissions on the remote server are: `/home/user` is `drwxr-xr-x`, `.ssh` is `drwx------`, `authorized_keys` is `-rw-r--r--`. I also notice `/home/user` is owned by `root:root` (the Hetzner setup script created it that way). What's causing the key to be accepted but auth to still fail?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies that the home directory `/home/user` being owned by `root:root` is the cause, since OpenSSH requires the home directory to be owned by the user"
+      },
+      {
+        "id": "c2",
+        "description": "The response provides the fix: `chown user:user /home/user` to correct the home directory ownership"
+      },
+      {
+        "id": "c3",
+        "description": "The response mentions that `authorized_keys` permissions of `-rw-r--r--` (644) should also be tightened to `-rw-------` (600) for strict SSH configurations"
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "GitHub Docs, DigitalOcean, phoenixNAP"
+    }
+  },
+  {
+    "id": "prod-031",
+    "domain": "productivity",
+    "prompt": "I migrated my selfhosted Ghost blog from an old server (162.55.x.x) to a new server (95.217.x.x). I updated the A record for `blog.mysite.com` to point to the new IP. When I visit `http://95.217.x.x` directly, I see my blog. But when I visit `http://blog.mysite.com`, I get the default Nginx \"Welcome\" page. Running `dig blog.mysite.com` returns the new IP (95.217.x.x), so DNS is resolving correctly. The new server runs Nginx as a reverse proxy in front of Ghost. The Nginx config file is at `/etc/nginx/sites-enabled/ghost.conf`. The old server is still running and also has Nginx on it. What's the most likely cause and fix?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response advises reloading or restarting Nginx after making configuration changes (e.g., using `nginx -t` followed by `systemctl reload nginx` or an equivalent command) to apply the updated settings"
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests verifying or updating the `server_name` directive in `/etc/nginx/sites-enabled/ghost.conf` to include `blog.mysite.com`"
+      },
+      {
+        "id": "c3",
+        "description": "The response explains that Nginx uses the `server_name` to determine which server block handles a request based on the Host header, and when no match is found, it falls back to the default server"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "r/selfhosted, Server Fault, nginx docs"
+    }
+  },
+  {
+    "id": "prod-032",
+    "domain": "productivity",
+    "prompt": "I set up WireGuard on my home Ubuntu server (192.168.1.10) to access my home network remotely. The tunnel establishes successfully — I can ping the server's WireGuard IP (10.0.0.1) from my phone. But I can't reach anything else on my LAN — pinging 192.168.1.1 (router), 192.168.1.50 (NAS), or 192.168.1.200 (camera NVR) all time out.\n\nMy server's WireGuard config (`/etc/wireguard/wg0.conf`):\n```ini\n[Interface]\nAddress = 10.0.0.1/24\nListenPort = 51820\nPrivateKey = <server-private-key>\n\n[Peer]\nPublicKey = <phone-public-key>\nAllowedIPs = 10.0.0.2/32\n```\n\nMy phone's WireGuard config:\n```ini\n[Interface]\nAddress = 10.0.0.2/24\nPrivateKey = <phone-private-key>\nDNS = 1.1.1.1\n\n[Peer]\nPublicKey = <server-public-key>\nEndpoint = myhome.ddns.net:51820\nAllowedIPs = 0.0.0.0/0\n```\n\nThe server has `net.ipv4.ip_forward = 1` set in `/etc/sysctl.conf`. What's missing that prevents me from reaching the LAN devices?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies that the server config is missing a PostUp iptables NAT/masquerade rule to forward traffic from the WireGuard subnet (10.0.0.0/24) to the LAN (192.168.1.0/24)"
+      },
+      {
+        "id": "c2",
+        "description": "The response provides a `PostUp` command example using iptables MASQUERADE or SNAT on the server's LAN interface (e.g., `iptables -t nat -A POSTROUTING -o eth0 -j MASQUERADE`)"
+      },
+      {
+        "id": "c3",
+        "description": "The response mentions verifying that `ip_forward` is actually active (e.g., `sysctl net.ipv4.ip_forward` returns 1) since editing sysctl.conf requires a reload"
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Level1Techs Forums, portforwarded.com, David's Homelab blog"
+    }
+  },
+  {
+    "id": "prod-033",
+    "domain": "productivity",
+    "prompt": "I have Pi-hole running on my network. I wanted to add DNS encryption, so I followed a guide to set up `cloudflared` as a DoH proxy on the same Raspberry Pi (listening on 127.0.0.1:5053). I changed Pi-hole's upstream DNS to `127.0.0.1#5053`. DNS resolution worked for about an hour, then all devices on my network lost internet. `pihole -t` shows queries coming in but all returning SERVFAIL. Running `dig @127.0.0.1 -p 5053 google.com` returns no answer. `systemctl status cloudflared` shows it's active but the logs show `failed to connect to https://1.1.1.1/dns-query: context deadline exceeded`. My Pi is behind a router with no special firewall rules. The ISP is Comcast. What's likely causing cloudflared to fail, and how do I diagnose whether my ISP or network is blocking DoH?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies that cloudflared needs to resolve 1.1.1.1 (or the DoH endpoint hostname) via DNS, and if Pi-hole is its DNS resolver, a circular dependency can form where Pi-hole waits for cloudflared which waits for Pi-hole"
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests testing connectivity to the DoH endpoint directly (e.g., `curl https://1.1.1.1/dns-query` or trying an alternative endpoint like Google's DoH at 8.8.8.8)"
+      },
+      {
+        "id": "c3",
+        "description": "The response mentions that some ISPs (including Comcast) may block or throttle DoH/DoT traffic, or that the Pi's network configuration may be routing DoH traffic through itself"
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "r/selfhosted Pi-hole/AdGuard discussions, privacy-focused forums"
+    }
+  },
+  {
+    "id": "prod-034",
+    "domain": "productivity",
+    "prompt": "I want a wildcard certificate for `*.home.mydomain.com` from Let's Encrypt. I know I need the DNS-01 challenge for wildcards. I'm running Certbot on Ubuntu 22.04. My domain registrar is Porkbun, and my DNS is hosted there too. When I try:\n\n```\ncertbot certonly --preferred-challenges dns -d \"*.home.mydomain.com\"\n```\n\nIt pauses and asks me to manually create a TXT record, wait, then continue. This works once but my cert will expire in 90 days and I can't manually intervene every time. I tried `certbot-dns-cloudflare` but I don't use Cloudflare. `certbot plugins` doesn't show any Porkbun plugin. How do I set up AUTOMATED wildcard cert renewal with Porkbun as my DNS provider? Am I better off switching my DNS to Cloudflare (free tier) just for this, or is there another way?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response mentions acme.sh or lego as alternative ACME clients that have native Porkbun API support for DNS-01 automation"
+      },
+      {
+        "id": "c2",
+        "description": "The response presents switching DNS to Cloudflare's free tier as a viable option with better certbot plugin support"
+      },
+      {
+        "id": "c3",
+        "description": "The response explains that certbot's `--manual` mode with DNS-01 is inherently non-automated because it requires human interaction to create the TXT record"
+      },
+      {
+        "id": "c4",
+        "description": "The response mentions that Porkbun has an API that can be used for DNS-01 automation even if Certbot lacks a native plugin"
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Let's Encrypt community, DigitalOcean, cyberciti.biz"
+    }
+  },
+  {
+    "id": "prod-035",
+    "domain": "productivity",
+    "prompt": "I've been doing GTD for 6 months and my weekly review has ballooned to 3 hours every Sunday. Here's what I currently do: I have 847 items across 14 projects in Todoist, plus 6 \"Someday/Maybe\" lists with ~200 items total. During my review, I open every single project and re-read every task to decide if it's still relevant. I also have 3 email inboxes (work, personal, side project) that accumulate ~300 unprocessed emails per week — I try to process all of them during the review. By the time I'm done, I'm exhausted and demoralized. I know the weekly review is supposed to be the \"critical success factor\" in GTD, but this feels like a weekly punishment. What's wrong with my setup and how do I get the review under 45 minutes?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies that processing 300 unprocessed emails during the weekly review indicates a broken daily capture/processing habit — emails should be processed daily, not accumulated for the review"
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies that 847 active items is too many and suggests pruning, archiving, or moving tasks to Someday/Maybe to reduce the active task list"
+      },
+      {
+        "id": "c3",
+        "description": "The response recommends NOT re-reading every task during the review, and instead focusing on reviewing project lists and next actions rather than individual tasks"
+      },
+      {
+        "id": "c4",
+        "description": "The response suggests separating the weekly review from inbox processing — process inboxes daily as a separate habit"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "GTD Forums, gettingthingsdone.com weekly review checklist"
+    }
+  },
+  {
+    "id": "prod-036",
+    "domain": "productivity",
+    "prompt": "I'm a senior software engineer at a mid-size company. I have this recurring weekly schedule:\n- Monday: standup 9:30am, 1:1 with manager 11am, team planning 2pm\n- Tuesday: standup 9:30am, design review 1pm, office hours 3-4pm\n- Wednesday: standup 9:30am, all-hands 11am, sprint retro 3pm\n- Thursday: standup 9:30am, cross-team sync 10:30am, sprint demo 2pm\n- Friday: standup 9:30am, free otherwise\n\nMy most important work is designing a new data pipeline architecture, which requires 2-3 hour uninterrupted blocks. I've tried time-blocking my calendar but people just book over my \"focus time\" blocks. I work 9am-5:30pm and I refuse to do deep work at night — I tried it and burned out. Looking at my schedule, what specific changes would you recommend so I can get at least 8 hours of deep work per week, and how do I protect those blocks from being overridden?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies specific time slots in the existing schedule where 2-3 hour blocks are available (e.g., Tuesday morning before design review, Thursday afternoon after sprint demo, Friday after standup)"
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests a concrete tactic for protecting calendar blocks beyond just creating them (e.g., declining non-essential meetings, marking blocks as \"busy\" rather than \"free\", getting manager buy-in, or setting an auto-decline rule)"
+      },
+      {
+        "id": "c3",
+        "description": "The response recommends consolidating or reducing meetings (e.g., making some standups async, or batching meetings into fewer days) to create larger uninterrupted blocks"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "GTD Forums (time blocking thread), Cal Newport discussions"
+    }
+  },
+  {
+    "id": "prod-037",
+    "domain": "productivity",
+    "prompt": "I started a Zettelkasten in Obsidian 18 months ago and I have 2,147 notes. The problem is it feels like a write-only system. When I try to find a note I know I wrote, I can't find it. Here's my current workflow: I create notes with titles like \"20240315-interesting-idea-about-distributed-systems\" and I tag everything (#programming #architecture #distributed-systems #ideas). I have no folder structure — everything is flat per Zettelkasten advice. I link notes using `[[wikilinks]]` but only to the note I was reading when I created the new one (so each note has 1 backlink at most). When I search, I get 50+ results because tags like #programming match hundreds of notes. Graph view is a mess of disconnected clusters. What am I doing wrong structurally, and how do I retrofit my existing 2,147 notes to make the system actually useful for retrieval?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies that each note having at most 1 backlink is the core problem — Zettelkasten relies on dense interlinking between notes, not single-source links"
+      },
+      {
+        "id": "c2",
+        "description": "The response recommends creating MOCs (Maps of Content) or index/hub notes that curate links to related notes by topic as a retrieval layer"
+      },
+      {
+        "id": "c3",
+        "description": "The response suggests using more specific, descriptive note titles (e.g., a claim or question) rather than date-prefixed generic descriptions"
+      },
+      {
+        "id": "c4",
+        "description": "The response addresses the tag problem by recommending fewer, more specific tags or replacing broad tags with links to topic hub notes"
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "zettelkasten.de, Zenkit beginner's guide, Todoist"
+    }
+  },
+  {
+    "id": "prod-038",
+    "domain": "productivity",
+    "prompt": "I've been working on a feature branch `feature/auth-refactor` for 2 weeks. In that time, 47 commits have landed on `main` including a major database migration. My branch has 12 commits. Three of my commits modify `src/db/connection.py`, which was also changed in the migration commit on `main`. My team uses a \"squash and merge\" strategy for PRs. A coworker told me to rebase onto main, but I've been pushing my feature branch to a remote and another developer has been reviewing commits on it. Should I merge main into my branch or rebase onto main? What are the specific consequences of each given that the branch has been shared, and what would you recommend for this situation?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response explains that rebasing a shared branch rewrites commit history and will cause problems for the other developer who has been reviewing — they would need to force-reset their local copy"
+      },
+      {
+        "id": "c2",
+        "description": "The response recommends merging main into the feature branch (rather than rebasing) specifically because the branch has already been shared/pushed"
+      },
+      {
+        "id": "c3",
+        "description": "The response acknowledges the team’s squash-and-merge strategy and notes that this will keep the main branch history clean regardless of using merge or rebase on the feature branch"
+      },
+      {
+        "id": "c4",
+        "description": "The response mentions that the conflicts in `src/db/connection.py` will need to be resolved regardless of whether merge or rebase is chosen"
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Stack Overflow top git questions, dev.to painful git questions"
+    }
+  },
+  {
+    "id": "prod-039",
+    "domain": "productivity",
+    "prompt": "I'm merging `main` into my feature branch and got a conflict in `docker-compose.yml`:\n\n```yaml\nservices:\n  api:\n    image: myapp:latest\n<<<<<<< HEAD\n    ports:\n      - \"3000:3000\"\n    environment:\n      - DATABASE_URL=postgres://localhost:5432/myapp\n      - REDIS_URL=redis://redis:6379\n    depends_on:\n      - redis\n=======\n    ports:\n      - \"8080:8080\"\n    environment:\n      - DATABASE_URL=postgres://db:5432/myapp\n    depends_on:\n      - db\n>>>>>>> main\n```\n\nContext: My branch changed the port from 8080 to 3000 (because we're standardizing ports) and added Redis. The `main` branch changed the DATABASE_URL from `localhost` to `db` (because the database was moved to its own container, and a `db` service was added to the compose file). I need both sets of changes. How do I correctly resolve this conflict so I keep my port change AND the Redis addition from my branch, while also keeping the DATABASE_URL fix and db dependency from main?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response provides a resolved YAML block that uses port 3000:3000 (from the feature branch)"
+      },
+      {
+        "id": "c2",
+        "description": "The response provides a resolved YAML block that uses DATABASE_URL with `db` instead of `localhost` (from main)"
+      },
+      {
+        "id": "c3",
+        "description": "The response includes both `redis` and `db` in the `depends_on` section in the resolved output"
+      },
+      {
+        "id": "c4",
+        "description": "The response includes the REDIS_URL environment variable in the resolved output"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "Stack Overflow, Git documentation"
+    }
+  },
+  {
+    "id": "prod-040",
+    "domain": "productivity",
+    "prompt": "I'm developing a full-stack app and I want a tmux layout where: top-left pane runs `npm run dev` (frontend on port 5173), top-right runs `uvicorn main:app --reload` (backend on port 8000), bottom-left runs `docker compose up` (Postgres + Redis), and bottom-right is a free shell for running git commands and tests. I want to set this up with a single command or script so I can launch this exact layout every morning. I also want to be able to detach from the whole thing when I go to lunch and reattach when I come back, with all four processes still running. How do I set this up, including the tmux commands to create this layout and a shell alias or script to launch it?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response provides a script or set of commands using `tmux new-session`, `split-window`, and `send-keys` to create the 4-pane layout with the specified commands"
+      },
+      {
+        "id": "c2",
+        "description": "The response mentions `tmux detach` (or Ctrl+B D) to leave the session running and `tmux attach` to reconnect"
+      },
+      {
+        "id": "c3",
+        "description": "The response uses `tmux select-layout tiled` or manual split commands (`split-window -h`, `split-window -v`) to create the 2x2 grid layout"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "tmux cheatsheet (tmuxcheatsheet.com), Red Hat tmux guide"
+    }
+  },
+  {
+    "id": "prod-041",
+    "domain": "productivity",
+    "prompt": "I was SSHed into my dev server with a tmux session running 4 panes (similar to the setup above — frontend, backend, database, and shell). My internet dropped for about 30 seconds. When I reconnect via SSH, my terminal is just a normal prompt — no tmux. I run `tmux ls` and see:\n\n```\ndev: 3 windows (created Mon Mar 10 09:15:00 2026) (group 0)\n```\n\nSo the session is alive. But when I run `tmux attach -t dev`, I get:\n\n```\nsessions should be nested with care, unset $TMUX to force\n```\n\nI'm not inside any tmux session as far as I can tell. `echo $TMUX` outputs `/tmp/tmux-1000/default,12345,0`. What's happening and how do I get back into my session?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies that the `$TMUX` environment variable being set indicates the shell thinks it is already inside a tmux session, likely because the SSH reconnection re-sourced a shell profile that inherited the old tmux environment"
+      },
+      {
+        "id": "c2",
+        "description": "The response provides a concrete way to resolve the issue, such as unsetting the TMUX environment variable (e.g., running `unset TMUX`) or starting a fresh login shell without TMUX set, and then attaching to the existing tmux session using `tmux attach -t dev`."
+      },
+      {
+        "id": "c3",
+        "description": "The response explains that tmux sessions persist independently of the SSH connection, which is why the session is still alive after the internet drop"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "tmux wiki (GitHub), Ham Vocke guide"
+    }
+  },
+  {
+    "id": "prod-042",
+    "domain": "productivity",
+    "prompt": "I'm a freelance developer with 3 active clients. I need a knowledge management system for: (1) personal notes and learning (Rust book notes, architecture patterns, debugging journals) that must work offline because I code on planes frequently, (2) shared project wikis with each client — they need to view and comment on docs, but they're non-technical and won't install any app, (3) a CRM-like system to track leads, proposals, and invoices with status fields and table views. I've tried Obsidian for personal notes and love the local-first markdown approach, but sharing with clients is painful. I've tried Notion for the client wikis and it's great for sharing, but it's slow and I hate being offline with it. Is there a way to use both in tandem without duplicating content, or should I commit to one? What's the practical setup given these specific requirements?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response recommends using Obsidian for personal notes and offline work (requirement 1) and Notion for client-facing wikis and CRM (requirements 2 and 3)"
+      },
+      {
+        "id": "c2",
+        "description": "The response acknowledges that there is no seamless native sync between Obsidian and Notion, and addresses the content duplication concern with a practical strategy (e.g., keeping separate systems for separate audiences)"
+      },
+      {
+        "id": "c3",
+        "description": "The response mentions Notion's database/table view feature as suitable for the CRM-like lead/invoice tracking requirement"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "r/ObsidianMD, r/Notion, productive.io comparison, clickup.com"
+    }
+  },
+  {
+    "id": "prod-043",
+    "domain": "productivity",
+    "prompt": "I have a Python file where I need to rename every occurrence of the function `get_user_data(` to `fetch_user_profile(`, but only within the class `UserService` (lines 45-120). I tried `:%s/get_user_data/fetch_user_profile/g` but it replaced occurrences in OTHER classes too, including ones in `AdminService` that should keep the old name. How do I scope the search-and-replace to only lines 45-120? Also, some calls span multiple lines like:\n\n```python\nresult = get_user_data(\n    user_id=123,\n    include_metadata=True\n)\n```\n\nWill a simple substitution handle these, or do I need a different approach for the multi-line cases?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response provides the line-range scoped substitution command `:45,120s/get_user_data/fetch_user_profile/g`"
+      },
+      {
+        "id": "c2",
+        "description": "The response explains that the function name portion `get_user_data` appears on a single line even in multi-line calls, so the simple substitution will handle the multi-line case correctly"
+      },
+      {
+        "id": "c3",
+        "description": "The response mentions using the `c` flag (`:45,120s/get_user_data/fetch_user_profile/gc`) for confirmation on each match as a safety measure"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "Stack Overflow vim questions, r/vim"
+    }
+  },
+  {
+    "id": "prod-044",
+    "domain": "productivity",
+    "prompt": "I switched from VS Code to Vim yesterday and I keep having this problem: I open a Python file, move my cursor to where I want to add code, and start typing `def calculate_total(items):` — but what appears on screen is `alculate_total(items):`. The first few characters disappear or cause weird jumps. Sometimes pressing `j` moves my cursor down instead of typing the letter j. This happens unpredictably and it's driving me insane. My coworker who uses Vim watched me for 30 seconds and started laughing. What am I doing wrong?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies that the user is typing in Normal mode instead of entering Insert mode first"
+      },
+      {
+        "id": "c2",
+        "description": "The response explains that in Normal mode, keys like `d`, `j`, `k` are interpreted as commands (delete, move down, move up) rather than text input"
+      },
+      {
+        "id": "c3",
+        "description": "The response instructs the user to press `i` (or `a`, `o`, `I`, `A`, `O`) to enter Insert mode before typing text"
+      }
+    ],
+    "metadata": {
+      "difficulty": "easy",
+      "source": "r/vim, r/neovim beginner threads, dev.to guides"
+    }
+  },
+  {
+    "id": "prod-045",
+    "domain": "productivity",
+    "prompt": "I was working quickly and accidentally committed directly to `main` and pushed. The commit adds a half-finished feature with broken tests. My team's CI pipeline is now red and 3 coworkers have already pulled. Here's the git log:\n\n```\nabc1234 (HEAD -> main, origin/main) WIP: add payment processing (broken)\ndef5678 fix: resolve race condition in user auth\nghi9012 feat: add email notification system\n```\n\nI need to: (1) get `main` back to a working state ASAP since it's blocking deployments, and (2) preserve my WIP work on a feature branch so I can finish it later. What's the safest approach given that others have already pulled, and why would `git reset --hard` be the wrong move here?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response recommends using `git revert abc1234` to undo the broken commit on main rather than `git reset --hard`"
+      },
+      {
+        "id": "c2",
+        "description": "The response explains that `git reset --hard` would rewrite history on a shared branch, causing problems for the 3 coworkers who already pulled"
+      },
+      {
+        "id": "c3",
+        "description": "The response suggests creating a branch from the broken commit (e.g., `git branch feature/payment-processing abc1234`) before reverting, to preserve the WIP work"
+      },
+      {
+        "id": "c4",
+        "description": "The response explains that `git revert` creates a new commit that undoes the changes, preserving history and not disrupting other developers"
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Stack Overflow top git questions"
+    }
+  },
+  {
+    "id": "prod-046",
+    "domain": "productivity",
+    "prompt": "I was working on `feature/payments`, stashed my changes with `git stash`, switched to `main` to do a hotfix, and then ran `git stash pop` — on main instead of my feature branch. Now my payment processing code changes are mixed in with my hotfix on main and I've already committed the hotfix (including the accidentally unstashed changes) and pushed it. The commit on main contains both the hotfix (2 files changed) and my payment feature work (8 files changed). How do I untangle this: keep the hotfix on main, and move just the payment feature changes to `feature/payments`?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response suggests creating a new commit on main that removes the 8 payment feature files' changes while keeping the 2 hotfix files intact"
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests checking out or cherry-picking the payment-related changes onto the `feature/payments` branch"
+      },
+      {
+        "id": "c3",
+        "description": "The response uses a safe reversal strategy (such as `git revert`) that preserves history, since the commit has already been pushed and shared"
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Stack Overflow git questions, Atlassian git tutorials"
+    }
+  },
+  {
+    "id": "prod-047",
+    "domain": "productivity",
+    "prompt": "I have SSH key auth working perfectly for GitHub — `ssh -T git@github.com` returns \"Hi user! You've authenticated.\" I generated a new ED25519 key for my personal server and added the public key to `~/.ssh/authorized_keys` on the server. But `ssh myuser@myserver.com` keeps asking for my password.\n\nMy `~/.ssh/config`:\n```\nHost github.com\n    IdentityFile ~/.ssh/id_ed25519_github\n\nHost myserver.com\n    IdentityFile ~/.ssh/id_ed25519_personal\n    User myuser\n```\n\nRunning `ssh -vvv myuser@myserver.com` shows:\n```\ndebug1: Offering public key: /Users/me/.ssh/id_ed25519_personal ED25519\ndebug3: send packet: type 50\ndebug3: receive packet: type 51\ndebug1: Authentications that can continue: publickey,password\n```\n\nThe server is running Ubuntu 22.04 with OpenSSH 8.9. `PasswordAuthentication` is set to `yes` in `sshd_config`. What's going wrong if the key is being offered but rejected (type 51)?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies that packet type 51 (SSH_MSG_USERAUTH_FAILURE) means the server rejected the key, likely due to server-side file/directory permission issues"
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests checking permissions on the server's `~/.ssh` directory (must be 700), `authorized_keys` file (must be 600), and home directory (must not be group/world writable)"
+      },
+      {
+        "id": "c3",
+        "description": "The response suggests checking the server's auth log (`/var/log/auth.log` or `journalctl -u sshd`) for the specific reason the key was rejected"
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "GitHub Docs, Stack Overflow"
+    }
+  },
+  {
+    "id": "prod-048",
+    "domain": "productivity",
+    "prompt": "I've been using Vim 8.2 with this setup for 4 years: 23 plugins managed by vim-plug (including YouCompleteMe for completion, NERDTree, fzf.vim, vim-fugitive, ALE for linting, UltiSnips, vim-airline). My `.vimrc` is 380 lines. My main frustrations with my current setup: (1) YouCompleteMe takes 15 minutes to compile after every update and sometimes breaks with Python version mismatches, (2) I want inline LSP diagnostics (like VS Code's squiggly underlines) but ALE's implementation feels janky, (3) I heard Neovim has native Lua scripting and built-in LSP support that would replace 3-4 of my plugins. But I also don't want to spend a week rewriting my config. How much of my vim-plug setup would carry over directly to Neovim, which plugins would I need to replace, and is there a migration path that doesn't require a full rewrite?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response states that most vim-plug plugins and the existing .vimrc will work in Neovim with little or no modification, since Neovim is largely Vim-compatible"
+      },
+      {
+        "id": "c2",
+        "description": "The response recommends replacing YouCompleteMe with Neovim's built-in LSP client (nvim-lspconfig) or a Lua-based completion plugin like nvim-cmp"
+      },
+      {
+        "id": "c3",
+        "description": "The response recommends replacing ALE with Neovim's built-in diagnostic system (via LSP) for inline diagnostics"
+      },
+      {
+        "id": "c4",
+        "description": "The response mentions that Neovim can source the existing `.vimrc` or that it can be symlinked/copied to Neovim's config location as a starting point"
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "r/neovim, dev.to articles, tamerlan.dev blog"
+    }
   }
 ]

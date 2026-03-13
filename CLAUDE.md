@@ -20,7 +20,7 @@ npm run build                              # production build
 npm run lint                               # eslint
 ```
 
-## Architecture
+## Architecture 
 
 Two independent systems that communicate through JSON files in `results/`:
 
@@ -28,7 +28,7 @@ Two independent systems that communicate through JSON files in `results/`:
 
 **React dashboard** (`dashboard/`): Reads results JSON files via a Vite middleware plugin (serves `../results/` at `/api/results`) and displays leaderboard + per-domain breakdowns.
 
-### Eval flow
+### Eval flow 
 
 1. `run_eval.py` CLI → `src/runner.py:run_eval()` (async orchestrator)
 2. Runner loads items via `src/schema.py` (Pydantic validation)
@@ -48,7 +48,7 @@ Two independent systems that communicate through JSON files in `results/`:
 - `anthropic_provider.py` — Anthropic SDK
 - `local_provider.py` — OpenAI SDK with custom `base_url` (for local LLMs); use `--model` flag to select between models (e.g., `--model Qwen3.5-9B-Q3_K_M.gguf`)
 
-### Judge selector
+### Judge selector 
 
 The dashboard has a judge dropdown (header) that filters all views (leaderboard, domain breakdown, stats) to show only runs scored by the selected judge. Defaults to the most recent judge by timestamp. Each option shows the model count, e.g. "gpt-5-mini (5 models)". Only models explicitly judged by the selected judge appear.
 
@@ -62,7 +62,7 @@ The dashboard has a judge dropdown (header) that filters all views (leaderboard,
 - Results JSON files are the only interface between runner and dashboard.
 - The judge model must be different from the model being evaluated.
 - Failed/empty responses are excluded from score percentages (only `status: "scored"` items count).
-- Old or partial result files can be moved to `results/archive/` (gitignored) to keep the dashboard clean.
+- Old or partial result files can be moved to `results/archive/` (gitignored) to keep the dashboard clean. 
 
 ### Config
 
@@ -72,9 +72,17 @@ The dashboard has a judge dropdown (header) that filters all views (leaderboard,
 
 All in `src/models.py` as Pydantic models: `EvalItem`, `RubricCriterion`, `ProviderConfig`, `JudgeConfig`, `EvalRun`, `ItemResult`, `CriterionResult`, `RunSummary`, `DomainSummary`, `JudgeSnapshot`. `EvalRun` has optional `judge: JudgeSnapshot` and `source_run_id: str` fields for re-judge tracking.
 
+### Eval sets
+
+Three domain eval files in `evals/`, each targeting 50 items with binary rubric criteria:
+- `advice.json` — 45 items: relationship, family, parenting, friendship, workplace interpersonal dilemmas. Sourced from Dear Prudence, Reddit AITA, Ask a Manager, EmoBench.
+- `nutrition.json` — 50 items: calorie/macro estimation, micronutrient analysis, dietary planning, food science, clinical nutrition. Sourced from NutriBench, NIH ODS, CDR exam materials.
+- `productivity.json` — 48 items: shell commands, home server/selfhosting, Docker, networking, productivity methods, developer tools. Sourced from Stack Overflow, r/homelab, r/selfhosted, GTD Forums.
+
+All rubric criteria are stated positively ("The response identifies X") rather than negatively ("The response does NOT do X") for consistent judge scoring.
+
 ## Active Technologies
 - JavaScript (ES2022+), React 19, CSS3 + React 19, Vite 7, no router library (use React state for view switching) (002-eval-run-explorer)
-- N/A — reads from existing `/api/results` endpoint (JSON files served by Vite middleware) (002-eval-run-explorer)
 
 ## Recent Changes
-- 002-eval-run-explorer: Added JavaScript (ES2022+), React 19, CSS3 + React 19, Vite 7, no router library (use React state for view switching)
+- 003-real-user-eval-sets: Expanded eval sets to 144 total items (45 advice + 50 nutrition + 48 productivity) sourced from real user questions

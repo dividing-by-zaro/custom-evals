@@ -162,7 +162,7 @@
       },
       {
         "id": "c4",
-        "description": "The response identifies vitamin C and iron as exceeding 100% DV, while calcium does not."
+        "description": "The response correctly identifies vitamin C and iron as exceeding 100% DV and identifies calcium as falling below 100% DV."
       }
     ],
     "metadata": {
@@ -485,6 +485,930 @@
       "difficulty": "medium",
       "source": "manual",
       "notes": "Net change: +0.2 lbs. Range: 0.6 lbs (122.9–123.5). The slight mid-period uptick is likely water/glycogen from increased intake, not fat. Key reasoning: interpreting rolling averages in context of normal fluctuation and reverse dieting goals."
+    }
+  },
+  {
+    "id": "nutrition-018",
+    "domain": "nutrition",
+    "prompt": "A 28-year-old woman is tracking her intake after being diagnosed with gestational diabetes. She orders a Chipotle burrito with a flour tortilla, white rice, black beans, chicken, fresh tomato salsa, sour cream, and cheese. She eats two-thirds of the burrito and saves the rest. She plans to pair it with a regular Coca-Cola (20 oz bottle) but her husband suggests a Diet Coke instead. Estimate the total calories, carbohydrates (g), and protein (g) she actually consumed from the two-thirds burrito. Then calculate how many additional grams of sugar and total carbohydrates she would add if she chose the regular Coca-Cola over the Diet Coke.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response estimates the full Chipotle burrito at approximately 1,000-1,100 calories and correctly calculates two-thirds as approximately 650-730 calories (accept 620-750)."
+      },
+      {
+        "id": "c2",
+        "description": "The response estimates carbohydrates from the two-thirds burrito at approximately 60-75g (accept 55-80g) and protein at approximately 33-40g (accept 30-45g)."
+      },
+      {
+        "id": "c3",
+        "description": "The response states that a 20oz regular Coca-Cola adds approximately 65g of sugar and 65g of carbohydrates (accept 60-70g for each), while Diet Coke adds 0g of sugar and 0g of carbohydrates."
+      },
+      {
+        "id": "c4",
+        "description": "The response flags that combining the two-thirds burrito with a regular Coca-Cola would yield approximately 125-135g of total carbohydrates in a single meal, which far exceeds the typical gestational diabetes recommendation of 30-45g carbs per meal."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Chipotle nutrition calculator; Coca-Cola nutrition facts; ADA gestational diabetes guidelines",
+      "notes": "Full burrito ~1,025 cal, ~100g carbs, ~55g protein. Two-thirds: ~683 cal, ~67g carbs, ~37g protein. 20oz Coke: ~65g sugar, ~65g carbs, 240 cal. Diet Coke: 0g sugar, 0g carbs."
+    }
+  },
+  {
+    "id": "nutrition-019",
+    "domain": "nutrition",
+    "prompt": "A 35-year-old man on a 2,200-calorie weight loss plan eats out at a Thai restaurant and orders chicken pad thai with peanuts. He estimates it at \"about 500 calories\" and logs it that way in his food diary. He also had a Thai iced tea (12 oz, made with sweetened condensed milk). After dinner, he says he has 700 calories left for the day. Estimate the actual calories in the restaurant pad thai and Thai iced tea. How many calories does he actually have remaining, and by how much did his underestimate of the pad thai throw off his daily budget?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response estimates the restaurant chicken pad thai at approximately 900-1,200 calories, significantly higher than the patient's 500-calorie estimate."
+      },
+      {
+        "id": "c2",
+        "description": "The response estimates the Thai iced tea with sweetened condensed milk at approximately 200-300 calories for 12 oz."
+      },
+      {
+        "id": "c3",
+        "description": "The response calculates that his actual meal total is approximately 1,100-1,500 calories, meaning his real remaining budget is roughly 0-200 calories (or already exceeded), not 700 calories."
+      },
+      {
+        "id": "c4",
+        "description": "The response mentions the systematic underestimation bias for restaurant meals, noting that studies show people underestimate restaurant calories by 30-50%."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "USDA FoodData Central; restaurant nutrition disclosures; research on calorie estimation bias",
+      "notes": "Restaurant pad thai: ~1,000-1,100 cal. Thai iced tea: ~200-300 cal. Meal total: ~1,200-1,400 cal. His estimate was off by 500-600 cal for pad thai alone. He is likely over his 2,200 cal target."
+    }
+  },
+  {
+    "id": "nutrition-020",
+    "domain": "nutrition",
+    "prompt": "A Type 2 diabetic patient is trying to lose weight and tells their dietitian: \"I switched from eating a bowl of rice to a bowl of granola for breakfast because granola is healthier.\" They eat approximately 1.5 cups of granola with 1 cup of whole milk. Compare the calorie density (kcal per gram) and total calories of 1.5 cups of granola vs 1.5 cups of cooked white rice. Then factor in the milk. Has this patient's switch actually reduced their calorie intake? Also note the sugar content of typical granola vs plain rice.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response estimates 1.5 cups of granola at approximately 600-660 calories and notes its high calorie density of approximately 4-5 kcal/g due to added oils and sugar."
+      },
+      {
+        "id": "c2",
+        "description": "The response estimates 1.5 cups of cooked white rice at approximately 300-360 calories and notes its lower calorie density of approximately 1.3 kcal/g due to water absorption."
+      },
+      {
+        "id": "c3",
+        "description": "The response concludes that the switch to granola nearly doubled the patient's calorie intake (granola + milk ~750-810 cal vs rice ~300-360 cal), which is counterproductive for weight loss."
+      },
+      {
+        "id": "c4",
+        "description": "The response notes that typical granola contains approximately 20-30g of sugar per 1.5 cups, while plain cooked white rice has less than 1g of sugar, making granola also worse for blood sugar management in a diabetic patient."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "USDA FoodData Central",
+      "notes": "Granola: ~600-660 cal, ~4.5 kcal/g, ~20-30g sugar. Cooked rice: ~300-360 cal, ~1.3 kcal/g, <1g sugar. Granola + milk: ~750-810 cal. Classic health halo effect."
+    }
+  },
+  {
+    "id": "nutrition-021",
+    "domain": "nutrition",
+    "prompt": "A 42-year-old woman is frustrated that she's gaining weight despite \"eating healthy.\" Her dietitian asks about beverages. She reports drinking daily: a 16oz Starbucks oat milk matcha latte (she assumes it's ~100 calories because matcha is \"just green tea\"), a 16oz fresh-pressed juice from Pressed Juicery (Greens 3: kale, spinach, cucumber, celery, apple, lemon — she assumes ~50 cal because \"it's just vegetables\"), and 2 glasses of Pinot Grigio with dinner (5oz each). She has not been counting any of these toward her daily intake. Estimate the actual calories from each beverage and calculate her total untracked liquid calories per day.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response estimates the 16oz Starbucks oat milk matcha latte at approximately 300-370 calories, noting it is far more than plain green tea due to the oat milk and sweetened matcha blend."
+      },
+      {
+        "id": "c2",
+        "description": "The response estimates the 16oz green juice at approximately 100-150 calories, noting that the apple contributes significant sugar despite the \"greens\" branding."
+      },
+      {
+        "id": "c3",
+        "description": "The response estimates the 2 glasses of Pinot Grigio at approximately 240 calories total (about 120 calories each for 5oz)."
+      },
+      {
+        "id": "c4",
+        "description": "The response calculates the total untracked liquid calories at approximately 650-760 per day and notes that over a week this represents roughly 4,500-5,300 untracked calories, sufficient to explain her weight gain."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Starbucks nutrition facts; Pressed Juicery nutrition data; USDA alcohol calorie data",
+      "notes": "Matcha latte: ~320-370 cal. Green juice: ~120-140 cal. Wine: ~240 cal. Total: ~680-750 cal/day untracked. Weekly: ~4,760-5,250 cal. Her assumption of ~150 cal total is off by 500+ calories."
+    }
+  },
+  {
+    "id": "nutrition-022",
+    "domain": "nutrition",
+    "prompt": "A 55-year-old man with pre-diabetes (fasting glucose 110 mg/dL) and a family history of heart disease eats Breakfast A on weekdays and Breakfast B on weekends. His doctor told him to watch both sugar intake and saturated fat. Breakfast A: 3 eggs scrambled in 1 tbsp butter with 1 slice of whole wheat toast and 1 tbsp butter on the toast. Breakfast B: 1.5 cups of Honey Nut Cheerios with 1 cup of 2% milk and a banana. Compare the macronutrient profiles (protein, carbs, fat, saturated fat, and sugar in grams) of both breakfasts. Given his pre-diabetes and cardiovascular risk, which breakfast is more problematic and why? Is the answer as simple as \"one is better\"?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response estimates Breakfast A at approximately 20-28g protein, 12-18g carbs, 28-35g fat with approximately 13-17g saturated fat, and approximately 1-3g sugar."
+      },
+      {
+        "id": "c2",
+        "description": "The response estimates Breakfast B at approximately 10-14g protein, 65-75g carbs, 4-8g fat with approximately 2-4g saturated fat, and approximately 30-40g sugar."
+      },
+      {
+        "id": "c3",
+        "description": "The response explains that Breakfast B is worse for his pre-diabetes due to the high carbohydrate and sugar load (65-75g carbs, 30-40g sugar), while Breakfast A is worse for his cardiovascular risk due to high saturated fat (approximately 15g, close to or exceeding the AHA daily limit of ~13g)."
+      },
+      {
+        "id": "c4",
+        "description": "The response concludes that neither breakfast is ideal and that the answer is NOT as simple as one being better, because the two breakfasts present competing risks for his two conditions."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "USDA FoodData Central; General Mills nutrition labels; AHA saturated fat guidelines",
+      "notes": "Breakfast A: ~24g protein, ~15g carbs, ~31g fat (~15g saturated), ~2g sugar. Breakfast B: ~12g protein, ~70g carbs, ~6g fat (~2.5g saturated), ~35g sugar. Neither is ideal for a patient with both pre-diabetes and CVD risk."
+    }
+  },
+  {
+    "id": "nutrition-023",
+    "domain": "nutrition",
+    "prompt": "A 60-year-old man taking metformin for Type 2 diabetes and lisinopril for hypertension buys a container of Greek yogurt that shows per 3/4 cup serving: 100 calories, 17g protein, 6g carbs, 0.7g fat, 200mg potassium, and 50mg calcium. The container holds 2.5 servings. He eats the entire container in one sitting as a snack, believing \"protein is good for you.\" Calculate his total intake of all listed nutrients from this container. His doctor has told him to keep potassium intake moderate because lisinopril can raise potassium levels. What percentage of the FDA Daily Value for potassium does this single snack represent (DV for potassium = 4,700mg), and should he be concerned about this amount?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response correctly calculates the total nutrients from the full container: 250 calories, 42.5g protein, 15g carbs, 1.75g fat, 500mg potassium, and 125mg calcium."
+      },
+      {
+        "id": "c2",
+        "description": "The response calculates potassium %DV as approximately 10.6% (500/4700) and notes that this seems modest in isolation."
+      },
+      {
+        "id": "c3",
+        "description": "The response explains that lisinopril (an ACE inhibitor) reduces potassium excretion, meaning that even moderate potassium intake can contribute to hyperkalemia risk when combined with other potassium-rich foods throughout the day."
+      },
+      {
+        "id": "c4",
+        "description": "The response recommends that the patient track his total daily potassium intake and discuss it with his doctor, rather than evaluating individual food items in isolation."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "FDA Daily Values; drug-nutrient interaction databases for ACE inhibitors",
+      "notes": "Full container: 250 cal, 42.5g protein, 15g carbs, 1.75g fat, 500mg potassium, 125mg calcium. Potassium %DV = 10.6%. Lisinopril + cumulative potassium = hyperkalemia risk."
+    }
+  },
+  {
+    "id": "nutrition-024",
+    "domain": "nutrition",
+    "prompt": "A 45-year-old man takes a daily multivitamin containing 100% DV of vitamins A (900 mcg RAE), D, E, and K. He also eats 4 oz of beef liver once a week (approximately 7,600 mcg RAE of preformed vitamin A per serving) and takes a daily cod liver oil capsule (about 1,350 mcg RAE vitamin A and 1,000 IU vitamin D). Calculate his average daily vitamin A intake across the week, combining all three sources. Compare this to the Tolerable Upper Intake Level (UL = 3,000 mcg RAE/day for preformed vitamin A). Is he at risk of chronic vitamin A toxicity? Also explain why fat-soluble vitamin toxicity is possible while water-soluble vitamin toxicity is rare.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response correctly calculates daily vitamin A from all sources: 900 mcg (multivitamin) + 1,350 mcg (cod liver oil) + approximately 1,086 mcg (7,600/7 from weekly liver) = approximately 3,336 mcg RAE/day."
+      },
+      {
+        "id": "c2",
+        "description": "The response compares the total of approximately 3,336 mcg RAE/day to the UL of 3,000 mcg RAE/day and concludes that he exceeds the UL and is at risk for chronic vitamin A toxicity."
+      },
+      {
+        "id": "c3",
+        "description": "The response explains that fat-soluble vitamins (A, D, E, K) accumulate in adipose tissue and the liver because they are not easily excreted in urine, making toxicity possible with chronic excess intake."
+      },
+      {
+        "id": "c4",
+        "description": "The response explains that water-soluble vitamins (C, B vitamins) are excreted by the kidneys when intake exceeds needs, which is why water-soluble vitamin toxicity is rare."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "NIH ODS Vitamin A fact sheet (https://ods.od.nih.gov/factsheets/VitaminA-HealthProfessional/)",
+      "notes": "Daily from multivitamin: 900 mcg. Daily from cod liver oil: 1,350 mcg. Weekly liver averaged: 7,600/7 = ~1,086 mcg/day. Total: ~3,336 mcg RAE/day vs UL of 3,000. He exceeds the UL."
+    }
+  },
+  {
+    "id": "nutrition-025",
+    "domain": "nutrition",
+    "prompt": "A 72-year-old patient on warfarin for atrial fibrillation decides to start eating a large kale salad every day for health benefits. Their INR drops from 2.5 to 1.4 at the next check. Explain why this happened, what the clinical significance is, and what dietary advice you would give this patient about vitamin K foods.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response explains that vitamin K promotes blood clotting by activating clotting factors (II, VII, IX, and/or X), and warfarin works by inhibiting vitamin K recycling or activity."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies that the sudden large increase in vitamin K from daily kale counteracted the warfarin's anticoagulant effect, causing the INR to drop."
+      },
+      {
+        "id": "c3",
+        "description": "The response states that an INR of 1.4 is subtherapeutic (target for atrial fibrillation is 2.0-3.0) and this increases the patient's risk of stroke or thromboembolism."
+      },
+      {
+        "id": "c4",
+        "description": "The response advises keeping vitamin K intake consistent from week to week so that the warfarin dose can be calibrated accordingly, emphasizing consistency over elimination."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Mayo Clinic; University of Iowa Health Care",
+      "notes": "Kale is extremely high in vitamin K (~547 mcg per cup raw). Sudden increase counteracted warfarin. Key advice: consistency, not avoidance."
+    }
+  },
+  {
+    "id": "nutrition-026",
+    "domain": "nutrition",
+    "prompt": "A 50-year-old woman with diagnosed magnesium deficiency (serum Mg 1.2 mg/dL, normal 1.7-2.2) and a history of gastric bypass surgery (Roux-en-Y) is prescribed magnesium supplementation. She asks her pharmacist about her options. The pharmacy has three forms: magnesium oxide 400mg capsules ($8/bottle), magnesium citrate 200mg capsules ($15/bottle), and magnesium glycinate 100mg capsules ($22/bottle). Compare these three forms in terms of elemental magnesium content, bioavailability, and common side effects. Given that she had gastric bypass (reduced stomach acid, shortened absorptive surface), which form should she take and why? Explain why the cheapest option with the highest dose per capsule may actually be the worst choice for her.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response states that magnesium oxide has the highest elemental magnesium per capsule (approximately 60% by weight, ~240mg elemental per 400mg capsule) but the poorest bioavailability (approximately 4-10% absorbed)."
+      },
+      {
+        "id": "c2",
+        "description": "The response explains that magnesium oxide requires stomach acid for dissolution, making it a poor choice for a gastric bypass patient who has reduced acid production."
+      },
+      {
+        "id": "c3",
+        "description": "The response recommends magnesium glycinate as the best option for this patient because it has the highest bioavailability (approximately 80%), is absorbed via amino acid transporters (bypassing the acid-dependent step), and is the best tolerated form with minimal GI side effects."
+      },
+      {
+        "id": "c4",
+        "description": "The response notes that magnesium citrate has moderate bioavailability (approximately 25-30%) and can cause a laxative effect, placing it between oxide and glycinate in suitability."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "PMC review (https://pmc.ncbi.nlm.nih.gov/articles/PMC6683096/)",
+      "notes": "Mg oxide: ~240mg elemental, ~4-10% absorbed, needs acid. Mg citrate: ~32mg elemental, ~25-30% absorbed, mild laxative. Mg glycinate: ~14mg elemental, ~80% absorbed, best tolerated. Glycinate is best for gastric bypass patients."
+    }
+  },
+  {
+    "id": "nutrition-027",
+    "domain": "nutrition",
+    "prompt": "A patient in a developing region eats large quantities of cassava and cruciferous vegetables but very little iodized salt or seafood. They present with an enlarged thyroid (goiter). Explain the two nutritional factors contributing to this condition and how they interact. What is the RDA for iodine for adults?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies low iodine intake as a primary factor, explaining that iodine is essential for thyroid hormone synthesis (T3 and T4), and without adequate iodine the thyroid enlarges trying to compensate."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies goitrogens in cassava (cyanogenic glycosides converted to thiocyanate) and/or cruciferous vegetables (glucosinolates) as a second factor that interferes with thyroid iodine uptake."
+      },
+      {
+        "id": "c3",
+        "description": "The response explains that the goitrogens compound the iodine deficiency by further blocking iodine utilization, making the combined effect worse than either factor alone."
+      },
+      {
+        "id": "c4",
+        "description": "The response states the RDA for iodine for adults is 150 mcg/day."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "NIH ODS Iodine fact sheet; ScienceDirect antinutrients review",
+      "notes": "Two factors: low iodine intake + goitrogens from cassava and cruciferous vegetables. RDA: 150 mcg/day. Cooking reduces goitrogen content."
+    }
+  },
+  {
+    "id": "nutrition-028",
+    "domain": "nutrition",
+    "prompt": "A 55-year-old postmenopausal woman takes 1000 mg of calcium carbonate as a single dose with her morning coffee on an empty stomach. Identify at least three things wrong with this approach and explain how she could optimize calcium absorption.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies that calcium carbonate requires stomach acid for absorption and should be taken with food, not on an empty stomach."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies that a single 1000mg dose is too large, because the body absorbs calcium best in doses of 500mg or less, and recommends splitting into two doses."
+      },
+      {
+        "id": "c3",
+        "description": "The response identifies that coffee or caffeine may reduce calcium absorption and/or that she may not be getting adequate vitamin D, which is essential for calcium absorption."
+      },
+      {
+        "id": "c4",
+        "description": "The response recommends an appropriate timing and spacing strategy for calcium supplementation relative to other medications or nutrients (e.g., separating calcium from iron supplements, thyroid medication, or certain antibiotics) to avoid absorption interference."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "NIH ODS Calcium fact sheet (https://ods.od.nih.gov/factsheets/Calcium-HealthProfessional/)",
+      "notes": "Problems: (1) empty stomach reduces calcium carbonate absorption, (2) 1000mg is too much at once, (3) caffeine may impair absorption, (4) vitamin D status unknown. Optimization: split doses, take with food, ensure vitamin D."
+    }
+  },
+  {
+    "id": "nutrition-029",
+    "domain": "nutrition",
+    "prompt": "A 38-year-old woman who is a strict vegan, takes metformin for PCOS, and drinks 2-3 glasses of wine most evenings tells her doctor she's been feeling fatigued and \"foggy\" for months. She recently started taking a B complex supplement hoping it would \"give her energy.\" Her doctor orders labs showing low-normal B12 (250 pg/mL, normal 200-900) and low folate (3.5 ng/mL, normal 2-20). Identify at least three independent reasons this patient is at elevated risk for B vitamin deficiency, explain which specific B vitamins each risk factor depletes, and address whether her B complex supplement is likely to resolve the issue. Why is her B12 level misleadingly \"normal\"?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies at least three risk factors: (1) vegan diet provides no dietary B12, (2) metformin impairs B12 absorption, and (3) regular alcohol impairs absorption of B1 (thiamine), B9 (folate), and B12."
+      },
+      {
+        "id": "c2",
+        "description": "The response explains that her B12 of 250 pg/mL is technically within the normal range but is misleadingly normal, because functional B12 deficiency can occur at levels below 400-500 pg/mL, especially in vegans on metformin, and that methylmalonic acid (MMA) testing would be more sensitive."
+      },
+      {
+        "id": "c3",
+        "description": "The response explains that a standard B complex supplement may not resolve her B12 issue because most contain cyanocobalamin, which requires adequate intrinsic factor for absorption, and she may need sublingual methylcobalamin or B12 injections."
+      },
+      {
+        "id": "c4",
+        "description": "The response explains that chronic alcohol use and low folate increase the risk of macrocytic anemia and neurocognitive symptoms (fatigue, “brain fog”), and links these clinical manifestations directly to her B vitamin deficiencies."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "NIH ODS B12 and Folate fact sheets; metformin-B12 interaction studies",
+      "notes": "Three independent risk factors for B vitamin depletion. B12 of 250 is deceptively normal. Standard B complex may not fix the absorption issue. B vitamins don't 'give energy' — they're coenzymes."
+    }
+  },
+  {
+    "id": "nutrition-030",
+    "domain": "nutrition",
+    "prompt": "A 29-year-old woman with IBS-D (diarrhea-predominant) has been on a strict low-FODMAP elimination diet for 8 months after reading about it online. She has eliminated all dairy, wheat, onions, garlic, apples, beans, and most fruits. She reports her GI symptoms improved initially but she now has new symptoms: fatigue, frequent colds, and her recent blood work shows low calcium (8.2 mg/dL, normal 8.5-10.5) and low pre-albumin (suggesting poor protein status). What does FODMAP stand for? Explain why long-term strict FODMAP restriction caused her new problems. Describe the correct three-phase protocol she should have followed, and identify at least three specific nutrients she is likely deficient in due to her overly restrictive diet.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response correctly states that FODMAP stands for Fermentable Oligosaccharides, Disaccharides, Monosaccharides, And Polyols."
+      },
+      {
+        "id": "c2",
+        "description": "The response describes the correct three-phase protocol: (1) Elimination phase (2-6 weeks only), (2) Reintroduction/challenge phase (testing each FODMAP group individually), and (3) Personalization phase (long-term modified diet based on individual tolerances)."
+      },
+      {
+        "id": "c3",
+        "description": "The response identifies at least three nutrients she is likely deficient in, such as calcium (from eliminating dairy), fiber/prebiotics (from eliminating wheat, beans, and fruits), and B vitamins or protein (from eliminating legumes and dairy)."
+      },
+      {
+        "id": "c4",
+        "description": "The response explains that prolonged strict FODMAP restriction harms the gut microbiome by starving beneficial bacteria (such as Bifidobacteria) of their preferred fuel (fructans, GOS), which can weaken immune function."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Monash University FODMAP protocol; AND evidence-based guidelines",
+      "notes": "FODMAP = Fermentable Oligosaccharides, Disaccharides, Monosaccharides, And Polyols. She skipped phases 2 and 3. Deficiencies: calcium, fiber/prebiotics, B vitamins, protein. Microbiome harm from prolonged restriction."
+    }
+  },
+  {
+    "id": "nutrition-031",
+    "domain": "nutrition",
+    "prompt": "A 30-year-old pregnant vegan woman (second trimester) shows you her food diary for the day. She believes she is meeting all her nutritional needs without supplements: Breakfast: oatmeal with berries and almond butter. Lunch: large quinoa-black bean bowl with avocado and roasted vegetables. Snack: hummus with carrots and whole wheat pita. Dinner: tofu stir-fry with brown rice and bok choy. She takes no supplements at all, stating \"I get everything I need from whole foods.\" Evaluate whether her diet can realistically meet pregnancy requirements for these four critical nutrients: protein (71g), iron (27mg), calcium (1000mg), and DHA (200-300mg/day). For each nutrient, estimate her approximate intake from the foods listed and identify which ones she absolutely cannot meet without supplementation on a vegan diet, regardless of how well she eats.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response estimates her protein intake at approximately 70-80g and concludes she is likely meeting or close to meeting the 71g protein target from the plant sources listed."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies DHA as impossible to obtain from her diet (0mg from plant foods, since ALA from almond butter converts to DHA at less than 5% efficiency) and states she absolutely must supplement with algae-based DHA."
+      },
+      {
+        "id": "c3",
+        "description": "The response identifies calcium as likely insufficient (approximately 400-600mg estimated without dairy or fortified plant milk) and falling short of the 1000mg requirement."
+      },
+      {
+        "id": "c4",
+        "description": "The response mentions that B12 supplementation is also necessary on a vegan diet during pregnancy, even though the question did not explicitly ask about it, because B12 is found only in animal products or fortified foods."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Academy of Nutrition and Dietetics position on vegetarian diets; NIH ODS",
+      "notes": "Protein: likely adequate (~70-80g). Iron: possibly close numerically but non-heme absorption is poor. Calcium: insufficient (~400-600mg vs 1000mg). DHA: 0mg, must supplement. B12: also 0 mcg, must supplement. Her claim is definitively false for DHA and B12."
+    }
+  },
+  {
+    "id": "nutrition-032",
+    "domain": "nutrition",
+    "prompt": "A patient newly diagnosed with celiac disease goes grocery shopping and brings home the following items, believing they are all gluten-free: (a) oatmeal (store brand, no GF label), (b) tamari sauce (labeled \"gluten-free\"), (c) corn tortillas, (d) malt vinegar, (e) rice noodles, (f) seitan (labeled \"plant-based protein\"), (g) buckwheat soba noodles (ingredient list: buckwheat flour, wheat flour, salt). For each item, state whether it is safe or unsafe for celiac disease and explain why. How many of the 7 items are actually safe?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response correctly identifies seitan as unsafe because it is made from wheat gluten (vital wheat gluten), and identifies malt vinegar as unsafe because it is derived from barley (a gluten-containing grain)."
+      },
+      {
+        "id": "c2",
+        "description": "The response correctly identifies the buckwheat soba noodles as unsafe because the ingredient list includes wheat flour, despite buckwheat itself being gluten-free."
+      },
+      {
+        "id": "c3",
+        "description": "The response correctly identifies the store-brand oatmeal (no GF label) as unsafe or risky due to likely cross-contamination with wheat during processing, and notes that only certified gluten-free oats are safe for celiac patients."
+      },
+      {
+        "id": "c4",
+        "description": "The response correctly identifies tamari (labeled GF), corn tortillas, and rice noodles as safe, concluding that only 3 of the 7 items are safe for celiac disease."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Celiac Disease Foundation; AND evidence-based guideline on celiac disease",
+      "notes": "Safe: tamari (GF), corn tortillas, rice noodles (3 items). Unsafe: oatmeal (cross-contamination), malt vinegar (barley), seitan (wheat gluten), buckwheat soba (contains wheat flour) (4 items)."
+    }
+  },
+  {
+    "id": "nutrition-033",
+    "domain": "nutrition",
+    "prompt": "A 52-year-old man with Type 2 diabetes (on metformin and a low-dose sulfonylurea) and Stage 2 CKD (eGFR 72 mL/min) asks his doctor if he can try a ketogenic diet after reading online that \"keto reverses diabetes.\" He currently eats ~250g carbs/day and wants to drop to 20g/day. What are the typical macronutrient ratios for a standard ketogenic diet? Identify at least three specific medical concerns about this patient starting strict keto given his medications and kidney function. Explain what \"keto flu\" is, its physiological cause, and why it could be particularly dangerous for him. Name the three electrolytes most commonly depleted during the transition to ketosis.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response states that a standard ketogenic diet consists of approximately 70-75% fat, 20% protein, and 5-10% carbohydrates (typically under 50g/day, strict under 20g/day)."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies hypoglycemia risk from the sulfonylurea as a major concern, explaining that sulfonylureas stimulate insulin release regardless of carb intake, so drastically cutting carbs could cause dangerous low blood sugar."
+      },
+      {
+        "id": "c3",
+        "description": "The response identifies concerns about increased protein intake and kidney function, noting that keto often leads to higher protein consumption which could be problematic for his Stage 2 CKD."
+      },
+      {
+        "id": "c4",
+        "description": "The response names the three electrolytes most commonly depleted during the keto transition as sodium, potassium, and magnesium."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "ADA Standards of Medical Care; NIDDK; clinical nutrition guidelines",
+      "notes": "Keto macros: ~70-75% fat, ~20% protein, ~5-10% carbs. Concerns: (1) hypoglycemia from sulfonylurea, (2) CKD + high protein, (3) electrolyte disruption with impaired kidneys. Keto flu electrolytes: sodium, potassium, magnesium."
+    }
+  },
+  {
+    "id": "nutrition-034",
+    "domain": "nutrition",
+    "prompt": "A patient with birch pollen allergy reports tingling and itching in their mouth after eating raw apples, cherries, and carrots, but has no problems when these foods are cooked. What is this condition called? Explain the immunological mechanism, why cooking eliminates symptoms, and name at least 4 other foods that commonly cross-react with birch pollen.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies the condition as Oral Allergy Syndrome (OAS) or Pollen-Food Allergy Syndrome (PFAS)."
+      },
+      {
+        "id": "c2",
+        "description": "The response explains the immunological mechanism: IgE antibodies to birch pollen protein (Bet v 1) cross-react with structurally similar PR-10 proteins found in certain fruits and vegetables."
+      },
+      {
+        "id": "c3",
+        "description": "The response explains that cooking eliminates symptoms because the cross-reactive proteins are heat-labile (denatured by heat), so the immune system no longer recognizes them after cooking."
+      },
+      {
+        "id": "c4",
+        "description": "The response names at least 4 other foods that commonly cross-react with birch pollen, from among: peaches, pears, plums, kiwi, hazelnuts, almonds, celery, soybeans, nectarines, or apricots."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Thermo Fisher Allergy Insider; immunology references",
+      "notes": "OAS/PFAS. Mechanism: IgE cross-reactivity between Bet v 1 and PR-10 proteins. Heat-labile proteins denatured by cooking. Cross-reactive foods: peaches, pears, plums, kiwi, hazelnuts, almonds, celery, soybeans."
+    }
+  },
+  {
+    "id": "nutrition-035",
+    "domain": "nutrition",
+    "prompt": "A 63-year-old man with Stage 4 CKD (eGFR 22 mL/min) and hyperkalemia (serum K+ 5.8 mEq/L, normal 3.5-5.0) is also recently diagnosed with osteoporosis. His nephrologist tells him to follow a renal diet. His orthopedist, independently, tells him to \"eat more dairy and take calcium and vitamin D supplements\" for his bones. He brings both sets of instructions to his dietitian, confused because they seem contradictory. Explain why these recommendations conflict. Which nutrients must he restrict on a renal diet and why? Why is the orthopedist's generic advice specifically dangerous for this patient? What is the correct integrated approach?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response explains that dairy is high in both phosphorus and potassium, which are exactly the two nutrients a renal diet must restrict, making the orthopedist's advice to eat more dairy directly conflicting with the nephrologist's renal diet."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies at least three nutrients that must be restricted on a renal diet: sodium, potassium (his is already dangerously elevated at 5.8 mEq/L), phosphorus, and protein."
+      },
+      {
+        "id": "c3",
+        "description": "The response explains that standard vitamin D supplementation (D3/cholecalciferol) is unlikely to help because CKD kidneys cannot convert 25-OH vitamin D to the active form (1,25-dihydroxyvitamin D / calcitriol), so he would need the active form prescribed by his nephrologist."
+      },
+      {
+        "id": "c4",
+        "description": "The response describes an integrated approach such as using phosphate binders, calcitriol (active vitamin D), non-dairy calcium sources lower in phosphorus, and coordinating between specialists."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "National Kidney Foundation; KDOQI guidelines; NIDDK",
+      "notes": "Dairy is high in phosphorus and potassium. Renal diet restricts sodium, potassium, phosphorus, protein. CKD kidneys can't activate vitamin D. Need calcitriol, phosphate binders, integrated care."
+    }
+  },
+  {
+    "id": "nutrition-036",
+    "domain": "nutrition",
+    "prompt": "A weight loss influencer claims that \"you can eat unlimited celery, cucumbers, and lettuce because they're negative calorie foods — your body burns more calories digesting them than they contain.\" A 25-year-old woman following this advice eats 2 lbs (~900g) of celery per day as snacks and adds celery juice every morning, replacing her normal breakfast. She has lost 4 lbs in a week and credits the \"negative calorie effect.\" Debunk or confirm the negative calorie food claim using actual numbers for celery (calories per 100g and the thermic effect of food for vegetables). Then explain the real reason she lost weight, and identify a potential health concern from her celery-heavy approach that she likely isn't aware of.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response states that celery contains approximately 14 kcal per 100g and that the thermic effect of food (TEF) for vegetables is approximately 5-10% of caloric content, leaving a net positive calorie balance (not negative)."
+      },
+      {
+        "id": "c2",
+        "description": "The response calculates that 900g of celery provides approximately 126 kcal with a TEF of approximately 6-13 kcal, yielding a net of approximately 113-120 kcal, debunking the negative calorie claim."
+      },
+      {
+        "id": "c3",
+        "description": "The response explains that the real reason she lost weight is caloric deficit from replacing calorie-dense foods (breakfast, snacks) with very-low-calorie celery, not from any thermogenic property of celery."
+      },
+      {
+        "id": "c4",
+        "description": "The response identifies a health concern from her celery-heavy approach, such as high sodium content of celery (approximately 80mg per stalk, ~720mg per 900g), protein/nutrient deficiency from skipping breakfast, or other nutritional inadequacy."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "Examine.com; USDA FoodData Central",
+      "notes": "Celery: ~14 kcal/100g. TEF: ~5-10%. No food has been demonstrated to have negative calories. Weight loss is from caloric deficit. Health concern: high sodium in celery, nutrient deficiencies."
+    }
+  },
+  {
+    "id": "nutrition-037",
+    "domain": "nutrition",
+    "prompt": "A 33-year-old woman has just completed a 5-day juice cleanse ($350 from a boutique cleanse company) and reports \"amazing results\": she lost 7 lbs, her bloating disappeared, and she \"feels lighter.\" She plans to do this monthly. She wants to know: Is the weight loss real fat loss? Estimate how many pounds of actual fat she could have lost in 5 days on a ~1,000 cal/day juice cleanse, assuming her TDEE is ~2,000 cal/day. Explain what actually accounts for the 7 lbs. Which organs perform the body's actual detoxification, and has the juice cleanse aided them in any measurable way?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response correctly calculates: caloric deficit of approximately 1,000 cal/day for 5 days = 5,000 cal deficit, and since one pound of fat is approximately 3,500 cal, maximum actual fat loss is approximately 1.4 lbs."
+      },
+      {
+        "id": "c2",
+        "description": "The response explains that the remaining approximately 5.6 lbs of weight loss is from glycogen depletion and associated water loss (approximately 3-4.5 lbs, since glycogen binds 3g water per gram), reduced GI tract content, and additional water loss from low sodium intake."
+      },
+      {
+        "id": "c3",
+        "description": "The response names the body's actual detoxification organs (at least liver and kidneys) and states that no commercial juice cleanse has demonstrated the ability to enhance these organs' function."
+      },
+      {
+        "id": "c4",
+        "description": "The response notes that the weight will largely return within 2-3 days of normal eating as glycogen and water are restored."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "NCCIH; Examine.com",
+      "notes": "Deficit: 5,000 cal = ~1.4 lbs fat. Remaining ~5.6 lbs: glycogen + water + GI content. Detox organs: liver, kidneys, lungs, skin, GI tract. No cleanse enhances their function."
+    }
+  },
+  {
+    "id": "nutrition-038",
+    "domain": "nutrition",
+    "prompt": "A 40-year-old software engineer of Chinese descent tells his doctor he avoids MSG entirely because \"it gives headaches\" and he's concerned it's causing his wife's migraines. He also mentions he eats a lot of parmesan cheese, sun-dried tomatoes, and mushrooms, which he considers \"natural and safe.\" His doctor asks you (the nutritionist) to discuss this. Compare the glutamate content (mg per 100g) of MSG-seasoned food, parmesan cheese, and sun-dried tomatoes. Explain the scientific evidence from blinded controlled trials about MSG and headaches. Address whether the glutamate in parmesan is chemically different from the glutamate in MSG. Where did the \"Chinese Restaurant Syndrome\" claim originate, and what has subsequent research shown?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response compares glutamate content, noting that parmesan cheese contains approximately 1,200 mg free glutamate per 100g and sun-dried tomatoes approximately 650 mg/100g, while a typical MSG-seasoned dish adds approximately 500-1,000 mg total, meaning the patient consumes more glutamate from his 'safe' foods than from MSG seasoning."
+      },
+      {
+        "id": "c2",
+        "description": "The response states that the glutamate in parmesan, tomatoes, and MSG is chemically identical and the body cannot distinguish the source."
+      },
+      {
+        "id": "c3",
+        "description": "The response explains that blinded, placebo-controlled studies have consistently failed to demonstrate that MSG causes headaches at normal dietary doses, and cites a systematic review or meta-analysis finding no consistent evidence."
+      },
+      {
+        "id": "c4",
+        "description": "The response traces the origin of 'Chinese Restaurant Syndrome' to a 1968 anecdotal letter by Dr. Robert Ho Man Kwok in the New England Journal of Medicine and notes that subsequent research has not supported the claim."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "FDA; systematic reviews on MSG safety; NEJM 1968 letter",
+      "notes": "Parmesan: ~1,200 mg glutamate/100g. Sun-dried tomatoes: ~650 mg/100g. MSG is chemically identical glutamate. No causal link in blinded trials. FDA classifies MSG as GRAS."
+    }
+  },
+  {
+    "id": "nutrition-039",
+    "domain": "nutrition",
+    "prompt": "At a pediatric clinic, a mother says she strictly limits her 7-year-old son's sugar intake because \"sugar makes him hyper — I've seen it happen at every birthday party.\" The child is underweight (15th percentile BMI-for-age) and his food diary reveals she restricts not just candy but also fruits, yogurt, and juice, keeping his total sugar under 10g/day. She also avoids giving him any foods with added sugars at school, which has led to social isolation at lunch. Evaluate the scientific evidence on sugar and hyperactivity. Cite the key study. Then assess whether her sugar restriction strategy is causing more harm than the sugar itself, given her son's clinical picture. What is the AHA's recommended added sugar limit for children aged 2-18, and is her 10g/day limit within or below that recommendation?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response cites the Wolraich et al. 1995 JAMA meta-analysis (or equivalent landmark study) that analyzed multiple double-blind placebo-controlled studies and found no causal link between sugar and hyperactivity in children."
+      },
+      {
+        "id": "c2",
+        "description": "The response explains that the perceived sugar-hyperactivity link is due to expectation bias (parents told their child received sugar report more hyperactive behavior even when the child received a placebo)."
+      },
+      {
+        "id": "c3",
+        "description": "The response states the AHA recommends fewer than 25g of added sugar per day for children aged 2-18, and that her 10g total sugar limit (including natural sugars from fruit and dairy) is far more restrictive than any medical guideline."
+      },
+      {
+        "id": "c4",
+        "description": "The response concludes that her restriction strategy is causing measurable harm (underweight child, restricted nutrient intake from eliminating fruits and dairy, social isolation) that outweighs the nonexistent risk from the sugar she is trying to prevent."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Wolraich ML et al., JAMA 1995; AHA added sugar guidelines for children",
+      "notes": "No causal link between sugar and hyperactivity (Wolraich 1995 meta-analysis). AHA limit: <25g added sugar/day. Her 10g total sugar limit is far below any guideline and is harming her underweight child."
+    }
+  },
+  {
+    "id": "nutrition-040",
+    "domain": "nutrition",
+    "prompt": "A 48-year-old woman spends $120/month on a marine collagen peptide supplement (20g/day) for \"anti-aging skin benefits.\" She also takes a daily whey protein shake (25g protein) for fitness. She asks: \"Is my collagen doing anything different from my whey protein since they're both protein?\" Explain what happens to orally consumed collagen during digestion. Compare the amino acid profiles of collagen vs whey protein — specifically, which essential amino acids is collagen missing or very low in? Calculate her PDCAAS-adjusted protein contribution from 20g of collagen (PDCAAS of collagen ≈ 0) vs 25g of whey (PDCAAS ≈ 1.0). Given this, should her collagen supplement count toward her daily protein target?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response explains that orally consumed collagen is broken down by digestive enzymes into amino acids and small peptides during digestion, meaning it is absorbed as individual amino acids rather than reaching the skin as intact collagen molecules."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies that collagen is missing or very low in tryptophan (an essential amino acid) and is low in branched-chain amino acids (leucine, isoleucine, valine), while whey has a complete amino acid profile."
+      },
+      {
+        "id": "c3",
+        "description": "The response calculates that 20g of collagen with a PDCAAS of approximately 0 contributes approximately 0g of complete protein, while 25g of whey with a PDCAAS of approximately 1.0 contributes approximately 25g of complete protein."
+      },
+      {
+        "id": "c4",
+        "description": "The response concludes that collagen should NOT be counted toward her daily protein target because it lacks essential amino acids needed for complete protein functions like muscle protein synthesis."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "PMC systematic reviews on collagen; FAO protein quality guidelines",
+      "notes": "Collagen: high in glycine, proline, hydroxyproline; zero tryptophan; PDCAAS ~0. Whey: complete amino acid profile; PDCAAS ~1.0. Collagen should not count toward protein target."
+    }
+  },
+  {
+    "id": "nutrition-041",
+    "domain": "nutrition",
+    "prompt": "A 45-year-old man with Type 2 diabetes (well-controlled, A1c 6.8%) switched from regular soda (3 cans/day) to diet soda (3 cans/day, sweetened with sucralose) two years ago, losing 15 lbs. At his latest check-up, his fasting glucose has risen from 105 to 118 mg/dL despite no changes in diet, medication, or exercise. His doctor wonders if the diet soda could be contributing. Summarize the evidence from the landmark 2014 Suez et al. Nature study and the 2022 Suez et al. Cell study on artificial sweeteners and glycemic response, distinguishing clearly between animal and human findings. Is there enough evidence to tell this patient to stop drinking diet soda? Address the nuance: was switching from regular to diet soda still the right decision overall?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response summarizes the 2014 Suez et al. Nature study, noting that saccharin altered gut microbiota and induced glucose intolerance in mice, and that transplanting microbiota to germ-free mice transferred the effect, with a small human pilot (N=7) showing 4 of 7 developed worse glycemic responses."
+      },
+      {
+        "id": "c2",
+        "description": "The response summarizes the 2022 Suez et al. Cell study, noting that saccharin and sucralose altered the human gut microbiome and impaired glycemic responses in some participants, with effects being highly individual and baseline microbiome-dependent."
+      },
+      {
+        "id": "c3",
+        "description": "The response acknowledges the evidence is suggestive but not definitive enough to conclusively blame his sucralose intake for the glucose increase."
+      },
+      {
+        "id": "c4",
+        "description": "The response affirms that switching from regular soda (eliminating approximately 420 kcal and 120g sugar per day) was still the right decision overall, since the 15 lb weight loss provides far more glycemic benefit than any potential microbiome disruption, while suggesting gradual reduction of diet soda rather than switching back to regular."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Nature 2014 (Suez et al.); Cell 2022 (Suez et al.); PMC reviews",
+      "notes": "2014 study: mice + small human pilot. 2022 study: larger RCT, individual variation. Evidence is suggestive but not conclusive. Switching from regular to diet soda was still net positive. Recommend gradual reduction."
+    }
+  },
+  {
+    "id": "nutrition-042",
+    "domain": "nutrition",
+    "prompt": "A 58-year-old man newly diagnosed with Type 2 diabetes asks: \"Should I avoid all carbohydrates? My friend went keto and reversed his diabetes.\" His current diet includes a lot of white bread, white rice, sweetened yogurt, and fruit juice. He also eats watermelon frequently and says \"I should stop eating watermelon because someone told me it has a high glycemic index of 76.\" Calculate the glycemic load of a typical 1-cup serving of watermelon (GI = 76, ~11g available carbs per cup) and compare it to the glycemic load of 2 slices of white bread (GI = 75, ~26g available carbs). Use these examples to explain why glycemic load is more clinically useful than glycemic index alone. Then identify which foods in his current diet should actually be his priorities to change, and why.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response correctly calculates watermelon GL as approximately 8.4 (76 x 11 / 100) and classifies it as low glycemic load."
+      },
+      {
+        "id": "c2",
+        "description": "The response correctly calculates white bread GL as approximately 19.5 (75 x 26 / 100) and notes this is more than double the watermelon's glycemic load despite nearly identical GI values."
+      },
+      {
+        "id": "c3",
+        "description": "The response explains that glycemic load is more clinically useful because it accounts for actual serving size, and that watermelon's high GI is misleading because the GI test uses 50g of carbs (requiring approximately 4.5 cups of watermelon), not a realistic portion."
+      },
+      {
+        "id": "c4",
+        "description": "The response identifies the patient's priority food changes as white bread, white rice, sweetened yogurt, and fruit juice rather than watermelon, explaining the rationale (e.g., juice strips fiber and concentrates sugar, white bread/rice have high GL)."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "Harvard Health; Linus Pauling Institute; ADA Standards of Medical Care",
+      "notes": "Watermelon GL = 8.4 (low). White bread GL = 19.5 (medium-high). Watermelon is one of the least problematic foods in his diet. Priority changes: white bread, white rice, sweetened yogurt, fruit juice."
+    }
+  },
+  {
+    "id": "nutrition-043",
+    "domain": "nutrition",
+    "prompt": "A 56-year-old man with alcohol-related compensated liver cirrhosis (Child-Pugh A) weighing 80 kg is seen by a hepatologist who recommends \"high protein diet, 1.2-1.5 g/kg/day.\" The patient's wife is upset, saying \"We were told 10 years ago to restrict protein because it causes hepatic encephalopathy — are you sure? Also, won't that much protein damage his liver further?\" His current diet is low-protein (~40g/day) because he has been following the old advice. Calculate his protein target in grams at both ends of the range (1.2 and 1.5 g/kg/day). Explain why the old protein-restriction practice was abandoned and what the current evidence shows. Why is his current 40g/day diet actually making him worse? Include the recommended calorie intake and explain the importance of a late evening snack for cirrhosis patients.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response correctly calculates the protein targets: 1.2 x 80 = 96g/day (minimum) and 1.5 x 80 = 120g/day (upper), and notes that his current 40g/day is dangerously low."
+      },
+      {
+        "id": "c2",
+        "description": "The response explains that protein restriction in cirrhosis has been definitively abandoned because it causes sarcopenia (muscle wasting), and that muscle is actually a primary extra-hepatic site of ammonia detoxification, so losing muscle paradoxically worsens encephalopathy risk."
+      },
+      {
+        "id": "c3",
+        "description": "The response explains the importance of a late evening snack containing complex carbs and protein for cirrhosis patients, because cirrhosis impairs glycogen storage and the overnight fast causes accelerated muscle protein catabolism."
+      },
+      {
+        "id": "c4",
+        "description": "The response states the recommended calorie intake for cirrhosis patients as approximately 25-35 kcal/kg/day (approximately 2,000-2,800 kcal for an 80 kg patient)."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "ESPEN guidelines on clinical nutrition in liver disease; AASLD practice guidelines",
+      "notes": "Protein targets: 96-120g/day. Old protein restriction is abandoned. Muscle wasting worsens encephalopathy. Late evening snack prevents overnight catabolism. Calories: 25-35 kcal/kg/day."
+    }
+  },
+  {
+    "id": "nutrition-044",
+    "domain": "nutrition",
+    "prompt": "A severely malnourished patient with anorexia nervosa is hospitalized. The medical team is concerned about \"refeeding syndrome.\" What is refeeding syndrome? What electrolyte abnormality is most characteristic? Why does it occur physiologically when malnourished patients begin eating again, and what is the standard approach to prevent it?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response defines refeeding syndrome as a potentially fatal condition that occurs when nutrition is reintroduced after a period of starvation or severe malnutrition."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies hypophosphatemia (dangerously low phosphorus) as the most characteristic electrolyte abnormality of refeeding syndrome."
+      },
+      {
+        "id": "c3",
+        "description": "The response explains the physiological mechanism: during starvation, intracellular stores of phosphorus, potassium, and magnesium are depleted; when carbohydrates are reintroduced, insulin secretion surges and drives these electrolytes into cells, causing precipitous drops in serum levels."
+      },
+      {
+        "id": "c4",
+        "description": "The response describes the prevention approach as starting refeeding slowly (approximately 10-20 kcal/kg/day or lower), monitoring electrolytes closely (phosphorus, potassium, magnesium) for the first 7-10 days, supplementing electrolytes prophylactically, and giving thiamine before refeeding."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "NICE guidelines on eating disorders; BMJ clinical reviews on refeeding syndrome",
+      "notes": "Refeeding syndrome: potentially fatal. Key electrolyte: hypophosphatemia. Mechanism: insulin surge drives electrolytes into cells. Prevention: start low go slow, monitor electrolytes, supplement prophylactically, give thiamine first."
+    }
+  },
+  {
+    "id": "nutrition-045",
+    "domain": "nutrition",
+    "prompt": "A mother with phenylketonuria (PKU) who was well-controlled during childhood but has been off her restricted diet since age 18 becomes pregnant. Her obstetrician orders a blood phenylalanine level, which comes back at 14 mg/dL (normal <2; PKU treatment target for pregnancy: 2-6 mg/dL). She drinks 3 diet sodas per day (containing aspartame) and eats a normal unrestricted diet including meat, dairy, and eggs. Explain why her blood phenylalanine is dangerously elevated, why this is particularly dangerous during pregnancy (describe maternal PKU syndrome), and calculate approximately how much phenylalanine she's getting from her 3 diet sodas alone (each 12oz diet soda contains ~184mg aspartame, which is ~50% phenylalanine by weight). Why does the warning label on diet soda say \"Contains phenylalanine,\" and does the general population need to worry about this?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response explains that PKU is caused by a deficiency of phenylalanine hydroxylase (PAH), which converts phenylalanine to tyrosine, and without this enzyme phenylalanine accumulates to toxic levels."
+      },
+      {
+        "id": "c2",
+        "description": "The response clearly explains that maternal hyperphenylalaninemia is particularly dangerous to the fetus because high maternal phenylalanine crosses the placenta and causes teratogenic effects (e.g., microcephaly, intellectual disability, growth restriction, and congenital heart defects), even if the fetus does not have PKU."
+      },
+      {
+        "id": "c3",
+        "description": "The response calculates phenylalanine from diet sodas: 184mg aspartame x 50% = 92mg phenylalanine per soda x 3 = approximately 276mg/day from diet soda alone, while noting that her unrestricted diet (meat, dairy, eggs) contributes far more phenylalanine (2,000-5,000mg/day)."
+      },
+      {
+        "id": "c4",
+        "description": "The response clearly explains why maternal hyperphenylalaninemia is especially dangerous for the fetus by describing “maternal PKU syndrome” (e.g., risk of microcephaly, intellectual disability, congenital heart defects, growth restriction) and linking these teratogenic effects to the mother’s elevated phenylalanine levels crossing the placenta."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "NIH Genetics Home Reference; ACOG guidelines on maternal PKU; FDA",
+      "notes": "PKU: PAH enzyme deficiency. Maternal PKU syndrome is teratogenic. Diet soda phenylalanine: ~276mg/day. Unrestricted diet is the bigger problem (2,000-5,000mg/day). Warning label is for PKU patients only."
+    }
+  },
+  {
+    "id": "nutrition-046",
+    "domain": "nutrition",
+    "prompt": "A 70 kg amateur marathon runner asks her sports nutritionist about carb loading. She previously tried the \"classical method\" she found in a 1970s running book: 7 days before the race, she did an exhaustive depletion run, then ate near-zero carbs for 3 days, then switched to very high carbs for 3 days. She felt terrible during the depletion phase and had GI distress on race day. Describe the modern evidence-based carb loading protocol and explain how it differs from the classical depletion-supercompensation method. Calculate her target daily carbohydrate intake in grams during the loading phase. How much muscle glycogen can a trained athlete store with proper loading, and what performance benefit does this provide?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response describes the modern carb loading protocol: 2-3 days before the race (not 7), target 8-12 g carbs/kg/day, combined with a training taper (reduced volume), and no depletion run."
+      },
+      {
+        "id": "c2",
+        "description": "The response correctly calculates her target carbohydrate intake during the loading phase: 70 kg x 8-12 g/kg = 560-840g of carbs per day."
+      },
+      {
+        "id": "c3",
+        "description": "The response states that trained athletes can store up to approximately 500g of muscle glycogen plus approximately 100g of liver glycogen with proper supercompensation."
+      },
+      {
+        "id": "c4",
+        "description": "The response explains that the classical depletion method is now considered unnecessary and counterproductive because it causes fatigue, muscle damage, and immunosuppression going into race week, and modern research shows supercompensation can be achieved without depletion."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "Sports Medicine reviews; PMC (https://pubmed.ncbi.nlm.nih.gov/17465604/)",
+      "notes": "Modern protocol: 2-3 days, 8-12 g/kg/day, with taper. For 70 kg: 560-840g carbs/day. Glycogen storage: ~500g muscle + ~100g liver. Performance benefit: ~2-3% time trial improvement."
+    }
+  },
+  {
+    "id": "nutrition-047",
+    "domain": "nutrition",
+    "prompt": "Two training partners (both 75 kg) each drink a double espresso (~150mg caffeine) 45 minutes before a 10K race. Runner A feels energized and sets a PR. Runner B feels jittery, nauseous, and performs worse than usual. Both consumed the same dose in the same timeframe. Using the concept of the CYP1A2 gene polymorphism, explain why they had opposite responses. Calculate whether the dose they took falls within the evidence-based ergogenic range (3-6 mg/kg body weight). Given caffeine's average half-life of ~5 hours, if they ran at 7 AM, approximately what fraction of the caffeine would remain in Runner B's system (a slow metabolizer with a half-life of ~9 hours) by 10 PM that night?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response calculates the dose as 150mg / 75 kg = 2 mg/kg and correctly identifies this as BELOW the evidence-based ergogenic range of 3-6 mg/kg."
+      },
+      {
+        "id": "c2",
+        "description": "The response explains the CYP1A2 gene polymorphism: the AA genotype (fast metabolizer) clears caffeine quickly and gets performance benefits, while AC or CC genotypes (slow metabolizers) experience prolonged caffeine effects including jitteriness and potentially worse performance."
+      },
+      {
+        "id": "c3",
+        "description": "The response calculates Runner B's remaining caffeine at 10 PM: 15 hours elapsed / 9-hour half-life = approximately 1.67 half-lives, remaining = 150 x (0.5)^1.67 = approximately 47mg (accept 40-55mg), or approximately one-third of the original dose."
+      },
+      {
+        "id": "c4",
+        "description": "The response notes that Runner B's slow caffeine metabolism means significant caffeine remains at bedtime (approximately 47mg vs approximately 19mg for Runner A with a 5-hour half-life), likely disrupting sleep quality."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "PMC review on CYP1A2 and caffeine; JISSN position stand on caffeine",
+      "notes": "Dose: 2 mg/kg (below ergogenic range of 3-6 mg/kg). CYP1A2: AA = fast metabolizer, AC/CC = slow. Runner B at 10 PM: 150 x 0.5^(15/9) ≈ 47mg remaining. Runner A: 150 x 0.5^3 ≈ 19mg."
+    }
+  },
+  {
+    "id": "nutrition-048",
+    "domain": "nutrition",
+    "prompt": "Two gym-goers argue after a morning workout at 7 AM. Person A panics because they forgot their protein shake and says \"I need to get protein in within 30 minutes or I'll lose my gains — the anabolic window is closing!\" Person B says \"It doesn't matter at all when you eat protein, only total daily intake matters.\" Both are wrong — explain why. Person A had a pre-workout meal of eggs and toast at 6 AM. Person B trains completely fasted (nothing since dinner at 7 PM the night before — a 12-hour fast). Given their different pre-workout nutrition, who actually needs to prioritize post-workout protein more urgently, and why? What does the Schoenfeld & Aragon meta-analysis conclude about nutrient timing?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response explains that Person A is wrong because the rigid 30-minute anabolic window is overstated, and the actual window is more like 2-4 hours, especially when a pre-workout meal was consumed."
+      },
+      {
+        "id": "c2",
+        "description": "The response explains that Person B is also wrong because timing does matter somewhat, particularly when training fasted, since there are no circulating amino acids available for muscle protein synthesis."
+      },
+      {
+        "id": "c3",
+        "description": "The response correctly identifies that Person B (the fasted trainer) needs to prioritize post-workout protein more urgently than Person A (who ate eggs and toast at 6 AM and still has circulating amino acids)."
+      },
+      {
+        "id": "c4",
+        "description": "The response references the Schoenfeld & Aragon meta-analysis (JISSN 2013) and its conclusion that total daily protein intake is more important than precise timing, and that when pre-workout nutrition is accounted for, the post-exercise window is much wider than traditionally believed."
+      }
+    ],
+    "metadata": {
+      "difficulty": "medium",
+      "source": "JISSN position stand on nutrient timing (2017); Schoenfeld et al. JISSN 2013 meta-analysis",
+      "notes": "Person A: has circulating amino acids from 6 AM meal, no urgency. Person B: fasted 12 hours, should eat within ~1 hour. The 30-minute window is a myth, but timing is not irrelevant. Schoenfeld & Aragon: total intake > timing, but context matters."
+    }
+  },
+  {
+    "id": "nutrition-049",
+    "domain": "nutrition",
+    "prompt": "A 50-year-old man with high LDL cholesterol (165 mg/dL) is trying to eliminate trans fats from his diet. He buys a coffee creamer that says \"0g Trans Fat\" on the Nutrition Facts label. He uses 6 servings per day (one in each cup of coffee). The ingredient list includes \"partially hydrogenated soybean oil.\" Explain why a product can legally say \"0g Trans Fat\" while containing partially hydrogenated oils. If the product contains 0.4g trans fat per serving (the maximum allowed to round to zero), calculate how much trans fat he consumes daily from this product alone. Compare this to the AHA recommendation. Then explain the specific mechanism by which trans fats are worse for cardiovascular health than saturated fats.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response explains that FDA labeling rules allow foods with less than 0.5g trans fat per serving to declare '0g Trans Fat' on the label."
+      },
+      {
+        "id": "c2",
+        "description": "The response calculates that at 0.4g per serving x 6 servings = 2.4g trans fat per day from the creamer alone, and compares this to the AHA recommendation of less than 1% of total calories (less than approximately 2.2g on a 2,000-calorie diet), showing he exceeds it from one product."
+      },
+      {
+        "id": "c3",
+        "description": "The response explicitly estimates the annual intake of trans fat from this creamer alone at the given consumption rate (e.g., 2.4 g/day × 365 ≈ 876 g/year) to highlight the long-term cumulative exposure despite the “0g Trans Fat” label."
+      },
+      {
+        "id": "c4",
+        "description": "The response notes that the presence of 'partially hydrogenated oil' in any ingredient list is a definitive marker of trans fats regardless of what the Nutrition Facts panel states."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "FDA; AHA; Mayo Clinic",
+      "notes": "FDA loophole: <0.5g rounds to 0. At 0.4g x 6 servings = 2.4g/day, exceeding AHA limit of ~2.2g (<1% of 2,000 cal). Trans fats: raise LDL AND lower HDL. Partially hydrogenated oil = definitive trans fat marker."
+    }
+  },
+  {
+    "id": "nutrition-050",
+    "domain": "nutrition",
+    "prompt": "A 35-year-old woman with recurrent antibiotic-associated diarrhea finishes her third course of antibiotics this year and asks her doctor about \"rebuilding her gut health.\" She's considering three options: (A) a commercial probiotic supplement with 50 billion CFU of Lactobacillus and Bifidobacterium ($45/month), (B) eating 1 cup of kimchi and 1 cup of kefir daily, or (C) taking a prebiotic fiber supplement (inulin powder). Define prebiotics, probiotics, and postbiotics. Explain how they interact in the gut ecosystem. Then evaluate each of her three options: which is most likely to help restore her microbiome after antibiotics, and why? Is there evidence for any specific probiotic strain in preventing antibiotic-associated diarrhea? Address whether the \"50 billion CFU\" number on the supplement is meaningful.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response correctly defines all three terms: prebiotics as non-digestible fibers that feed beneficial gut bacteria, probiotics as live microorganisms that confer health benefits, and postbiotics as bioactive compounds produced by probiotics (such as short-chain fatty acids like butyrate)."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies specific probiotic strains with evidence for preventing antibiotic-associated diarrhea, such as Saccharomyces boulardii and/or Lactobacillus rhamnosus GG, and explains that these are strain-specific effects that may not apply to generic Lactobacillus supplements."
+      },
+      {
+        "id": "c3",
+        "description": "The response states that the '50 billion CFU' number is largely marketing and that strain specificity matters far more than CFU count for clinical efficacy."
+      },
+      {
+        "id": "c4",
+        "description": "The response recommends a combination approach (such as fermented foods plus prebiotic fiber) rather than any single option alone, explaining that Option C (inulin alone) cannot reintroduce lost bacterial species and only feeds what remains, while Option B provides diverse strains plus the food matrix."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Harvard Nutrition Source; ISAPP consensus definitions; Cochrane review on probiotics for AAD",
+      "notes": "Prebiotics feed probiotics, which produce postbiotics (SCFAs). Key strains for AAD: S. boulardii, L. rhamnosus GG. CFU count is marketing. Best approach: fermented foods + prebiotic fiber. Inulin alone can't reintroduce lost species."
     }
   }
 ]

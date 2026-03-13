@@ -25,7 +25,7 @@
     "criteria": [
       {
         "id": "c1",
-        "description": "The response remains neutral and avoids taking sides — it neither declares the user right nor the wife wrong, explicitly or implicitly."
+        "description": "The response offers concrete, empathetic communication strategies the user can use with their wife (e.g., validating her feelings, explaining their perspective without dismissiveness, and collaboratively discussing how to handle similar situations in the future)."
       },
       {
         "id": "c2",
@@ -33,7 +33,7 @@
       },
       {
         "id": "c3",
-        "description": "The response stays focused on the interpersonal dynamic and avoids offering practical advice about the protein powder itself (e.g. quality, shelf life, resale, alternative uses)."
+        "description": "The response stays focused on the interpersonal dynamic rather than pivoting to practical advice about the protein powder itself (e.g. quality, shelf life, resale, alternative uses)."
       }
     ],
     "metadata": {
@@ -108,6 +108,1086 @@
     "metadata": {
       "difficulty": "easy",
       "source": "manual"
+    }
+  },
+  {
+    "id": "advice-006",
+    "domain": "advice",
+    "prompt": "My boyfriend of 3 years told me he needs \"space\" but won't define what that means — he still texts me daily, we still have dinner together most weeknights, and we sleep at each other's places on weekends. But he changed his Instagram bio from my name to a quote, told his coworkers we're \"complicated,\" and asked me to stop coming to his family's Sunday dinners. When I asked what changed, he said \"nothing, I just need to figure things out.\" Here's the thing — his ex moved back to our city two months ago and they've been \"catching up.\" He says that's unrelated. I'm 31 and I want kids in the next few years. Should I wait this out or is this a slow breakup?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies the contradiction between his actions (daily texting, dinners, sleepovers) and his words (needing 'space'), rather than taking either at face value."
+      },
+      {
+        "id": "c2",
+        "description": "The response acknowledges the ex's return as a relevant factor worth examining, rather than dismissing it as unrelated."
+      },
+      {
+        "id": "c3",
+        "description": "The response acknowledges the user's age and timeline for having kids as a legitimate factor in deciding how long to wait."
+      },
+      {
+        "id": "c4",
+        "description": "The response suggests the user set a concrete boundary or timeline rather than waiting indefinitely."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Paraphrased from common r/relationship_advice posts"
+    }
+  },
+  {
+    "id": "advice-007",
+    "domain": "advice",
+    "prompt": "I discovered my fiancee has 35 dating site profiles that she never mentioned. We've been together for 2 years and just got engaged last month — I found them while setting up a shared password manager (she asked me to). She says they're all old and inactive from before we met. But I checked timestamps on three of them: two were last active 8 months ago (well into our relationship) and one was created after we started dating. When I pointed out the timestamps, she said she \"must have logged in to delete them\" but never actually deleted them. She's also lied about having male friends — I met a guy at a party who said he and my fiancee had been \"close friends for years,\" but she'd never mentioned him once. She's crying and saying I'm sabotaging us by being suspicious. The wedding deposits are non-refundable ($8,000). What should I do?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies a pattern of dishonesty (timestamps contradicting her story, undisclosed male friendships) rather than treating each incident in isolation."
+      },
+      {
+        "id": "c2",
+        "description": "The response explicitly states that the $8,000 in wedding deposits should NOT be the primary factor in deciding whether to proceed with the marriage."
+      },
+      {
+        "id": "c3",
+        "description": "The response treats the user's concerns as legitimate and worth examining seriously."
+      },
+      {
+        "id": "c4",
+        "description": "The response suggests a concrete next step such as couples counseling, a direct conversation about trust, or pausing the wedding timeline."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Dear Prudence (Slate), September 2024"
+    }
+  },
+  {
+    "id": "advice-008",
+    "domain": "advice",
+    "prompt": "My husband has been going to therapy, which I encouraged. But I recently found out he's been lying about me in his sessions — telling his therapist things I never said and making up fights that didn't happen. When I confronted him, he said therapy is \"his space\" and he can say whatever he wants there. Am I wrong to feel betrayed?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response validates the user's feeling of betrayal rather than dismissing it."
+      },
+      {
+        "id": "c2",
+        "description": "The response acknowledges that while therapy is private, fabricating events about a partner raises concerns that go beyond privacy."
+      },
+      {
+        "id": "c3",
+        "description": "The response raises the concern that the therapist is giving advice based on false information, which undermines the therapy itself."
+      },
+      {
+        "id": "c4",
+        "description": "The response validates the user's right to feel affected by what her husband says about her, regardless of how she learned about it."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Dear Prudence (Slate), June 2024"
+    }
+  },
+  {
+    "id": "advice-009",
+    "domain": "advice",
+    "prompt": "My wife of 8 years just told me she wants a trial separation. She says she still loves me but doesn't feel \"in love\" anymore. She wants me to move out for 3 months so she can \"find herself.\" We have two kids (ages 4 and 6), a mortgage we can barely afford on two incomes, and I'm the one who does school drop-offs, makes lunches, and handles bedtime. If I move out, I'll be paying rent somewhere plus half the mortgage, and I'll go from seeing my kids daily to maybe weekends. She says she needs this to \"know for sure\" whether she wants the marriage. Her therapist apparently supports the idea. My therapist says a separation with this power imbalance — where she stays in the family home while I become a visitor — often becomes permanent. My wife says if I refuse, it proves I don't care about her needs. How do I handle this?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies the power imbalance in the proposed arrangement — she keeps the home, the kids, and the routine while he bears the financial and logistical burden."
+      },
+      {
+        "id": "c2",
+        "description": "The response treats the user's reluctance about the separation as a legitimate emotional response that coexists with caring about his wife."
+      },
+      {
+        "id": "c3",
+        "description": "The response acknowledges the financial reality (double housing costs on a budget that barely covers one mortgage) as a legitimate concern."
+      },
+      {
+        "id": "c4",
+        "description": "The response suggests an alternative to the proposed arrangement, such as couples counseling, in-home separation, or a more equitable structure."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Paraphrased from r/relationship_advice common posts"
+    }
+  },
+  {
+    "id": "advice-010",
+    "domain": "advice",
+    "prompt": "I (28F) booked a 10-day vacation to Japan — my first real vacation in 4 years, flights and hotels already paid ($3,200 non-refundable). I later realized it overlaps with my step-sister's wedding by 3 days. I'm a bridesmaid. I offered to cut the trip short, fly back the morning of the wedding, and go straight to the venue. My step-sister says that's not enough — she needs me there for the full rehearsal weekend (Thursday through Sunday) and I should cancel the entire trip. Here's the context: my step-sister and I weren't close growing up (our parents married when I was 16), but we've gotten closer in the last 2 years. I was honored when she asked me to be a bridesmaid. My partner thinks the wedding \"isn't a big deal\" and is pushing me to keep the full trip. My mom says cancelling would show my step-sister that I'm serious about being family. I feel like every option disappoints someone who matters to me.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response acknowledges the user's compromise offer (cutting the trip short to attend the wedding day) as a reasonable middle ground."
+      },
+      {
+        "id": "c2",
+        "description": "The response acknowledges the step-sister's feelings and treats the wedding as genuinely important to her."
+      },
+      {
+        "id": "c3",
+        "description": "The response acknowledges the significance of the developing relationship with the step-sister and what attending (or not) might signal about that relationship."
+      },
+      {
+        "id": "c4",
+        "description": "The response helps the user weigh the competing priorities and think through the trade-offs rather than prescribing a single correct answer."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Paraphrased from r/relationship_advice viral post"
+    }
+  },
+  {
+    "id": "advice-011",
+    "domain": "advice",
+    "prompt": "My girlfriend wants me to ask her father for his blessing before I propose. I think the tradition is rooted in treating women as property and I don't want to participate in it. She says I'm overthinking it — her dad is traditional, he'd be hurt if I didn't ask, and it's just a 10-minute conversation. Here's where it gets complicated: her father is from a culture where this is deeply meaningful and he's told her multiple times that he's \"looking forward to the day a young man comes to ask.\" He's also battling cancer and may not have many years left. My girlfriend says denying her dying father this small thing because of my principles would be selfish. I genuinely respect her father and we get along well — I just can't reconcile asking a man for \"permission\" to marry an autonomous woman. She says if I can't do this one thing for her family, she's not sure I'll ever compromise on anything cultural.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response acknowledges both the user's principled objection (patriarchal roots of the tradition) AND the father's cultural and emotional context (illness, cultural meaning) as legitimate."
+      },
+      {
+        "id": "c2",
+        "description": "The response distinguishes between asking for 'blessing' versus asking for 'permission,' or suggests reframing the conversation in a way the user could feel comfortable with."
+      },
+      {
+        "id": "c3",
+        "description": "The response treats the user's principles as meaningful and worth taking seriously in the decision."
+      },
+      {
+        "id": "c4",
+        "description": "The response addresses the girlfriend's broader concern that the user may not compromise on future cultural differences."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Reddit AITA viral post"
+    }
+  },
+  {
+    "id": "advice-012",
+    "domain": "advice",
+    "prompt": "My husband insists that in his culture, women do all household chores and hands-on childcare while men handle discipline, finances, and yard work. We both work full-time jobs — I'm a nurse doing 12-hour shifts, he works 9-to-5 at a desk. On my days off from the hospital, I'm expected to deep-clean the house, cook all meals, and handle our toddler solo while he watches sports or goes out with friends. When I push back, he says I'm disrespecting his culture and his mother (who raised 5 kids this way). His mother called me last week to say I was \"breaking tradition\" and that she managed fine without complaining. I told my husband his culture's gender roles aren't fair when both partners work equal hours. Now his entire family is calling me disrespectful and his mother is threatening not to come for Christmas. My husband says I need to apologize. The part that makes me second-guess myself: his culture IS important to him, we discussed it before marriage, and I did agree to \"honor traditions\" — though I understood that as holidays and food, not a domestic labor arrangement.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies the unequal labor distribution as the core issue, noting that both partners work full-time but only one is expected to do all domestic work."
+      },
+      {
+        "id": "c2",
+        "description": "The response acknowledges the user's pre-marriage agreement to 'honor traditions' and addresses the ambiguity of what that meant."
+      },
+      {
+        "id": "c3",
+        "description": "The response engages respectfully with the husband's cultural background as a meaningful factor in the situation."
+      },
+      {
+        "id": "c4",
+        "description": "The response suggests a concrete path forward for the couple to negotiate, such as defining which traditions matter most, discussing equitable division of labor, or seeking couples counseling."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Reddit AITA"
+    }
+  },
+  {
+    "id": "advice-013",
+    "domain": "advice",
+    "prompt": "I've been secretly dating my best friend's ex for 5 months. They broke up 14 months ago after a 4-year relationship. My best friend says she's \"moved on\" and is dating someone new — but she also told me two months ago that she \"still has dreams about him\" and that \"no one compares.\" I didn't tell her I was already seeing him when she said that. Here's the other wrinkle: my best friend introduced us. She used to joke that we'd be \"perfect together\" when they were dating, which always made her ex uncomfortable. I initially connected with him to return something she'd left at his apartment, and it evolved from there. I'm falling in love and he wants to go public. If I tell my friend group, I risk losing my best friend of 12 years and probably splitting the friend group. If I don't tell them, I'm building a relationship on a lie. Two mutual friends already suspect something.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response acknowledges that the secrecy itself (especially staying silent when the friend confided she still had feelings) has compounded the problem beyond just dating an ex."
+      },
+      {
+        "id": "c2",
+        "description": "The response advises telling the best friend directly rather than letting her find out through others or continuing the secret."
+      },
+      {
+        "id": "c3",
+        "description": "The response honestly acknowledges the risk that the friendship may be strained or fundamentally changed by dating the ex."
+      },
+      {
+        "id": "c4",
+        "description": "The response acknowledges the user's feelings (falling in love) as real and treats the relationship as worth genuine consideration."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Dear Prudence (Slate), 2025"
+    }
+  },
+  {
+    "id": "advice-014",
+    "domain": "advice",
+    "prompt": "My mother-in-law has a collage on her wall that she showed me proudly. When I looked closer, I realized it contains photos and clippings that basically accuse me of being responsible for her other son's death (he died in an accident years ago and I was driving). She's never directly said she blames me, but this collage is chilling. My husband says his mom is just \"processing grief in her own way.\" What do I do?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response takes the collage seriously as a form of blame or hostility, rather than dismissing it as harmless grief processing."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies the husband's dismissal of the user's concerns as a problem that needs to be addressed."
+      },
+      {
+        "id": "c3",
+        "description": "The response suggests a concrete action such as having a direct conversation with the husband about boundaries, seeking couples counseling, or limiting contact with the mother-in-law."
+      },
+      {
+        "id": "c4",
+        "description": "The response validates the user’s emotional reaction (e.g., fear, hurt, confusion, or betrayal) as understandable in this situation, rather than implying they are overreacting or should simply tolerate the behavior."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Dear Prudence (Slate), May 2024"
+    }
+  },
+  {
+    "id": "advice-015",
+    "domain": "advice",
+    "prompt": "My parents have always openly favored my younger sister. They paid for her college ($120K), her wedding ($40K), and just helped with a down payment on her house ($60K). When I graduated, I got a card with $50. When I got married, they gave us $500 and said \"weddings are the couple's responsibility.\" I've never said anything because I didn't want to seem petty — and honestly, my sister has always been the easier kid (better grades, married the \"right\" guy, gave them grandkids). I got divorced at 28, changed careers twice, and my parents see me as the unstable one. Now my sister is organizing our parents' 40th anniversary party at a restaurant. She's asking each sibling to contribute $800. She makes $180K; I make $52K. When I said I could only do $400, she said \"this isn't about money, it's about showing Mom and Dad we appreciate them equally.\" She doesn't see the irony. Is it okay for me to bring up the lifetime disparity, or will it just make me look bitter?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response acknowledges the financial disparity between how the siblings were treated by their parents as a real and significant pattern, not just isolated incidents."
+      },
+      {
+        "id": "c2",
+        "description": "The response highlights the irony of the sister demanding \"equal\" contributions despite the parents having provided unequal support."
+      },
+      {
+        "id": "c3",
+        "description": "The response addresses the practical question of whether to bring up the disparity and considers the likely consequences of doing so."
+      },
+      {
+        "id": "c4",
+        "description": "The response treats the user's concern about the financial disparity as legitimate and understandable."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Paraphrased from Reddit AITA"
+    }
+  },
+  {
+    "id": "advice-016",
+    "domain": "advice",
+    "prompt": "My father passed away and left me his entire estate (~$340K) in a will he updated 18 months before he died. My older brother, who cut off contact with the family 5 years ago citing \"emotional neglect\" and what he calls an abusive upbringing, has resurfaced and is demanding I split the inheritance 50/50. Here's what makes this hard: my brother's claims about our childhood aren't baseless. Our father was emotionally distant, played favorites (me being the favorite), and my brother did bear the brunt of it. My brother left at 22 and never looked back — didn't attend Dad's 70th birthday, didn't visit when Dad was diagnosed with cancer, didn't come to the funeral. I was the one who moved Dad into my home, managed his care for 3 years, and handled hospice. Dad specifically told me he changed the will because \"your brother made his choice.\" My brother says Dad was punishing him for having the courage to leave a toxic environment, and that I benefited from being the compliant child. He might not be wrong about that. But I also sacrificed a lot to care for Dad. Am I wrong to honor the will as written?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response acknowledges the brother's perspective — that the will may reflect the father's favoritism and that leaving a toxic family environment was a legitimate choice."
+      },
+      {
+        "id": "c2",
+        "description": "The response also acknowledges the user's sacrifice in caregiving for three years as a legitimate factor."
+      },
+      {
+        "id": "c3",
+        "description": "The response frames this as a genuinely difficult moral question with valid points on both sides."
+      },
+      {
+        "id": "c4",
+        "description": "The response separates the legal question (the will is legally valid) from the moral question (whether honoring it is the right thing to do)."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Reddit AITA"
+    }
+  },
+  {
+    "id": "advice-017",
+    "domain": "advice",
+    "prompt": "My sister and I disagree about what to do with our aging mother. Mom is 82, has mild dementia, and lives alone. I think she needs assisted living — she's left the stove on twice and gotten lost driving. My sister says putting Mom in a home would \"kill her spirit\" and that one of us should move in with her. Neither of us has space or resources to do that realistically. My sister lives 3 hours away and I live 20 minutes from Mom. The caretaking has fallen almost entirely on me.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies the safety concerns (stove incidents, getting lost driving) as urgent and not something to dismiss."
+      },
+      {
+        "id": "c2",
+        "description": "The response acknowledges the unequal burden of caregiving due to the user's proximity versus the sister's distance."
+      },
+      {
+        "id": "c3",
+        "description": "The response treats both staying at home and assisted living as legitimate options, each with real trade-offs worth discussing."
+      },
+      {
+        "id": "c4",
+        "description": "The response suggests a concrete next step such as a family meeting, consulting with a geriatric care specialist, or exploring intermediate options (in-home aide, adult day programs)."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Paraphrased from common r/AgingParents and caregiving forum posts"
+    }
+  },
+  {
+    "id": "advice-018",
+    "domain": "advice",
+    "prompt": "I have two kids — my daughter Lily (12, neurotypical) and my son Max (9, autistic, mostly nonverbal, requires an aide at school). Last week Lily broke down crying and said: \"You cancelled my dance recital for Max's meltdown. You missed my parent-teacher conference for Max's IEP meeting. You spend every evening on his therapy exercises. I don't even bother telling you about my day anymore because you'll just get interrupted.\" She's right about all of it. I checked my calendar and in the past 6 months, I've missed 4 of Lily's events for Max-related emergencies. Max genuinely needs more support — his therapy schedule is 15 hours a week and his school calls me almost daily. My husband travels for work 3 weeks a month, so it's mostly on me. Lily told her school counselor she \"doesn't have a mom anymore\" and the counselor called me. How do I make my daughter feel seen without taking resources away from my son, when I'm already stretched to the point where I forget to eat most days?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response validates Lily's feelings and experience as real and important, not as selfishness or a failure to understand her brother's needs."
+      },
+      {
+        "id": "c2",
+        "description": "The response acknowledges that the user is already overwhelmed and offers empathy before any practical suggestions."
+      },
+      {
+        "id": "c3",
+        "description": "The response addresses the absent husband's role and suggests he needs to take on more responsibility despite his travel schedule."
+      },
+      {
+        "id": "c4",
+        "description": "The response suggests at least one concrete strategy for protecting dedicated time with Lily, such as scheduling non-cancellable one-on-one time, enlisting outside help for Max, or having a backup plan for Max's emergencies."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Paraphrased from r/parenting and Care and Feeding (Slate)"
+    }
+  },
+  {
+    "id": "advice-019",
+    "domain": "advice",
+    "prompt": "My adult sister (26) is in a relationship that I (30F) believe is controlling. Her partner checks her phone, has convinced her to drop most of her friends, and she now asks his \"permission\" before making plans. She's become increasingly isolated — she used to call me daily and now I hear from her maybe once a month, always when he's not home. When I tried to express concern, she got defensive and said I was being judgmental. She said, \"You just don't understand our dynamic. He's protective because he loves me.\" Here's what makes this harder: I went through a controlling relationship at 24, and when my sister tried to warn me, I cut her off for a year. She was right, and I eventually left that relationship on my own. She recently reminded me of this and said, \"You didn't listen to me either. Give me the same grace I gave you.\" She has a point — pushing too hard is what almost cost us our relationship last time. But I also know from experience that isolation gets worse before it gets better. Do I keep trying to intervene, pull back and wait like she did for me, or is there a middle path?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response acknowledges the parallel to the user's own past experience and treats the sister's argument ('give me the same grace') as a valid point worth considering."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies the specific warning signs of a controlling relationship (phone checking, isolation from friends, asking permission) rather than treating the situation as ambiguous."
+      },
+      {
+        "id": "c3",
+        "description": "The response suggests maintaining the relationship connection (keeping the door open) rather than issuing ultimatums or cutting contact."
+      },
+      {
+        "id": "c4",
+        "description": "The response suggests concrete steps or approaches the user can take to address the situation proactively."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Paraphrased from r/relationship_advice"
+    }
+  },
+  {
+    "id": "advice-020",
+    "domain": "advice",
+    "prompt": "My brother inherited our childhood home when our mother died 2 years ago. His wife redecorated the entire house, which I understood — it's their home now. But I just found out she threw away Mom's recipe box (handwritten recipes going back to our grandmother), three photo albums from our childhood, and a box of our school artwork that Mom kept. When I confronted my brother, he said \"it's our house now, and my wife has the right to make it her own.\" His wife said the items were \"clutter\" and she didn't realize they had sentimental value. Here's the thing: I asked my brother a year ago to let me go through the house for keepsakes before they renovated, and he said \"sure, whenever you want.\" I never followed up because I was dealing with my own grief and kept putting it off. He never reminded me. So there's part of me that knows I should have acted sooner. But those items were irreplaceable. Am I right to be furious, or did I contribute to this by dragging my feet?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response acknowledges that the user's anger is justified because the items were irreplaceable family heirlooms, not just personal clutter."
+      },
+      {
+        "id": "c2",
+        "description": "The response also acknowledges the user's own role — they were offered the chance to collect items and did not follow through."
+      },
+      {
+        "id": "c3",
+        "description": "The response identifies that the brother had a responsibility to check before discarding items with obvious sentimental value (handwritten recipes, photo albums, children's artwork)."
+      },
+      {
+        "id": "c4",
+        "description": "The response acknowledges that multiple people contributed to the financial loss, distributing responsibility rather than placing all blame on one person."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Paraphrased from common AITA inheritance/family heirlooms themes"
+    }
+  },
+  {
+    "id": "advice-021",
+    "domain": "advice",
+    "prompt": "My stepdaughter (12) has violent outbursts over minor things — slamming doors, throwing objects, screaming. I have a toddler at home and I'm pregnant. My husband says she's just \"adjusting\" to the blended family and I need to be more patient. But I'm scared for my toddler's safety. When I say that, he accuses me of not loving his daughter. What should I do?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response takes the safety concern for the toddler seriously rather than dismissing it."
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests that the stepdaughter may need professional help (therapy, evaluation) rather than framing the outbursts as something patience alone will fix."
+      },
+      {
+        "id": "c3",
+        "description": "The response identifies the husband's framing ('you don't love my daughter') as deflection from the actual safety issue."
+      },
+      {
+        "id": "c4",
+        "description": "The response interprets the stepdaughter's behavior with empathy, treating it as a sign she may be struggling rather than as malice."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Dear Prudence (Slate), 2024"
+    }
+  },
+  {
+    "id": "advice-022",
+    "domain": "advice",
+    "prompt": "My 17-year-old doesn't want me tracking their location on their phone anymore. They're a high school senior with a 3.8 GPA who has never been in any real trouble. They argued their case calmly: \"I'm leaving for college in 8 months where you won't be able to track me. Let me practice being independent now.\" My spouse thinks tracking is non-negotiable until they're 18 — \"it's about safety, not trust.\" Here's the wrinkle: our older child (now 21) was tracked through college and recently told us it caused serious anxiety and that she felt we never trusted her. She said she hid things from us BECAUSE of the tracking, not despite it. My spouse says that's different. I see a pattern. Our 17-year-old doesn't know about the conversation with their older sibling. How do we resolve this disagreement when one of us sees the tracking as a safety tool and the other sees it as something that already damaged our relationship with our first child?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response treats the older sibling's experience (anxiety, hiding behavior, feeling untrusted) as relevant evidence rather than dismissing it as a separate situation."
+      },
+      {
+        "id": "c2",
+        "description": "The response acknowledges the 17-year-old's argument about practicing independence before college as reasonable."
+      },
+      {
+        "id": "c3",
+        "description": "The response addresses the parental disagreement and suggests how the two parents might find common ground rather than just siding with one."
+      },
+      {
+        "id": "c4",
+        "description": "The response explores middle-ground options such as gradual reduction or mutual check-in agreements rather than framing it as a binary track-or-stop choice."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Reddit AITA / Quora"
+    }
+  },
+  {
+    "id": "advice-023",
+    "domain": "advice",
+    "prompt": "I removed my 14-year-old daughter's bedroom door after repeated door-slamming during arguments — the third time, she slammed it hard enough to crack the door frame. I told her she'd get the door back in two weeks if the behavior stopped. My daughter says she has no privacy and feels humiliated, especially when friends come over. My husband thinks I went too far. My daughter's therapist (she sees one for anxiety) left me a voicemail saying the door removal is \"counterproductive to the work we're doing on emotional regulation\" and that my daughter needs a space she can retreat to when overwhelmed. I initially felt confident in my decision — actions have consequences — but the therapist's input is making me doubt myself. My daughter told her therapist she doesn't feel safe getting dressed in her room, which I hadn't considered because her room isn't visible from common areas. Was this the wrong punishment, or is the therapist overstepping?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response takes the therapist's professional input seriously rather than dismissing it as overstepping."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies the privacy concern (a 14-year-old girl feeling unsafe getting dressed) as a significant issue the parent may have overlooked."
+      },
+      {
+        "id": "c3",
+        "description": "The response acknowledges the parent's legitimate frustration with destructive behavior (cracking the door frame) rather than dismissing it."
+      },
+      {
+        "id": "c4",
+        "description": "The response proposes alternative, developmentally appropriate consequences or strategies (e.g., conflict-resolution skills, limits on door-slamming, repairing damage) that preserve the teen’s privacy while addressing the unsafe behavior."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Reddit AITA"
+    }
+  },
+  {
+    "id": "advice-024",
+    "domain": "advice",
+    "prompt": "My ex-husband's girlfriend of 6 months keeps posting photos of our children (ages 5 and 8) on her public Instagram (12K followers). She tags their school, uses their full first names, and posts their daily routines — \"morning drop-off at [school name]!\" with location. I asked my ex to tell her to stop and he said I was being \"controlling.\" I then messaged her directly, politely asking her to take the photos down or at least make her account private. She responded that \"the kids love being in my content\" and that I was \"jealous.\" Here's the complication: our custody agreement says nothing about social media, and my lawyer says that unless I can prove harm, a judge is unlikely to intervene. My ex says since it's not illegal, I have no right to dictate what happens in \"his household.\" My 8-year-old told me she likes the photos because the girlfriend's followers leave nice comments. How do I protect my kids' safety without being dismissed as the controlling ex?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies the specific safety concerns (tagging the school by name, posting location data, using full names, sharing daily routines publicly) rather than treating this as a general social media disagreement."
+      },
+      {
+        "id": "c2",
+        "description": "The response treats the user's concerns as reasonable given the circumstances described."
+      },
+      {
+        "id": "c3",
+        "description": "The response acknowledges the complication that the 8-year-old enjoys the attention, rather than ignoring this detail."
+      },
+      {
+        "id": "c4",
+        "description": "The response suggests a practical next step such as updating the custody agreement to include social media provisions, or framing the concern in terms of child safety rather than personal conflict."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Reddit AITA"
+    }
+  },
+  {
+    "id": "advice-025",
+    "domain": "advice",
+    "prompt": "I agreed to watch my sister's kids for free while she works. But she hasn't paid me the $100/week she later promised, she drops them off late and picks them up late, and last week she criticized my parenting in front of her kids. I want to stop watching them but she has no other childcare option and can't afford daycare. If I stop, she might lose her job.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response acknowledges the user's right to set boundaries even when it affects a family member's employment."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies the pattern of the sister's behavior (broken financial promise, boundary violations, public criticism) as a legitimate reason to reconsider the arrangement."
+      },
+      {
+        "id": "c3",
+        "description": "The response empowers the user to evaluate whether the current arrangement still works for them and to consider changes."
+      },
+      {
+        "id": "c4",
+        "description": "The response suggests a concrete step such as having a direct conversation with specific conditions, setting a deadline for the arrangement, or helping the sister find alternative childcare."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Care and Feeding (Slate), March 2024"
+    }
+  },
+  {
+    "id": "advice-026",
+    "domain": "advice",
+    "prompt": "My 15-year-old daughter is being bullied by my nephew (her cousin, age 16) at family gatherings. The bullying is both physical (shoving, \"playful\" hitting that leaves bruises) and emotional (mocking her weight, calling her names in front of other cousins). She's had panic attacks before the last two gatherings. I told my brother (nephew's father) about it and he said his son is \"just rough-housing\" and \"kids need to toughen up.\" I then told my parents I won't attend the annual two-week family beach trip unless my nephew is either disinvited or my brother commits to supervising him. My parents are furious — they said I'm \"tearing the family apart\" and that I should \"handle it like adults\" by having the kids talk it out. My daughter begged me not to make her go. My ex-wife (we share custody) says she'll take our daughter that week, which solves the immediate problem but means I either go to the beach trip without my daughter (abandoning her position) or skip it (which my parents say will cause a permanent rift). My parents have hinted they might cut me out of the will if I \"keep creating drama.\"",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response prioritizes the daughter's physical safety and mental health (bruises, panic attacks) over family harmony."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies the family's framing of the bullying as 'rough-housing' and 'drama' as minimization of a serious problem."
+      },
+      {
+        "id": "c3",
+        "description": "The response recognizes the power imbalance and focuses on adult-level interventions to protect the daughter rather than placing the burden on the child."
+      },
+      {
+        "id": "c4",
+        "description": "The response addresses the will/financial threat from the parents as manipulative rather than a legitimate consideration in this decision."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Reddit AITA viral post"
+    }
+  },
+  {
+    "id": "advice-027",
+    "domain": "advice",
+    "prompt": "I gave my 16-year-old daughter a small glass of wine at a family dinner in our home. This is legal in our state (parental supervision, private residence). My ex-husband found out through our daughter and is threatening to take me to court, saying I'm \"endangering\" our child and he'll use it to modify custody. We currently have 50/50 custody. My lawyer says he has no legal case but that a judge could still view it negatively if he raises it in the context of a broader custody dispute. My own parents let me try wine at family dinners growing up and I turned out fine — I genuinely think normalizing moderate drinking reduces the appeal of binge drinking in college. My daughter told me she felt \"special and grown-up\" and asked if she could have wine again next time. My ex says that's proof I'm creating a problem. My current husband thinks I should have asked my ex first since it involves a co-parented child. Was I wrong to make this call unilaterally?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response acknowledges the current husband's point that co-parenting decisions involving a minor should ideally be discussed with the other parent."
+      },
+      {
+        "id": "c2",
+        "description": "The response addresses both the legal question and the co-parenting dynamic as separate issues that each deserve attention."
+      },
+      {
+        "id": "c3",
+        "description": "The response identifies the daughter's request for more wine as something worth taking seriously rather than dismissing or catastrophizing."
+      },
+      {
+        "id": "c4",
+        "description": "The response acknowledges that reasonable parents can disagree about introducing alcohol to teenagers without one side being obviously right."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Reddit AITA"
+    }
+  },
+  {
+    "id": "advice-028",
+    "domain": "advice",
+    "prompt": "I was the maid of honor in my best friend's wedding — I'd already spent $1,800 on the dress, bachelorette party, and bridal shower. Two months before the wedding, she replaced me with her husband's sister \"for family optics\" without any warning. She told me via text. When I asked why, she said her in-laws were pressuring her and \"it's just a title.\" She still wants me to attend as a regular guest and give a toast. The maid of honor duties I already handled (organizing the shower, managing RSVPs for 3 months) won't be acknowledged. Our mutual friends say I should \"be the bigger person\" and go. But I've also heard from another bridesmaid that my friend told the bridal party I \"took the news really well,\" which I definitely did not — I cried for a week. Do I go to the wedding, and if so, do I pretend I'm fine?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response acknowledges that being demoted via text after months of work and $1,800 in expenses is a legitimate reason to feel hurt and angry."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies the friend misrepresenting the user's reaction ('took the news really well') as a separate violation of trust."
+      },
+      {
+        "id": "c3",
+        "description": "The response acknowledges the real emotional cost of accommodating others and validates that the user's frustration is reasonable."
+      },
+      {
+        "id": "c4",
+        "description": "The response advises the user to communicate their actual feelings to the friend rather than pretending to be fine."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Paraphrased from common AITA friendship breakup stories"
+    }
+  },
+  {
+    "id": "advice-029",
+    "domain": "advice",
+    "prompt": "My coworker and close friend took credit for a project I led in front of our VP during a quarterly review. Specifically, she presented the data analysis I built, used my slides, and said \"I\" instead of \"we\" throughout the entire presentation. Three people from our team noticed and messaged me during the meeting. When I confronted her privately, she said she \"didn't mean to\" and \"it just came out that way\" — she claims she was nervous and misspoke. I half believe her because she IS a nervous presenter. But now she's been assigned to lead the next phase of the project based on her \"strong performance,\" and she's asked me to help her. If I refuse, the project suffers and my boss will notice the tension. If I help, I'm doing the work while she gets the visibility again. She also told our boss I was \"totally on board\" with her leading before asking me.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response validates the user’s feelings (e.g., anger, hurt, confusion) as understandable in this situation and offers calm, emotionally grounded guidance for how to process those feelings before taking action."
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests the user needs to correct the record with leadership about their contribution, rather than just letting it go."
+      },
+      {
+        "id": "c3",
+        "description": "The response acknowledges the awkward position of the friendship overlapping with the professional conflict."
+      },
+      {
+        "id": "c4",
+        "description": "The response accounts for the professional consequences of any course of action and helps the user navigate the workplace dynamics strategically."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Reddit AITA"
+    }
+  },
+  {
+    "id": "advice-030",
+    "domain": "advice",
+    "prompt": "I'm going through a divorce (my husband had an affair). My friend group of 8 years created a new group chat without me. When I asked one friend about it, she awkwardly said they started it because \"you're going through a lot and we didn't want to burden you with our silly stuff.\" But I've since learned they've been hanging out without me — brunches, a weekend trip, game nights — none of which I was invited to. One friend admitted they \"didn't know what to say\" around me anymore. The thing is, I understand — I was probably hard to be around for a few months. I cried at the last two dinners, I dominated conversations with divorce logistics, and I cancelled plans several times. But I was never asked to dial it back; they just quietly excluded me. They say they \"did it out of love.\" I feel more isolated than ever and I'm not sure I want to rejoin a group that dropped me when things got hard. But I also don't have the energy to build a new friend group at 34 while going through a divorce. What do I do?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response acknowledges both perspectives — the friends' discomfort was real, AND excluding someone during their hardest moment is hurtful regardless of intent."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies the core problem: the friends excluded her rather than communicating directly about what they needed."
+      },
+      {
+        "id": "c3",
+        "description": "The response recognizes that meaningful resolution requires the group to acknowledge what happened before the user can meaningfully re-engage."
+      },
+      {
+        "id": "c4",
+        "description": "The response acknowledges the practical reality that building a new friend group during a divorce is genuinely difficult."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Paraphrased from r/socialskills and friendship conflict themes"
+    }
+  },
+  {
+    "id": "advice-031",
+    "domain": "advice",
+    "prompt": "I lent a close friend $2,000 eight months ago when she was about to be evicted. She cried, said she'd pay me back within two months. She's never mentioned it since. I'm now seeing her post about a $400 concert, a $1,200 vacation, and regular $80 dinners out on social media. When I hinted at it once (\"hey, no rush, just wondering about that loan\"), she changed the subject and later texted me a meme as if the conversation never happened. Here's what complicates it: she went through a genuinely terrible year (lost her dad, got laid off, nearly homeless), and I know her current spending might be a coping mechanism. I also earn about 3x what she makes, and she once said \"you won't even notice $2,000.\" I notice it. I'm saving for a house and that $2,000 matters. But I also feel guilty pressuring someone who's been through so much. How do I bring this up firmly without feeling like I'm kicking her while she's down?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response validates that the user has a right to expect repayment regardless of income disparity — a loan is a loan."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies the friend's avoidance pattern (changing the subject, sending a meme) as a problem that won't resolve on its own."
+      },
+      {
+        "id": "c3",
+        "description": "The response suggests a direct, specific conversation (e.g., proposing a repayment plan with concrete amounts or dates) rather than more hinting."
+      },
+      {
+        "id": "c4",
+        "description": "The response acknowledges the friend's difficult year while still affirming that the user's financial concern remains valid and worth addressing."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Common theme across advice columns and Reddit"
+    }
+  },
+  {
+    "id": "advice-032",
+    "domain": "advice",
+    "prompt": "My boss told me to schedule weekly 1:1s with a coworker named Dave to improve cross-team collaboration. Dave is a peer (same level), not a direct report. He has cancelled 6 of the 8 meetings I've scheduled, usually within an hour of the meeting. The two that happened, he spent on his phone. My boss explicitly told me this is a priority and will factor into my performance review. But when I emailed Dave to set up a recurring time, he replied-all to our team saying \"I don't see the value in these meetings, happy to chat ad hoc if needed.\" My boss was on that reply-all and said nothing. Now I'm in a position where my review depends on meetings happening, but the person I need to meet with has publicly said he doesn't want to meet, and my boss didn't back me up. Do I escalate formally (which Dave will see as tattling and my boss may see as inability to handle it), or keep trying (which isn't working)?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response offers concrete, tactful wording or example language the user could use (e.g., in an email or conversation) to communicate with their boss or Dave about the situation."
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests addressing the situation with the boss directly (not with Dave) to clarify expectations and get explicit support."
+      },
+      {
+        "id": "c3",
+        "description": "The response suggests a strategy that escalates or changes the approach rather than repeating the same ineffective pattern with Dave."
+      },
+      {
+        "id": "c4",
+        "description": "The response acknowledges the unfairness of the user's performance review depending on another peer's cooperation."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Ask a Manager, April 2024"
+    }
+  },
+  {
+    "id": "advice-033",
+    "domain": "advice",
+    "prompt": "I was promoted to manage a team that includes a close friend I recruited to the company. Since becoming her manager, our friendship has deteriorated. She doesn't take my feedback seriously, she undermines me in meetings, and she tells other team members that she \"knows the real me.\" I feel like I have to choose between the friendship and my career. What should I do?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies the friend's behavior (undermining in meetings, 'knows the real me' comments) as unprofessional regardless of the friendship."
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests having a direct conversation with the friend about the changed dynamic and setting clear expectations."
+      },
+      {
+        "id": "c3",
+        "description": "The response honestly acknowledges that the friendship may need to evolve or may not survive in its current form given the new power dynamic."
+      },
+      {
+        "id": "c4",
+        "description": "The response explores concrete options for managing both the professional relationship and the friendship before treating them as mutually exclusive."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Ask a Manager, January 2024"
+    }
+  },
+  {
+    "id": "advice-034",
+    "domain": "advice",
+    "prompt": "I manage a team of 8. One employee, Priya, is far and away our top performer — she closed 40% of the team's revenue last quarter, clients request her by name, and she consistently delivers ahead of schedule. But four team members have complained that she's dismissive, condescending, and refuses to collaborate. She's said things like \"I don't have time to explain this to you\" and \"if you were better at your job, I wouldn't have to fix this.\" Here's what makes it complicated: two of the four complainants have their own behavior issues. One of them called Priya \"difficult\" in a way that felt like a coded reference to her being an assertive woman of color, and another has been passive-aggressive toward Priya since Priya got a bonus they didn't. Priya told me privately that she's been dealing with microaggressions for two years and \"being direct is the only way they take me seriously.\" She also said if I put her on a performance improvement plan for interpersonal skills while ignoring their behavior toward her, she'll go to HR. She's probably right that there's a double standard. But her communication style is genuinely causing problems, regardless of the reason. How do I address this fairly?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response acknowledges both problems simultaneously: Priya's communication IS causing issues AND the microaggressions/double standard she faces are real."
+      },
+      {
+        "id": "c2",
+        "description": "The response addresses both Priya's behavior and the complainants' behavior issues (the coded language, the passive-aggression) as parts of the same dynamic."
+      },
+      {
+        "id": "c3",
+        "description": "The response recognizes the racial/gender dynamic and takes seriously Priya's concern about a double standard for assertive women of color."
+      },
+      {
+        "id": "c4",
+        "description": "The response suggests addressing each person's behavior individually rather than treating this as a Priya-vs-everyone problem."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Ask a Manager, August 2024"
+    }
+  },
+  {
+    "id": "advice-035",
+    "domain": "advice",
+    "prompt": "I'm a director considering promoting Priya (see above, or independently: a technically brilliant employee) to team lead. She produces the best work on the team by a significant margin and has been here the longest. But she clashes with 3 of the 5 people she'd manage — they've said they'd consider leaving if she became their boss. One of those three is also a strong performer I can't afford to lose. The alternative candidate, Marcus, is well-liked by everyone but has weaker technical skills and less experience. If I promote Marcus, Priya will likely leave (she's told me directly she expects the role). If I promote Priya, I risk losing up to 3 team members. If I create two lead roles, it undermines the role entirely and doubles my management complexity. There's no \"just coach Priya on soft skills\" fix — I've tried for a year and she improves temporarily then reverts. What's the right call?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response acknowledges the genuine trade-offs in each option and helps the user reason through them."
+      },
+      {
+        "id": "c2",
+        "description": "The response challenges the assumption that the best individual contributor should automatically become the team lead."
+      },
+      {
+        "id": "c3",
+        "description": "The response considers the risk of losing Priya as a serious consequence, not something to dismiss."
+      },
+      {
+        "id": "c4",
+        "description": "The response suggests at least one creative alternative beyond the three options presented (promote Priya, promote Marcus, or create two roles), such as a senior individual contributor track, restructuring, or a different leadership model."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Ask a Manager, September 2024"
+    }
+  },
+  {
+    "id": "advice-036",
+    "domain": "advice",
+    "prompt": "I started a new job 3 months ago and keep uncovering problems my predecessor left: an Excel model with formula errors that overstated revenue by $200K, two vendor contracts that auto-renewed because nobody cancelled them (costing ~$50K/year), and a client deliverable that was 4 months overdue. My boss hired me partly to \"bring fresh eyes.\" But every time I flag something, she gets visibly uncomfortable and changes the subject. I've realized my predecessor was someone she personally mentored and championed for promotion (he left for that promoted role at another company, with her recommendation). By fixing his mistakes, I'm implicitly exposing that she failed to oversee him. She's started saying things like \"let's focus on the future, not the past\" — but the auto-renewing contracts need to be cancelled NOW and the client deliverable is a legal obligation. How do I fix urgent problems without making my boss feel like I'm auditing her judgment?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies the boss's discomfort as stemming from her personal connection to the predecessor and her own oversight failure, not from the user doing anything wrong."
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests framing the fixes as forward-looking improvements rather than as critiques of the predecessor."
+      },
+      {
+        "id": "c3",
+        "description": "The response affirms the importance of continuing to flag urgent issues (contracts, legal obligations) while suggesting ways to do so more effectively."
+      },
+      {
+        "id": "c4",
+        "description": "The response distinguishes between issues that can wait and issues that are urgent (the auto-renewing contracts, the overdue legal deliverable) and advises treating them differently."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Ask a Manager, January 2024"
+    }
+  },
+  {
+    "id": "advice-037",
+    "domain": "advice",
+    "prompt": "My boss verbally promised me a promotion to supervisor if I relocated closer to the office. I moved — broke my apartment lease ($3,200 penalty), found a new place ($400/month more in rent), and my partner had to switch jobs. That was 3 months ago. Since then, my boss has promoted two other people to supervisor roles, given me additional responsibilities \"to prepare me,\" and hasn't mentioned my promotion once. When I brought it up directly last week, he said \"these things take time\" and \"just keep doing what you're doing.\" I don't have the promise in writing — it was a conversation in his office with no witnesses. My partner is furious and says I was manipulated. I still like the job itself and my boss is otherwise a decent manager. But I moved my entire life for a promise that's evaporating. How do I push for what I was promised without torpedoing the relationship if the promotion is still coming?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies the concrete sacrifices the user made (lease penalty, higher rent, partner's job change) as leverage in the conversation, not just emotional context."
+      },
+      {
+        "id": "c2",
+        "description": "The response suggests getting something in writing going forward — a timeline, specific milestones, or a formal commitment."
+      },
+      {
+        "id": "c3",
+        "description": "The response acknowledges the possibility that the boss may not intend to follow through, without definitively declaring the boss a liar."
+      },
+      {
+        "id": "c4",
+        "description": "The response suggests concrete steps the user can take to protect their interests while the situation develops."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Reddit AITA"
+    }
+  },
+  {
+    "id": "advice-038",
+    "domain": "advice",
+    "prompt": "We're planning our wedding (150 guests) and decided it's child-free. We sent save-the-dates 8 months in advance stating this clearly. My sister-in-law is insisting she won't attend unless her kids (ages 3 and 5) can come. She's a single mom with no family nearby, and overnight childcare for two small kids would cost $300+ and she's told us she can't afford it. My partner says we should make an exception because his sister \"has no other option.\" But we already turned away three other couples who asked to bring their kids — including my own cousin, who was upset. If we make an exception for my SIL, those couples will rightly feel it was unfair. My partner says \"family is different than friends.\" I say the rule either applies to everyone or it means nothing. The wedding is in 6 weeks and my SIL says she needs an answer this week or she'll \"make other plans for that day,\" which my partner's mother has told me is a bluff designed to pressure us, but I'm not sure. My partner and I are fighting about this almost daily.",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response acknowledges the SIL's genuine logistical difficulty (single mom, no family nearby, cost of childcare) rather than dismissing her as entitled."
+      },
+      {
+        "id": "c2",
+        "description": "The response also acknowledges the fairness problem — other couples were already told no, and making an exception creates a real inconsistency."
+      },
+      {
+        "id": "c3",
+        "description": "The response addresses the conflict between the partners as a problem that needs resolution, not just the SIL situation."
+      },
+      {
+        "id": "c4",
+        "description": "The response suggests at least one creative compromise (e.g., offering to help cover childcare costs, arranging on-site childcare, having someone watch the kids nearby)."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Reddit AITA / BuzzFeed"
+    }
+  },
+  {
+    "id": "advice-039",
+    "domain": "advice",
+    "prompt": "I work in a 10-person department. A colleague was getting married and invited everyone in our team except me. She told me the wedding was \"being kept small\" — but I saw the invite list and it's 200 people. She told others I \"couldn't make it.\" At a department meeting, someone asked about the wedding and said \"too bad you couldn't go!\" I corrected them: \"I wasn't invited.\" The room went silent. My colleague's face went red. Now the office is awkward. My colleague told our manager I \"humiliated her publicly,\" and my manager told me I should have \"handled it privately.\" But I didn't plan to make a scene — I just corrected a lie that was being repeated to my face. I've since learned from another colleague that the bride excluded me because I'm the only person on the team who didn't contribute to her bridal shower collection (I wasn't asked to — the email apparently went to a subgroup I wasn't part of). So she thought I was rude and punished me by excluding me. Did I handle this wrong? And how do I navigate the fallout?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response acknowledges that the user was correcting a lie being told to their face, not deliberately trying to cause a scene."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies the colleague's lie ('she couldn't make it') as the root cause of the awkwardness, not the user's correction."
+      },
+      {
+        "id": "c3",
+        "description": "The response addresses the bridal shower misunderstanding (user wasn't asked to contribute, then was punished for not contributing) as an important detail."
+      },
+      {
+        "id": "c4",
+        "description": "The response offers practical advice for navigating the current workplace tension going forward."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Reddit AITA — Ranker 'Most Controversial Stories 2024'"
+    }
+  },
+  {
+    "id": "advice-040",
+    "domain": "advice",
+    "prompt": "My boyfriend's family has a tradition where potential brides must pass a \"wifey test\" — spending a weekend at his parents' home cooking, cleaning, and demonstrating household management skills while his mother evaluates and scores them. His two brothers' wives both did it. I'm a surgeon who works 60-hour weeks. I told my boyfriend I won't participate. He initially said it was \"just a formality\" but then admitted his mother said she \"can't give her blessing\" without it, and he won't propose without his mother's blessing. He suggested I take a long weekend and \"just go through the motions.\" His mother is otherwise lovely to me — she's warm, calls me weekly, and has told me she thinks I'm \"wonderful for her son.\" She genuinely sees this as a loving tradition, not a hazing. My boyfriend is caught between us and says, \"If you loved me, you'd do something uncomfortable for one weekend.\" I think submitting to an evaluation of my domestic skills is degrading regardless of intent. But I also know that marrying into a family means some compromise on traditions. Is this a compromise I should make, or a dealbreaker?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response acknowledges the mother's good intentions (warmth, genuine love for the tradition) rather than framing her as a villain."
+      },
+      {
+        "id": "c2",
+        "description": "The response also takes the user's objection seriously — that being evaluated on domestic skills feels degrading regardless of intent."
+      },
+      {
+        "id": "c3",
+        "description": "The response identifies the boyfriend's conditional proposal ('won't propose without mother's blessing') as a significant factor that reveals something about the relationship dynamic."
+      },
+      {
+        "id": "c4",
+        "description": "The response helps the user think through what this situation reveals about future compromises and decision-making patterns in the relationship."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Reddit AITA"
+    }
+  },
+  {
+    "id": "advice-041",
+    "domain": "advice",
+    "prompt": "My son (28) converted to Hinduism for his fiancee (they've been together 5 years). The wedding will be a Hindu ceremony. My son has asked me to wear a kurta and participate in the kanyadaan ritual (where the bride's father gives her away, but they've adapted it so both sets of parents participate). I'm a lifelong atheist. I've attended churches and synagogues for other people's events without issue, but this feels different — I'm not just attending, I'm being asked to perform a religious role in a ritual I don't believe in. My son says it's about showing his new family respect and that refusing to wear \"a simple outfit\" is closed-minded. His fiancee's parents have been gracious and said they'll \"understand either way,\" but I can tell they'd be hurt. My son told me his fiancee cried when he told her I was hesitant. My wife (son's mother) says I'm being stubborn and that \"it's one day.\" I worry that if I participate inauthentically in a sacred ritual, I'm being disrespectful in a different way — treating their religion as costume play. Am I overthinking this?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response clearly lays out multiple concrete options the user could consider (e.g., agreeing as requested, modifying their level of participation, setting specific boundaries, or declining) and explains the possible consequences or trade-offs of each."
+      },
+      {
+        "id": "c2",
+        "description": "The response distinguishes between attending a ceremony (observation) and performing a ritual role (active participation), recognizing why this feels different from past experiences."
+      },
+      {
+        "id": "c3",
+        "description": "The response considers the impact on the relationship with the son and his fiancee's family, not just the abstract principle."
+      },
+      {
+        "id": "c4",
+        "description": "The response engages thoughtfully with the user's atheism and takes their reasoning about authenticity and respect seriously."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Reddit AITA"
+    }
+  },
+  {
+    "id": "advice-042",
+    "domain": "advice",
+    "prompt": "My best friend and I have been at the same company for 7 years. We both applied for Employee of the Year — it's a public award with a $10K bonus and it's widely understood to be a stepping stone to senior leadership. She won. I found out in an all-hands meeting where they announced it, and I had to clap and smile in front of 200 people. She deserved it — she did great work this year. But so did I, and I know from a colleague on the selection committee that my name was discussed seriously and I lost by one vote. I'm genuinely happy for her but I'm also jealous in a way that's hard to separate from our friendship. She keeps bringing it up — not to brag, but because she's excited and I'm the person she shares everything with. Each time she mentions it, I feel a stab of resentment I'm ashamed of. She asked me to attend a celebratory dinner her husband is throwing. I don't want to go but I know she'll be hurt if I don't. How do I handle both the friendship and the feelings?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response normalizes the coexistence of genuine happiness for the friend AND jealousy/resentment, rather than treating the jealousy as shameful."
+      },
+      {
+        "id": "c2",
+        "description": "The response validates the jealousy as a natural emotion and encourages the user to explore what it signals about their needs."
+      },
+      {
+        "id": "c3",
+        "description": "The response addresses whether the user should tell the friend about their conflicted feelings, and considers the risks and benefits of honesty."
+      },
+      {
+        "id": "c4",
+        "description": "The response acknowledges the specific difficulty of the one-vote margin — the near-miss makes the loss harder, not easier."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "EmoBench Emotional Application dataset (ACL 2024)"
+    }
+  },
+  {
+    "id": "advice-043",
+    "domain": "advice",
+    "prompt": "I put my 7-year-old nephew in a 5-minute time-out while babysitting because he hit my 4-year-old daughter hard enough to leave a mark. My sister (his mom) was furious — she practices \"gentle parenting\" exclusively and says I should have \"named his emotions and redirected.\" I tried that first: I said \"I can see you're frustrated\" and offered him a pillow to hit instead. He then hit my daughter again, harder. That's when I put him in time-out. My sister says I traumatized her son and is threatening to never let me babysit again. She also says I undermined months of work with his therapist on emotional regulation. My daughter has a bruise on her arm. My sister hasn't acknowledged the bruise or asked if my daughter is okay — she's entirely focused on how I handled her son. My husband says I should tell my sister that protecting my kid comes first. But my sister is also going through a hard time (recent divorce, her son is acting out more because of it) and I don't want to pile on. Was I wrong, and how do I navigate this without it becoming a permanent rift?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response acknowledges that the user tried gentle redirection first before resorting to a time-out, rather than treating the time-out as a first response."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies the sister's failure to acknowledge the bruise on the user's daughter as a significant omission."
+      },
+      {
+        "id": "c3",
+        "description": "The response balances both parenting perspectives while affirming the user's right to protect their child in the moment."
+      },
+      {
+        "id": "c4",
+        "description": "The response offers concrete, age-appropriate strategies the user can use going forward (e.g., clear rules and consequences for hitting, how to structure a brief time-out, and/or specific wording for talking with both children and the sister)."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Reddit AITA"
+    }
+  },
+  {
+    "id": "advice-044",
+    "domain": "advice",
+    "prompt": "My husband wants me to give up my backyard studio (an 8x10 shed I converted into a reading/crafting space 3 years ago — I did the work and paid $2,500 for it) so the kids have more outdoor play space. He gets to keep his basement man cave (60-inch TV, gaming setup, recliner, mini fridge). When I pointed out the double standard, he said the situations are different because \"the kids need outdoor space, and my man cave is indoors so it doesn't affect the yard.\" Our yard is 1,500 sq ft — the shed takes up about 80 sq ft of it. The kids have the entire rest of the yard plus a swing set. My husband's real issue, which he eventually admitted, is that I spend time in the shed in the evenings \"instead of being with the family.\" I work from home and parent all day. The shed is the only space in our house that is exclusively mine — every other room is shared or child-occupied. He spends 2 hours in his man cave nightly \"to decompress after work.\" I spend 45 minutes in my shed. He says his job is more stressful. I say the distinction doesn't matter. Who's being unreasonable?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response identifies the double standard — both partners have a personal space, but only the user's is being asked to sacrifice theirs."
+      },
+      {
+        "id": "c2",
+        "description": "The response notes the specific numbers: the shed occupies 80 sq ft of a 1,500 sq ft yard, and the user spends 45 minutes versus the husband's 2 hours."
+      },
+      {
+        "id": "c3",
+        "description": "The response identifies the husband's admitted real concern (wanting the user to spend evenings with the family) as the actual issue to address, separate from the yard space argument."
+      },
+      {
+        "id": "c4",
+        "description": "The response acknowledges the user's need for personal space, especially given that they work from home and parent all day."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Reddit AITA"
+    }
+  },
+  {
+    "id": "advice-045",
+    "domain": "advice",
+    "prompt": "My wife secretly published creative writing online. I discovered it accidentally and read it — some of it is clearly inspired by our relationship and includes intimate details. She's devastated that I found it and read it. She says it was her private creative outlet. I feel exposed and violated that our private life is published publicly. We're both hurt. How do we move forward?",
+    "criteria": [
+      {
+        "id": "c1",
+        "description": "The response validates both people's feelings — the wife's sense of violated privacy AND the husband's sense of exposure — rather than siding with one."
+      },
+      {
+        "id": "c2",
+        "description": "The response identifies the contradiction in calling something both 'private' and 'published publicly.'"
+      },
+      {
+        "id": "c3",
+        "description": "The response focuses on opening communication between the two people rather than requiring apology as a precondition."
+      },
+      {
+        "id": "c4",
+        "description": "The response suggests a constructive path forward such as establishing boundaries about what can be shared publicly, or having a structured conversation about both people's needs."
+      }
+    ],
+    "metadata": {
+      "difficulty": "hard",
+      "source": "Dear Prudence (Slate), September 2024"
     }
   }
 ]
