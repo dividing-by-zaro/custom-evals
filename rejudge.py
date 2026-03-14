@@ -72,7 +72,7 @@ async def rejudge_run(
         response = item_data["response"]
         status = item_data["status"]
 
-        if status != "scored" or not response.strip():
+        if status not in ("scored", "responded") or not response.strip():
             new_items.append(ItemResult(**item_data))
             continue
 

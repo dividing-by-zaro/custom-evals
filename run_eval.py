@@ -21,6 +21,7 @@ def main() -> int:
     parser.add_argument("--judge-model", default=None, help="Model for LLM judge (default: from config)")
     parser.add_argument("--config", default="config.yaml", help="Config file path (default: config.yaml)")
     parser.add_argument("--no-skip-scored", action="store_true", help="Re-evaluate items even if already scored for this model")
+    parser.add_argument("--no-judge", action="store_true", help="Collect responses only, skip judging (use rejudge.py later)")
     parser.add_argument("--verbose", "-v", action="store_true", help="Enable verbose logging")
 
     args = parser.parse_args()
@@ -43,6 +44,7 @@ def main() -> int:
                 judge_model_override=args.judge_model,
                 config_path=args.config,
                 skip_scored=not args.no_skip_scored,
+                skip_judge=args.no_judge,
             )
         )
     except FileNotFoundError as e:

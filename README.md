@@ -47,24 +47,23 @@ Each item has a prompt, a domain tag, and rubric criteria that score 0 or 1:
 ### Run Evaluations
 
 ```bash
-# Run against OpenAI
+# Run against OpenAI (collect responses + judge)
 uv run run_eval.py --provider openai
 
 # Run against Anthropic
 uv run run_eval.py --provider anthropic
 
-# Run against local LLM (specify which model)
-uv run run_eval.py --provider local --model Qwen3.5-9B-Q3_K_M.gguf
+# Collect responses only — judge later with rejudge.py
+uv run run_eval.py --provider openai --no-judge
 
-# Run a specific eval file
-uv run run_eval.py --provider local --model Qwen3.5-9B-Q3_K_M.gguf --evals evals/nutrition.json
+# Run against local LLM (specify which model)
+uv run run_eval.py --provider local --model Qwen3.5-9B-Q3_K_M
 
 # Force re-run items that were already scored for this model
 uv run run_eval.py --provider openai --no-skip-scored
-
-# Override model for cloud providers
-uv run run_eval.py --provider openai --model gpt-4o-mini
 ```
+
+Results are saved incrementally after each item, so interrupted runs preserve all completed work. Subsequent runs automatically skip already-completed items.
 
 ### Re-Judge with a Different Model
 
@@ -130,7 +129,11 @@ config.example.yaml   # Config template
 
 Each rubric criterion is evaluated by an LLM judge (configurable in `config.yaml`). The judge supports both OpenAI and Anthropic models as judges. It receives the original prompt, the model's response, and the criterion description, then returns a binary score (0 or 1) with reasoning. All judge calls run concurrently for performance.
 
-Failed or empty responses are excluded from score percentages — only successfully scored items count. Old result files can be archived to `results/archive/` to keep the dashboard clean.
+Response collection and judging can be separated: use `--no-judge` to collect responses first, then `rejudge.py` to score them with any judge model. This allows running providers and judges independently.
+
+All API calls include rate-limit retry logic (exponential backoff, respects `retry-after` headers). Reasoning models (gpt-5.1, gpt-5-mini) automatically get higher token budgets to account for internal thinking.
+
+Failed or empty responses are excluded from score percentages — only successfully scored items count. The dashboard deduplicates items across multiple result files by `item_id`, keeping the latest score. Old result files can be archived to `results/archive/` to keep the dashboard clean.
 
 ## Eval Sets
 

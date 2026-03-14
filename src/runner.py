@@ -24,8 +24,9 @@ from src.schema import load_eval_items
 
 logger = logging.getLogger(__name__)
 
-MAX_RETRIES = 3
+MAX_RETRIES = 5
 RETRY_BACKOFF_BASE = 2.0
+RETRY_MAX_WAIT = 120.0
 
 
 async def _call_with_retry(provider: Provider, prompt: str, params: dict) -> str:
@@ -36,10 +37,11 @@ async def _call_with_retry(provider: Provider, prompt: str, params: dict) -> str
         except Exception as e:
             last_error = e
             if attempt < MAX_RETRIES - 1:
-                wait = RETRY_BACKOFF_BASE ** attempt
+                wait = min(RETRY_BACKOFF_BASE ** (attempt + 1), RETRY_MAX_WAIT)
                 logger.warning(
-                    "Attempt %d failed for provider call: %s. Retrying in %.1fs...",
+                    "Attempt %d/%d failed for provider call: %s. Retrying in %.1fs...",
                     attempt + 1,
+                    MAX_RETRIES,
                     e,
                     wait,
                 )
@@ -55,6 +57,7 @@ async def _evaluate_item(
     judge_model: str,
     judge_base_url: str | None = None,
     judge_provider: str = "openai",
+    skip_judge: bool = False,
 ) -> ItemResult:
     try:
         response = await _call_with_retry(provider, item.prompt, params)
@@ -72,25 +75,26 @@ async def _evaluate_item(
         )
 
     if not response.strip():
-        logger.warning("Empty response for item '%s', scoring all criteria as 0", item.id)
-        from src.models import CriterionResult
-
-        criteria_results = [
-            CriterionResult(
-                criterion_id=c.id,
-                score=0,
-                reasoning="Empty response from model",
-            )
-            for c in item.criteria
-        ]
+        logger.warning("Empty response for item '%s'", item.id)
         return ItemResult(
             item_id=item.id,
             domain=item.domain,
             response=response,
-            criteria_results=criteria_results,
+            criteria_results=[],
             total_score=0,
             max_score=len(item.criteria),
             status="empty_response",
+        )
+
+    if skip_judge:
+        return ItemResult(
+            item_id=item.id,
+            domain=item.domain,
+            response=response,
+            criteria_results=[],
+            total_score=0,
+            max_score=len(item.criteria),
+            status="responded",
         )
 
     criteria_results = await judge_response(
@@ -144,25 +148,27 @@ def _build_summary(items: list[ItemResult]) -> RunSummary:
     )
 
 
-def _get_previously_scored_item_ids(output_path: str, model: str) -> set[str]:
-    """Return item IDs that were already successfully scored for this model."""
+def _get_previously_completed_item_ids(output_path: str, model: str) -> set[str]:
+    """Return item IDs that already have responses (scored or responded) for this model."""
     output_dir = Path(output_path)
     if not output_dir.exists():
         return set()
 
-    scored_ids: set[str] = set()
+    completed_ids: set[str] = set()
     for result_file in output_dir.glob("*.json"):
         try:
             with open(result_file) as f:
                 data = json.load(f)
-            if data.get("provider", {}).get("model") != model:
+            result_model = data.get("provider", {}).get("model", "")
+            # Match with or without .gguf suffix
+            if result_model.removesuffix(".gguf") != model.removesuffix(".gguf"):
                 continue
             for item in data.get("items", []):
-                if item.get("status") == "scored":
-                    scored_ids.add(item["item_id"])
+                if item.get("status") in ("scored", "responded"):
+                    completed_ids.add(item["item_id"])
         except (json.JSONDecodeError, KeyError):
             continue
-    return scored_ids
+    return completed_ids
 
 
 async def run_eval(
@@ -176,6 +182,7 @@ async def run_eval(
     judge_model_override: str | None = None,
     config_path: str = "config.yaml",
     skip_scored: bool = True,
+    skip_judge: bool = False,
 ) -> EvalRun:
     config = load_config(config_path)
     provider_config = get_provider_config(config, provider_name)
@@ -200,12 +207,12 @@ async def run_eval(
     items = load_eval_items(evals_path)
     logger.info("Loaded %d eval items", len(items))
 
-    # Filter out items already scored for this model
+    # Filter out items that already have responses for this model
     if skip_scored:
-        already_scored = _get_previously_scored_item_ids(output_path, provider_config.model)
-        if already_scored:
-            items = [i for i in items if i.id not in already_scored]
-            logger.info("Skipped %d already-scored items, %d remaining", len(already_scored), len(items))
+        already_done = _get_previously_completed_item_ids(output_path, provider_config.model)
+        if already_done:
+            items = [i for i in items if i.id not in already_done]
+            logger.info("Skipped %d already-completed items, %d remaining", len(already_done), len(items))
         if not items:
             logger.info("All items already scored for model %s, nothing to do", provider_config.model)
             return EvalRun(
@@ -223,43 +230,58 @@ async def run_eval(
 
     params = {"temperature": temperature, "max_tokens": max_tokens}
 
-    # Evaluate each item
-    item_results: list[ItemResult] = []
-    for item in items:
-        result = await _evaluate_item(
-            item, provider, params, judge_api_key, judge_model, judge_base_url, judge_pname
-        )
-        item_results.append(result)
-
-    summary = _build_summary(item_results)
-    timestamp = datetime.now(timezone.utc).isoformat()
-
-    eval_run = EvalRun(
-        run_id=str(uuid.uuid4()),
-        timestamp=timestamp,
-        provider=ProviderSnapshot(
-            name=provider_config.name,
-            model=provider_config.model,
-            provider_type=provider_config.provider_type,
-        ),
-        params=params,
-        items=item_results,
-        summary=summary,
-        judge=JudgeSnapshot(provider=judge_pname, model=judge_model),
-    )
-
-    # Save results
+    # Set up incremental save path
     output_dir = Path(output_path)
     output_dir.mkdir(parents=True, exist_ok=True)
     ts_safe = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H-%M-%S")
     model_safe = provider_config.model.replace("/", "-")
     filename = f"{ts_safe}_{provider_config.name}_{model_safe}.json"
     result_path = output_dir / filename
+    run_id = str(uuid.uuid4())
+    provider_snapshot = ProviderSnapshot(
+        name=provider_config.name,
+        model=provider_config.model,
+        provider_type=provider_config.provider_type,
+    )
 
-    with open(result_path, "w") as f:
-        json.dump(eval_run.model_dump(), f, indent=2)
+    def _save_progress(item_results: list[ItemResult]) -> None:
+        summary = _build_summary(item_results)
+        eval_run = EvalRun(
+            run_id=run_id,
+            timestamp=datetime.now(timezone.utc).isoformat(),
+            provider=provider_snapshot,
+            params=params,
+            items=item_results,
+            summary=summary,
+            judge=JudgeSnapshot(provider=judge_pname, model=judge_model),
+        )
+        with open(result_path, "w") as f:
+            json.dump(eval_run.model_dump(), f, indent=2)
 
-    return eval_run
+    # Evaluate each item, saving after every item
+    item_results: list[ItemResult] = []
+    for i, item in enumerate(items):
+        result = await _evaluate_item(
+            item, provider, params, judge_api_key, judge_model, judge_base_url, judge_pname,
+            skip_judge=skip_judge,
+        )
+        item_results.append(result)
+        _save_progress(item_results)
+        logger.info("Progress: %d/%d items complete", i + 1, len(items))
+
+    # Final save
+    _save_progress(item_results)
+
+    summary = _build_summary(item_results)
+    return EvalRun(
+        run_id=run_id,
+        timestamp=datetime.now(timezone.utc).isoformat(),
+        provider=provider_snapshot,
+        params=params,
+        items=item_results,
+        summary=summary,
+        judge=JudgeSnapshot(provider=judge_pname, model=judge_model),
+    )
 
 
 def print_summary(eval_run: EvalRun, result_path: str | None = None) -> None:

@@ -2,11 +2,32 @@ from __future__ import annotations
 
 import asyncio
 import json
+import logging
 
+import anthropic
 from anthropic import AsyncAnthropic
-from openai import AsyncOpenAI
+from openai import AsyncOpenAI, RateLimitError, APIStatusError
 
 from src.models import CriterionResult, RubricCriterion
+
+logger = logging.getLogger(__name__)
+
+MAX_RATE_LIMIT_RETRIES = 8
+RATE_LIMIT_BACKOFF_BASE = 2.0
+RATE_LIMIT_MAX_WAIT = 120.0
+
+
+def _get_retry_wait(error: Exception, attempt: int) -> float:
+    """Extract retry-after from headers or use exponential backoff."""
+    retry_after = None
+    if hasattr(error, "response") and error.response is not None:
+        retry_after = error.response.headers.get("retry-after")
+    if retry_after:
+        try:
+            return min(float(retry_after), RATE_LIMIT_MAX_WAIT)
+        except (ValueError, TypeError):
+            pass
+    return min(RATE_LIMIT_BACKOFF_BASE ** (attempt + 1), RATE_LIMIT_MAX_WAIT)
 
 
 JUDGE_SYSTEM_PROMPT = """You are an objective evaluation judge. You will be given:
@@ -76,14 +97,40 @@ async def _judge_single_criterion_openai(
 
     last_raw = ""
     for _attempt in range(MAX_JUDGE_RETRIES):
-        completion = await client.chat.completions.create(
-            model=model,
-            messages=[
-                {"role": "system", "content": JUDGE_SYSTEM_PROMPT},
-                {"role": "user", "content": judge_prompt},
-            ],
-            max_completion_tokens=2048,
-        )
+        for rate_attempt in range(MAX_RATE_LIMIT_RETRIES):
+            try:
+                completion = await client.chat.completions.create(
+                    model=model,
+                    messages=[
+                        {"role": "system", "content": JUDGE_SYSTEM_PROMPT},
+                        {"role": "user", "content": judge_prompt},
+                    ],
+                    max_completion_tokens=2048,
+                )
+                break
+            except RateLimitError as e:
+                wait = _get_retry_wait(e, rate_attempt)
+                logger.warning(
+                    "Judge rate limited (attempt %d/%d). Waiting %.1fs...",
+                    rate_attempt + 1, MAX_RATE_LIMIT_RETRIES, wait,
+                )
+                await asyncio.sleep(wait)
+            except APIStatusError as e:
+                if e.status_code == 529:
+                    wait = _get_retry_wait(e, rate_attempt)
+                    logger.warning(
+                        "Judge API overloaded (attempt %d/%d). Waiting %.1fs...",
+                        rate_attempt + 1, MAX_RATE_LIMIT_RETRIES, wait,
+                    )
+                    await asyncio.sleep(wait)
+                else:
+                    raise
+        else:
+            return CriterionResult(
+                criterion_id=criterion.id,
+                score=0,
+                reasoning=f"Judge exhausted rate-limit retries for criterion {criterion.id}",
+            )
 
         last_raw = completion.choices[0].message.content or ""
         parsed = _extract_json(last_raw)
@@ -112,12 +159,38 @@ async def _judge_single_criterion_anthropic(
 
     last_raw = ""
     for _attempt in range(MAX_JUDGE_RETRIES):
-        message = await client.messages.create(
-            model=model,
-            max_tokens=2048,
-            system=JUDGE_SYSTEM_PROMPT,
-            messages=[{"role": "user", "content": judge_prompt}],
-        )
+        for rate_attempt in range(MAX_RATE_LIMIT_RETRIES):
+            try:
+                message = await client.messages.create(
+                    model=model,
+                    max_tokens=2048,
+                    system=JUDGE_SYSTEM_PROMPT,
+                    messages=[{"role": "user", "content": judge_prompt}],
+                )
+                break
+            except anthropic.RateLimitError as e:
+                wait = _get_retry_wait(e, rate_attempt)
+                logger.warning(
+                    "Judge rate limited (attempt %d/%d). Waiting %.1fs...",
+                    rate_attempt + 1, MAX_RATE_LIMIT_RETRIES, wait,
+                )
+                await asyncio.sleep(wait)
+            except anthropic.APIStatusError as e:
+                if e.status_code == 529:
+                    wait = _get_retry_wait(e, rate_attempt)
+                    logger.warning(
+                        "Judge API overloaded (attempt %d/%d). Waiting %.1fs...",
+                        rate_attempt + 1, MAX_RATE_LIMIT_RETRIES, wait,
+                    )
+                    await asyncio.sleep(wait)
+                else:
+                    raise
+        else:
+            return CriterionResult(
+                criterion_id=criterion.id,
+                score=0,
+                reasoning=f"Judge exhausted rate-limit retries for criterion {criterion.id}",
+            )
 
         last_raw = message.content[0].text if message.content else ""
         parsed = _extract_json(last_raw)

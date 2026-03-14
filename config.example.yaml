@@ -14,5 +14,5 @@ providers:
 
 judge:
   provider: openai
-  model: gpt-4o
+  model: gpt-5-mini
   temperature: 0.0

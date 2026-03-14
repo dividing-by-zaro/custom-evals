@@ -59,6 +59,21 @@ function getUniqueJudges(runs) {
     .sort((a, b) => b.timestamp.localeCompare(a.timestamp))
 }
 
+// ─── Helpers ────────────────────────────────────────────────────────
+
+function deduplicateItems(runs) {
+  const itemMap = {}
+  const sorted = [...runs].sort((a, b) => a.timestamp.localeCompare(b.timestamp))
+  for (const run of sorted) {
+    for (const item of run.items) {
+      if (item.status === 'scored') {
+        itemMap[item.item_id] = item
+      }
+    }
+  }
+  return Object.values(itemMap)
+}
+
 // ─── Model aggregation ──────────────────────────────────────────────
 
 function aggregateByModel(runs) {
@@ -70,32 +85,45 @@ function aggregateByModel(runs) {
         model: run.provider.model,
         provider: run.provider,
         runs: [],
-        totalScore: 0,
-        maxScore: 0,
-        byDomain: {},
         latestTimestamp: run.timestamp,
         judge: run.judge || null,
       }
     }
     const entry = byModel[key]
     entry.runs.push(run)
-    entry.totalScore += run.summary.total_score
-    entry.maxScore += run.summary.max_score
     if (run.timestamp > entry.latestTimestamp) entry.latestTimestamp = run.timestamp
-
-    for (const [domain, ds] of Object.entries(run.summary.by_domain)) {
-      if (!entry.byDomain[domain]) {
-        entry.byDomain[domain] = { score: 0, max: 0 }
-      }
-      entry.byDomain[domain].score += ds.score
-      entry.byDomain[domain].max += ds.max
-    }
   }
 
   return Object.values(byModel).map((entry) => {
-    const percentage = entry.maxScore > 0 ? (entry.totalScore / entry.maxScore) * 100 : 0
+    // Deduplicate items by item_id — latest run wins
+    const itemMap = {}
+    // Sort runs oldest-first so latest overwrites
+    const sortedRuns = [...entry.runs].sort((a, b) => a.timestamp.localeCompare(b.timestamp))
+    for (const run of sortedRuns) {
+      for (const item of run.items) {
+        if (item.status === 'scored') {
+          itemMap[item.item_id] = item
+        }
+      }
+    }
+    const uniqueItems = Object.values(itemMap)
+
+    let totalScore = 0
+    let maxScore = 0
+    const byDomain = {}
+    for (const item of uniqueItems) {
+      totalScore += item.total_score
+      maxScore += item.max_score
+      if (!byDomain[item.domain]) {
+        byDomain[item.domain] = { score: 0, max: 0 }
+      }
+      byDomain[item.domain].score += item.total_score
+      byDomain[item.domain].max += item.max_score
+    }
+
+    const percentage = maxScore > 0 ? (totalScore / maxScore) * 100 : 0
     const domainSummaries = {}
-    for (const [domain, ds] of Object.entries(entry.byDomain)) {
+    for (const [domain, ds] of Object.entries(byDomain)) {
       domainSummaries[domain] = {
         score: ds.score,
         max: ds.max,
@@ -104,6 +132,8 @@ function aggregateByModel(runs) {
     }
     return {
       ...entry,
+      totalScore,
+      maxScore,
       percentage,
       byDomain: domainSummaries,
     }
@@ -298,7 +328,7 @@ export default function App() {
             timestamp: selectedModel.latestTimestamp,
             provider: selectedModel.provider,
             params: {},
-            items: selectedModel.runs.flatMap((r) => r.items),
+            items: deduplicateItems(selectedModel.runs),
             summary: {
               total_score: selectedModel.totalScore,
               max_score: selectedModel.maxScore,
